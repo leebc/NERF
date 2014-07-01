@@ -1,7 +1,7 @@
 resolution=60;
-silencer_outer_d=35;
+barrel_outer_d=35;
 
-ring_inner_r=(silencer_outer_d+2)/2;
+ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
 ring_height=35;
 mount_inner_r=32/2;
