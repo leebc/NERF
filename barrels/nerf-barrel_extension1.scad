@@ -1,6 +1,6 @@
 resolution=60;
 barrel_outer_d=35;
-barrel_outer=bore_inner_d + 4;
+//	barrel_outer=bore_inner_d + 4;  //What IS this for???
 
 ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
@@ -33,8 +33,11 @@ difference(){
 //  Barrel extension  "bore"
 bore_inner_r=8;
 bore_outer_r=bore_inner_r + 2;
-bore_protrudes=15;
-bore_height=ring_height + bore_protrudes;
+bore_protrudes=15;					// How much protrudes above mounting ring
+bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
+bore_bottom_inset=12;				// How much of bore may go into rifle
+bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
+
 difference(){
 	union(){
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
@@ -93,27 +96,28 @@ difference() {
 
 
 // front sight
-sight_length=5;
+sight_length=15;
 sight_width=2;
-sight_height=4;
+sight_height=10;
 color("purple")
-	translate([bore_inner_r,-sight_width/2,bore_height-sight_length])
-		 	cube([sight_height,sight_width,sight_length]);
+	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
+		 	cube([sight_width,sight_height,sight_length]);
 
 
+color("purple")
+	translate([-sight_width/2,bore_inner_r,bore_height])
+polyhedron(points = [	[0,0,0],
+							[0,sight_height,0],
+							[sight_width,0,0],
+							[0,0,-sight_length],
+							[sight_width,0,-sight_length],
+							[sight_width,sight_height,0],
+							[0,sight_height,-sight_length/2],
+							[sight_width,sight_height,-sight_length/2] ],
+							triangles = [ [0,1,6,3],[3,6,7,4],[7,5,2,4], [6,1,5,7], [0,2,4,3], [0,2,5,1]		],
+							convexity = 2);
 
-//polyhedron(points = [	[0,0,0],
-//							[0,0,sight_length],
-//							[0,sight_width,0],
-//							[sight_height,0,0],
-//							[0,sight_width,sight_length],
-//							[h,sight_width,0],
-//							[sight_height/2,0,sight_length/2],
-//							[h7,sight_width,sight_length/2]		],
-//							faces = [ [1,2,4,7],[3,5,6,8],[1,3,4,6], [2,5,7,8], [4,6,7,8]		],
-//							convexity = 2);
-//
-//
+
 
 
 
