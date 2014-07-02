@@ -33,7 +33,7 @@ difference(){
 //  Barrel extension  "bore"
 bore_inner_r=8;
 bore_outer_r=bore_inner_r + 2;
-bore_protrudes=15;					// How much protrudes above mounting ring
+bore_protrudes=105; //60;					// How much protrudes above mounting ring
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=12;				// How much of bore may go into rifle
 bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
@@ -51,7 +51,7 @@ difference(){
 
 //  Longer, wider barrel
 inset_height=40;
-barrel_length=40; //53;
+barrel_length=43; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 echo ("inset_height:", inset_height, "  barrel_length", barrel_length, "  barrel_outer_r" , barrel_outer_r);
 
@@ -96,12 +96,12 @@ difference() {
 
 
 // front sight
-sight_length=15;
 sight_width=2;
-sight_height=10;
+sight_height=barrel_outer_r-bore_inner_r;
+sight_length=2*sight_height;
 color("purple")
-	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
-		 	cube([sight_width,sight_height,sight_length]);
+//	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
+	//	 	cube([sight_width,sight_height,sight_length]);
 
 
 color("purple")
