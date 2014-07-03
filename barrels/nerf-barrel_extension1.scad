@@ -33,20 +33,39 @@ difference(){
 //  Barrel extension  "bore"
 bore_inner_r=8;
 bore_outer_r=bore_inner_r + 2;
-bore_protrudes=80;//60;					// How much protrudes above mounting ring
+max_sd3_print_height=8*2.5*10;
+max_protrudes=max_sd3_print_height-ring_height;
+
+bore_protrudes=60;				// How much protrudes above mounting ring (+35)
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=12;				// How much of bore may go into rifle
 bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
 
+	echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
+
+ttest=26;		//Test triangle for rendering
 difference(){
 	union(){
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
 		translate([0,0,ring_height-5])
 			cylinder(h=2, r=ring_outer_r,$fn=resolution); 
-	}
 
-	translate([0,0,-5])
-		cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
+
+//  Test for rendering
+//color("red")		translate([0,bore_outer_r,ring_height-5])		rotate([0,0,180+45])
+//		polyhedron(points = [	[0,0,0], [0,ttest,0], [0,0,ttest], [ttest,0,0] ] , triangles = [ [0,1,2], [0,2,3], [0,3,1] , [1,3,2]]);
+
+		}
+	union(){
+		translate([0,0,-5])
+			cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
+		color("red")  
+			translate([0,0,-5])
+				difference(){			// Shave a bit so it fits in the rifle
+					cylinder(h=bore_bottom_inset+5, r=bore_outer_r+1,$fn=resolution);
+					cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);
+		}
+	}
 }
 
 //  Longer, wider barrel
@@ -99,13 +118,13 @@ difference() {
 sight_width=2;
 sight_height=barrel_outer_r-bore_inner_r;
 sight_length=2*sight_height;
-color("purple")
+//color("purple")
 //	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
 	//	 	cube([sight_width,sight_height,sight_length]);
 
 
-color("purple")
-	translate([-sight_width/2,bore_outer_r,bore_height])
+color("green")
+	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
 polyhedron(points = [	[0,0,0],
 							[0,sight_height,0],
 							[sight_width,0,0],
@@ -114,29 +133,27 @@ polyhedron(points = [	[0,0,0],
 							[sight_width,sight_height,0],
 							[0,sight_height,-sight_length/2],
 							[sight_width,sight_height,-sight_length/2] ],
-							triangles = [ [0,1,6,3],[3,6,7,4],[7,5,2,4], [6,1,5,7], [0,2,4,3], [0,2,5,1]		],
-							convexity = 2);
-
-
-//Test for rendering
-color("pink")
-polyhedron(points = [	[0,0,0], [0,55,0], [0,0,55], [55,0,0] ] ,
-					triangles = [ [0,1,2], [0,2,3], [0,1,3] , [1,2,3]]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+							triangles = [ [0,6,1], [0,3,6],
+										[3,7,6],[3,4,7],
+										[7,2,5],[7,4,2],
+										[6,5,1],[6,7,5],
+										[0,2,4],[0,4,3],
+										[0,5,2],[0,1,5]	],
+							convexity = 9);
 
 
 //	additional frame box
+//  screws
+
+
+// Measure max print height of a Solidoodle3
+//  color("black")  	cylinder(h=	max_sd3_print_height, r=5);
+
+
+
+
+
+
+
+
+
