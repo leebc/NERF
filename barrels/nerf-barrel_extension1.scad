@@ -33,7 +33,7 @@ difference(){
 //  Barrel extension  "bore"
 bore_inner_r=8;
 bore_outer_r=bore_inner_r + 2;
-bore_protrudes=105; //60;					// How much protrudes above mounting ring
+bore_protrudes=80;//60;					// How much protrudes above mounting ring
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=12;				// How much of bore may go into rifle
 bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
@@ -105,7 +105,7 @@ color("purple")
 
 
 color("purple")
-	translate([-sight_width/2,bore_inner_r,bore_height])
+	translate([-sight_width/2,bore_outer_r,bore_height])
 polyhedron(points = [	[0,0,0],
 							[0,sight_height,0],
 							[sight_width,0,0],
@@ -118,7 +118,10 @@ polyhedron(points = [	[0,0,0],
 							convexity = 2);
 
 
-
+//Test for rendering
+color("pink")
+polyhedron(points = [	[0,0,0], [0,55,0], [0,0,55], [55,0,0] ] ,
+					triangles = [ [0,1,2], [0,2,3], [0,1,3] , [1,2,3]]);
 
 
 
