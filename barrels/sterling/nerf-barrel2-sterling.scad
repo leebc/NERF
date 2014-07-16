@@ -5,10 +5,10 @@ barrel_outer_d=35;
 
 ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
-ring_height=35;
+ring_height=29;		//WAS 35
 mount_inner_r=32/2;
 vent_r=11.11/2;
-inset_height=40;
+inset_height=ring_height;  //WAS  40;
 barrel_length=180; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 
@@ -35,7 +35,7 @@ color("blue")
 	difference(){
 		cylinder(h = ring_height, r=ring_outer_r, $fn=resolution);	// outer ring
 		translate([0,0,-1])
-			cylinder(h = ring_height*2, r=ring_inner_r, $fn=resolution);	// minus inner barrel 
+			cylinder(h = ring_height*2, r=ring_inner_r, $fn=resolution);	// minus inner
 	}
 
 // Mounting "pins"
@@ -43,9 +43,9 @@ color ("")
 difference(){
 	union(){
 		translate ([-7.5/2,-19,0])
-			cube ( [7,11,7	]);						// small wedge, lower
+			cube ( [7,11,7]);					// small wedge, lower
 		translate ([-5,8,0])
-			cube ( [10,11,7	]);						// large wedge, upper
+			cube ( [10,11,7]);					// large wedge, upper
 	}
 	translate([0,0,-1])		
 		cylinder(h=25,r=mount_inner_r,$fn=resolution);	// innerbarrel curve
@@ -56,16 +56,16 @@ difference(){
 difference(){
 	union(){		// Main barrel/bore
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
-		translate([0,0,bore_bottom_inset+5])	// Lower bridge
+		translate([0,0,ring_height])								// Lower bridge
 			cylinder(h=2, r=ring_outer_r,$fn=resolution); 
 		translate([0,0,bore_height])
-			difference(){		// "Muzzle base"
+			difference(){										// "Muzzle base"
 				cylinder(h=3, r=muzzle_base_r,$fn=resolution); 
 				translate([0,0,-5])
 					cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
 			}
 		translate([0,0,bore_height+3])	
-			difference(){		// "Muzzle middle"
+			difference(){										// "Muzzle middle"
 				cylinder(h=7.5, r=muzzle_middle_r,$fn=resolution);
 				translate([0,0,-5])
 					union(){
@@ -77,7 +77,7 @@ difference(){
 					}
 				}
 		translate([0,0,bore_height+3+7.5])
-			difference(){		// "Muzzle tip"
+			difference(){										// "Muzzle tip"
 				translate([1/4*muzzle_tip_r,0,0])
 					cylinder(h=6, r=muzzle_tip_r,$fn=resolution);
 				translate([0,0,-5])
@@ -120,11 +120,14 @@ difference() {
 			}
 		}
 
+/////  Fakaroonie
+	sphere(r=50);
+}
 
 //subtract the vents
 //diff = 37.28/22.92 == 1.62
-		translate([0,0,-1*vent_r]) //inset_height ])  //color ("yellow")
-	for (z = [1,2,3,4,5,6,7,8,9,10])
+		translate([0,0,vent_r]) //inset_height ])  //color ("yellow")
+	for (z = [0,1,2,3,4,5,6,7,8,9])
 	{
 			translate ([0,0,z*3.25*vent_r])	
 			{
@@ -149,7 +152,7 @@ difference() {
 			}
 		
 	}
-}
+//}
 
 
 // front sight
