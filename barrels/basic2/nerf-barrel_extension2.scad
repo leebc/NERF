@@ -6,7 +6,6 @@ ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
 ring_height=35;
 mount_inner_r=32/2;
-vent_r=11.11/2;
 
 //  Basic mounting ring
 color("blue")
@@ -32,15 +31,15 @@ difference(){
 
 
 //  Barrel extension  "bore"
-bore_inner_r=8.5;	//was 8
+bore_inner_r=8.5;
 bore_outer_r=bore_inner_r + 2;
 max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
 
-bore_protrudes=60;				// How much protrudes above mounting ring (+35)
+bore_protrudes=100;				// How much protrudes above mounting ring (+35)
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
-bore_bottom_inset=15;	// was 12			// How much of bore may go into rifle
-bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
+bore_bottom_inset=15;				// How much of bore may go into rifle
+bore_bottom_inset_outer_r=8 + 1.25;  //WAS  bore_inner_r + 1.5;	// What fits into rifle
 
 	echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
 
@@ -71,7 +70,7 @@ difference(){
 
 //  Longer, wider barrel
 inset_height=40;
-barrel_length=180; //53;
+barrel_length=73; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 echo ("inset_height:", inset_height, "  barrel_length", barrel_length, "  barrel_outer_r" , barrel_outer_r);
 
@@ -101,32 +100,16 @@ difference() {
 
 
 //subtract the vents
-//diff = 37.28/22.92 == 1.62
-		translate([0,0, inset_height ])  //color ("yellow")
-	for (z = [0,1,2,3,4,5,6,7,8,9])
-	{
-			translate ([0,0,z*3.25*vent_r])	
-			{
-				rotate([90,0,0])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-				color("red")
-				rotate([90,0,90])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-			}
-			translate ([0,0,z*3.25*vent_r+vent_r*1.62])
-			{
-				color("purple")
-				rotate([90,0,45])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-				color("blue")
-				rotate([90,0,135])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-			}
 		
+	translate([-40,0, inset_height ])  color ("yellow")
+	for (z = [0,1,2,3,4,5,6,7,8])
+	{
+			translate ([0,0,z*10])		rotate([90,0,90]) 
+				cylinder(h=80, r=2 ,$fn=20);
+			translate ([0,-10,z*10])		rotate([90,0,90]) 
+				cylinder(h=80, r=2 ,$fn=20);
+			translate ([0,10,z*10])		rotate([90,0,90]) 
+				cylinder(h=80, r=2 ,$fn=20);
 	}
 }
 
@@ -141,7 +124,7 @@ sight_length=2*sight_height;
 
 
 color("green")
-	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
+	translate([-sight_width/2,bore_outer_r-0.1,bore_height-108])
 polyhedron(points = [	[0,0,0],
 							[0,sight_height,0],
 							[sight_width,0,0],
