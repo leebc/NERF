@@ -23,7 +23,7 @@ max_protrudes=max_sd3_print_height-ring_height;
 bore_protrudes=barrel_length-2*ring_height;	// How much protrudes above mounting ring (+35)
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=15;	// was 12			// How much of bore may go into rifle
-bore_bottom_inset_outer_r=bore_inner_r + 1.5;	// What fits into rifle
+bore_bottom_inset_outer_r=bore_inner_r + 1.0;	// What fits into rifle
 
 muzzle_base_true_r=38.1/2;
 muzzle_multiplier=ring_outer_r / muzzle_base_true_r;
@@ -32,6 +32,13 @@ muzzle_tip_r=22.5/2 * muzzle_multiplier;
 muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r;
 
+sight_width=2;
+sight_height=barrel_outer_r-bore_inner_r;
+sight_length=2*sight_height;
+
+// Just printing the muzzle tip
+difference() {
+union(){
 
 //  Basic mounting ring
 color("blue")
@@ -65,8 +72,21 @@ difference(){
 
 		translate([0,0,bore_height])
 			difference(){										// "Muzzle base"
-				cylinder(h=3, r=muzzle_base_r,$fn=resolution); 
-				translate([0,0,-5])
+//				cylinder(h=3, r=muzzle_base_r,$fn=resolution); 
+				rotate_extrude()
+					rotate([0,180,-90])
+						hull()
+						{
+						square ([3,muzzle_base_r-1.5]);	// WAS (38.1-3)/2]);
+						translate([0,muzzle_base_r-3])		// WAS (38.1-3)/2,0])
+							difference()
+							{
+								circle(r=3, center=false,$fn=resolution);
+								translate([-3,-3])		
+									square([3,6]);
+							}
+						}
+				translate([0,0,-5])	//		CORE IT!
 					cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
 			}
 
@@ -86,7 +106,7 @@ difference(){
 
 		translate([0,0,bore_height+3+7.5])
 			difference(){										// "Muzzle tip"
-				translate([1/4*muzzle_tip_r,0,0])
+				translate([1/4*muzzle_tip_r,-1,0])
 					cylinder(h=6, r=muzzle_tip_r,$fn=resolution);
 				translate([0,0,-5])
 					union(){
@@ -102,7 +122,7 @@ difference(){
 	union(){		// Core it
 		translate([0,0,-5])
 			cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
-		color("red")  
+			color("red")  
 			translate([0,0,-5])
 				difference(){			// Shave a bit so it fits in the rifle
 					cylinder(h=bore_bottom_inset+5, r=bore_outer_r+1,$fn=resolution);
@@ -177,45 +197,32 @@ difference() {
 
 
 // front sight
-sight_width=2;
-sight_height=barrel_outer_r-bore_inner_r;
-sight_length=2*sight_height;
+
 //color("purple")
 //	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
 	//	 	cube([sight_width,sight_height,sight_length]);
 
 
-color("green")
-	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
-polyhedron(points = [	[0,0,0],
-							[0,sight_height,0],
-							[sight_width,0,0],
-							[0,0,-sight_length],
-							[sight_width,0,-sight_length],
-							[sight_width,sight_height,0],
-							[0,sight_height,-sight_length/2],
-							[sight_width,sight_height,-sight_length/2] ],
-							triangles = [ [0,6,1], [0,3,6],
-										[3,7,6],[3,4,7],
-										[7,2,5],[7,4,2],
-										[6,5,1],[6,7,5],
-										[0,2,4],[0,4,3],
-										[0,5,2],[0,1,5]	],
-							convexity = 9);
+//color("green")
+//	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
+//polyhedron(points = [	[0,0,0],
+//							[0,sight_height,0],
+//	/						[sight_width,0,0],
+//	/						[0,0,-sight_length],
+//							[sight_width,0,-sight_length],
+//							[sight_width,sight_height,0],
+//							[0,sight_height,-sight_length/2],
+//							[sight_width,sight_height,-sight_length/2] ],
+//							triangles = [ [0,6,1], [0,3,6],
+//										[3,7,6],[3,4,7],
+//										[7,2,5],[7,4,2],
+//										[6,5,1],[6,7,5],
+//										[0,2,4],[0,4,3],
+//										[0,5,2],[0,1,5]	],
+//							convexity = 9);
 
 
-//	additional frame box
-//  screws
-
-
-// Measure max print height of a Solidoodle3
-//  color("black")  	cylinder(h=	max_sd3_print_height, r=5);
-
-
-
-
-
-
-
-
+}	// end uniion
+translate([0,0,-230]) cylinder(h=152, r=50);
+}		// difference out of everything
 
