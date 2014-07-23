@@ -196,12 +196,13 @@ difference() {
 }
 
 
-// front sight
+//  Front Sight
+translate([30,30,0])
+linear_extrude(height = 50)   import("sight-profile-1.dxf");
 
 //color("purple")
 //	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
 	//	 	cube([sight_width,sight_height,sight_length]);
-
 
 //color("green")
 //	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
@@ -221,6 +222,12 @@ difference() {
 //										[0,5,2],[0,1,5]	],
 //							convexity = 9);
 
+
+//  Front shield
+
+//  Rear shield
+
+//  Dangly thing
 
 }	// end uniion
 translate([0,0,-230]) cylinder(h=152, r=50);
