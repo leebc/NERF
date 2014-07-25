@@ -1,4 +1,4 @@
-include <shapes.scad>;
+include <MCAD/shapes.scad>;
 
 resolution=60;
 barrel_outer_d=35;
@@ -183,7 +183,7 @@ difference() {
 						cylinder(h=80, r=vent_r ,$fn=20);
 			}
 	}
-	translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
+	translate([0,0,vent_r*1]) //inset_height ]) 
 	for (z = [0,1,2,3,4,5,6,7,8])
 	{
 			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
@@ -232,7 +232,6 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
 	}	// end difference 		(sight)
 
-
 	translate([5+0.5,-0.5,2])	// Sight Pin
 		color("orange")		cube([5,1,11]);
 }	// End translate/rotate sight
@@ -243,6 +242,24 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 //  Rear shield
 
 //  Dangly thing
+	translate([0,0,vent_r*1]) //inset_height ]) 
+	for (z = [6])
+	{
+			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
+			{
+				color("purple")
+				rotate([90,0,45])
+					translate([0,0,ring_inner_r-1])
+					{
+						cylinder(h=3, r=vent_r ,$fn=resolution);
+						translate([-5/2,-vent_r,0])
+							cube([5,vent_r*2,10]);
+						rotate([90,0,0])		translate([0,10,-5])
+						cylinder(h=10,r=3, $fn=resolution);
+					}
+			 }	// end translate	
+	}	// end for
+// 7 * ...
 
 }	// end uniion
 translate([0,0,-230]) cylinder(h=152, r=50);
