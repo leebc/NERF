@@ -11,6 +11,7 @@ ring_outer_r=ring_inner_r+2;
 ring_height=29;		//WAS 35
 mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
+vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
 barrel_length=180; //53;
 barrel_outer_r=ring_outer_r;   //+2;
@@ -103,11 +104,10 @@ difference(){
 					}
 				}
 		
-
 		translate([0,0,bore_height+3+7.5])
 			difference(){										// "Muzzle tip"
 				translate([1/4*muzzle_tip_r,-1,0])
-					cylinder(h=6, r=muzzle_tip_r,$fn=resolution);
+					cylinder(h=6, r=muzzle_tip_r+1,$fn=resolution);
 				translate([0,0,-5])
 					union(){
 						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
@@ -115,10 +115,10 @@ difference(){
 							cylinder(h=30, r=10/2,$fn=resolution);
 						translate([-muzzle_hex_bolt_offset,0,0])
 							cylinder(h=30, r=10/2,$fn=resolution);	
-					}
+					}	// end union
 				}
+		}	// end union of barrel bits
 
-		}
 	union(){		// Core it
 		translate([0,0,-5])
 			cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
@@ -128,6 +128,12 @@ difference(){
 					cylinder(h=bore_bottom_inset+5, r=bore_outer_r+1,$fn=resolution);
 					cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);
 		}
+
+		// Not sure if these should be here...
+		translate([0,muzzle_hex_bolt_offset,bore_height-1])	color("red")
+			cylinder(h=50, r=1.85, $fn=resolution);
+		translate([0,-muzzle_hex_bolt_offset,bore_height-1])	color("red")
+			cylinder(h=1.1+7.5+3, r=1.85, $fn=resolution);
 	}
 }
 
@@ -166,7 +172,7 @@ difference() {
 		translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
 	for (z = [0,1,2,3,4,5,6,7,8,9])
 	{
-			translate ([0,0,z*3.0*vent_r])	
+			translate ([0,0,z * vent_spacing_multiplier * vent_r])	
 			{
 				rotate([90,0,0])
 					translate([0,0,-40])
@@ -177,10 +183,10 @@ difference() {
 						cylinder(h=80, r=vent_r ,$fn=20);
 			}
 	}
-		translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
-	for (z = [0,1,2,3,4,5,6,7])
+	translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
+	for (z = [0,1,2,3,4,5,6,7,8])
 	{
-			translate ([0,0,z*3.25*vent_r+vent_r*1.62])
+			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
 			{
 				color("purple")
 				rotate([90,0,45])
@@ -190,37 +196,46 @@ difference() {
 				rotate([90,0,135])
 					translate([0,0,-40])
 						cylinder(h=80, r=vent_r ,$fn=20);
-			}
-		
-	}
+			}	// end translate	
+	}	// end for
 }
 
-
 //  Front Sight
-translate([30,30,0])
-linear_extrude(height = 50)   import("sight-profile-1.dxf");
+translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
+	difference(){				// Sight guard
+		translate([0,29.3/2,0])
+			rotate([90,0,0])
+				linear_extrude(height = 29.3) 
+					import("sight-profile-1.dxf");  // MIGHT be 37
+		union(){
+			translate([-5,0,11.8])  
+				rotate([0,90,0])  
+					color("blue")	cylinder(r=15/2 , h=30, $fn=resolution);
+			translate([-5,-15/2,11.8])	
+				color("purple")		cube([30,15,15]);
+	
+			translate([-5,-29.3/2+1,0])
+				rotate([-6,0,0])		translate([0,-30,0])
+					color("green")	cube([30,30,30]);
 
-//color("purple")
-//	translate([-sight_width/2,bore_inner_r,bore_height-sight_length])
-	//	 	cube([sight_width,sight_height,sight_length]);
+			translate([-5,29.3/2-1,0])
+				rotate([6,0,0])
+					color("red") cube([30,30,30]);
+		}	//end union
+	}	  //end difference
 
-//color("green")
-//	translate([-sight_width/2,bore_outer_r-0.1,bore_height])
-//polyhedron(points = [	[0,0,0],
-//							[0,sight_height,0],
-//	/						[sight_width,0,0],
-//	/						[0,0,-sight_length],
-//							[sight_width,0,-sight_length],
-//							[sight_width,sight_height,0],
-//							[0,sight_height,-sight_length/2],
-//							[sight_width,sight_height,-sight_length/2] ],
-//							triangles = [ [0,6,1], [0,3,6],
-//										[3,7,6],[3,4,7],
-//										[7,2,5],[7,4,2],
-//										[6,5,1],[6,7,5],
-//										[0,2,4],[0,4,3],
-//										[0,5,2],[0,1,5]	],
-//							convexity = 9);
+	difference()	{				// Sight block
+		translate([5,-15/2,0])
+			color("brown")	cube([6,15,5]);
+
+		translate([5+0.5+5/2,0,3])
+			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
+	}	// end difference 		(sight)
+
+
+	translate([5+0.5,-0.5,2])	// Sight Pin
+		color("orange")		cube([5,1,11]);
+}	// End translate/rotate sight
 
 
 //  Front shield
