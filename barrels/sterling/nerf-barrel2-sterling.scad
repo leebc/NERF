@@ -259,9 +259,19 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 					}
 			 }	// end translate	
 	}	// end for
-// 7 * ...
+
 
 }	// end uniion
 translate([0,0,-230]) cylinder(h=152, r=50);
 }		// difference out of everything
+
+total_height=167.5;
+echo("Total measured length:", total_height);
+//	Measure the height
+translate([0,0,0])		color("magenta")
+	cylinder(r=5, h=total_height);
+translate([0,0,total_height])	color("magenta")
+	cube([15,5,2]);
+
+
 
