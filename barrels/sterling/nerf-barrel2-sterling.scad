@@ -1,6 +1,4 @@
-include <MCAD/shapes.scad>;
-
-resolution=60;
+resolution=60;		// $fn  fo
 barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
 
@@ -37,7 +35,14 @@ sight_width=2;
 sight_height=barrel_outer_r-bore_inner_r;
 sight_length=2*sight_height;
 
-// Just printing the muzzle tip
+
+module hexagon(size, height) {
+  boxWidth = size/1.75;
+  for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
+}
+
+
+//  Setup a difference for just printing the muzzle tip
 difference() {
 union(){
 
@@ -268,10 +273,10 @@ translate([0,0,-230]) cylinder(h=152, r=50);
 total_height=167.5;
 echo("Total measured length:", total_height);
 //	Measure the height
-translate([0,0,0])		color("magenta")
-	cylinder(r=5, h=total_height);
-translate([0,0,total_height])	color("magenta")
-	cube([15,5,2]);
+//translate([0,0,0])		color("magenta")
+//	cylinder(r=5, h=total_height);
+//translate([0,0,total_height])	color("magenta")
+//	cube([15,5,2]);
 
 
 
