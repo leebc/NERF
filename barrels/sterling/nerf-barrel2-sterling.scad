@@ -35,11 +35,27 @@ sight_width=2;
 sight_height=barrel_outer_r-bore_inner_r;
 sight_length=2*sight_height;
 
+blowback_r=22/2;
+blowback_height=10.5;
+
 
 module hexagon(size, height) {
   boxWidth = size/1.75;
   for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
 }
+
+module blowback_shield(height, radius) {
+	intersection(){
+		difference(){
+			cylinder(h=blowback_height, r=blowback_r, $fn=resolution);
+			translate([0,0,-0.5])
+				cylinder(h=blowback_height+1, r=blowback_r-1, $fn=resolution);
+		}
+		rotate([90,0,0])
+			cylinder(h=blowback_height+1, r=blowback_r-0.5, $fn=resolution);
+	}
+}
+
 
 
 //  Setup a difference for just printing the muzzle tip
@@ -242,9 +258,17 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 }	// End translate/rotate sight
 
 
-//  Front shield
 
-//  Rear shield
+//  Front blowback shield
+translate([-ring_outer_r+3,0,barrel_length-47.5])
+	rotate([90,0,-90])
+		blowback_shield(blowback_height,blowback_r);
+
+//  Rear blowback shield
+translate([-ring_outer_r+3,0,vent_r-3.5])
+	rotate([90,180,-90])
+		blowback_shield(blowback_height,blowback_r);
+
 
 //  Dangly thing
 	translate([0,0,vent_r*1]) //inset_height ]) 
@@ -267,7 +291,7 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 
 
 }	// end uniion
-translate([0,0,-230]) cylinder(h=152, r=50);
+translate([0,0,330]) cylinder(h=152, r=50);
 }		// difference out of everything
 
 total_height=167.5;
