@@ -255,19 +255,20 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
 	}	// end difference 		(sight)
 
-	translate([5+0.5,-0.5,2])	// Sight Pin
-		color("orange")		cube([5,1,11]);
+	translate([5+0.5,-1,2])	// Sight Pin
+		color("orange")		cube([5,2,11]);
+
 }	// End translate/rotate sight
 
 
 
 //  Front blowback shield
-translate([-ring_outer_r+3,0,barrel_length-47.5])
-	rotate([90,0,-90])
+translate([-ring_outer_r+3,0,barrel_length-48.5])
+	rotate([80,0,-90])
 		blowback_shield(blowback_height,blowback_r);
 
 //  Rear blowback shield
-translate([-ring_outer_r+3,0,vent_r-3.5])
+translate([-ring_outer_r+3,0,vent_r-3])
 	rotate([90,180,-90])
 		blowback_shield(blowback_height,blowback_r);
 
