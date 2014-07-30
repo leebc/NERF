@@ -31,7 +31,7 @@ muzzle_multiplier=ring_outer_r / muzzle_base_true_r;
 muzzle_base_r=muzzle_base_true_r * muzzle_multiplier;
 muzzle_tip_r=22.5/2 * muzzle_multiplier;
 muzzle_middle_r=31/2 * muzzle_multiplier;
-muzzle_hex_bolt_offset=2/3*muzzle_base_r;
+muzzle_hex_bolt_offset=2/3*muzzle_base_r+1.25;	// WAS +0
 
 sight_width=2;
 sight_height=11;
