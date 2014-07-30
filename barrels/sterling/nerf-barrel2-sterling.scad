@@ -235,7 +235,7 @@ difference() {
 translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
 	difference(){				// Sight guard
 		translate([0,29.3/2,0])
-			rotate([90,0,0])
+			rotate([90,10,0])
 				linear_extrude(height = 29.3) 
 					import("sight-profile-1.dxf");  // MIGHT be 37
 		union(){
