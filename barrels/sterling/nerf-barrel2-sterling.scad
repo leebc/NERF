@@ -305,7 +305,16 @@ translate([-ring_outer_r+3,0,vent_r-3])
 							rotate([-10,0,0])							
 								cube([5,vent_r*2,10]);
 						rotate([85,0,0])		translate([0,12,-5.65])
+						difference()
+						{
 							cylinder(h=10,r=3.5, $fn=resolution);
+							rotate([0,-10,-5])
+								union()
+							{
+								translate([3,2,-1])	cube([3,3,12]);
+								translate([-4,2,-1])  cube([3,3,12]);
+							}
+						}
 					}
 			 }	// end translate	
 	}	// end for
