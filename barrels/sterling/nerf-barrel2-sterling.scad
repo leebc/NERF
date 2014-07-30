@@ -14,7 +14,7 @@ inset_height=ring_height;  //WAS  40;
 barrel_length=180; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 
-bore_inner_r=8.5;	//was 8
+bore_inner_r=35/2-7.7;
 bore_outer_r=bore_inner_r + 2;
 max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
@@ -22,7 +22,9 @@ max_protrudes=max_sd3_print_height-ring_height;
 bore_protrudes=barrel_length-2*ring_height;	// How much protrudes above mounting ring (+35)
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=15;	// was 12			// How much of bore may go into rifle
-bore_bottom_inset_outer_r=bore_inner_r + 1.0;	// What fits into rifle
+bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
+
+echo("Bore inner R=",bore_inner_r,", Bore inset R=", bore_bottom_inset_outer_r);
 
 muzzle_base_true_r=38.1/2;
 muzzle_multiplier=ring_outer_r / muzzle_base_true_r;
@@ -49,7 +51,7 @@ module blowback_shield(height, radius) {
 		difference(){
 			cylinder(h=blowback_height, r=blowback_r, $fn=resolution);
 			translate([0,0,-0.5])
-				cylinder(h=blowback_height+1, r=blowback_r-1, $fn=resolution);
+				cylinder(h=blowback_height+1, r=blowback_r-2, $fn=resolution);
 		}
 		rotate([90,0,0])
 			cylinder(h=blowback_height+1, r=blowback_r-0.5, $fn=resolution);
