@@ -153,9 +153,9 @@ difference(){
 		}
 
 		// Not sure if these should be here...
-		translate([0,muzzle_hex_bolt_offset,bore_height-1])	color("red")
+		translate([0,muzzle_hex_bolt_offset-0.5,bore_height-1])	color("red")
 			cylinder(h=50, r=1.85, $fn=resolution);
-		translate([0,-muzzle_hex_bolt_offset,bore_height-1])	color("red")
+		translate([0,-muzzle_hex_bolt_offset+0.5,bore_height-1])	color("red")
 			cylinder(h=1.1+7.5+3, r=1.85, $fn=resolution);
 	}
 }
