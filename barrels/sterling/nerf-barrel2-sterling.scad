@@ -301,10 +301,11 @@ translate([-ring_outer_r+3,0,vent_r-3])
 					translate([0,0,ring_inner_r-1])
 					{
 						cylinder(h=3, r=vent_r ,$fn=resolution);
-						translate([-5/2,-vent_r,0])
-							cube([5,vent_r*2,10]);
-						rotate([90,0,0])		translate([0,10,-5])
-						cylinder(h=10,r=3, $fn=resolution);
+						translate([-5/2,-vent_r,2])
+							rotate([-10,0,0])							
+								cube([5,vent_r*2,10]);
+						rotate([85,0,0])		translate([0,12,-5.65])
+							cylinder(h=10,r=3.5, $fn=resolution);
 					}
 			 }	// end translate	
 	}	// end for
