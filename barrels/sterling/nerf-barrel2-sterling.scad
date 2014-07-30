@@ -34,8 +34,8 @@ muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r;
 
 sight_width=2;
-sight_height=barrel_outer_r-bore_inner_r;
-sight_length=2*sight_height;
+sight_height=11;
+sight_length=5;
 
 blowback_r=22/2;
 blowback_height=10.5;
@@ -255,8 +255,25 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
 	}	// end difference 		(sight)
 
-	translate([5+0.5,-1,2])	// Sight Pin
-		color("orange")		cube([5,2,11]);
+//	translate([5+0.5,-1,2])	// Sight Pin
+	//	color("orange")		cube([5,2,11]);
+	translate([11,1,13.9])	
+		rotate([-90,0,-90])
+			polyhedron(points = [	[0,0,0],
+							[0,sight_height,0],
+							[sight_width,0,0],
+							[0,0,-sight_length],
+							[sight_width,0,-sight_length],
+							[sight_width,sight_height,0],
+							[0,sight_height,-sight_length-1],
+							[sight_width,sight_height,-sight_length-1] ],
+							triangles = [ [0,6,1], [0,3,6],
+										[3,7,6],[3,4,7],
+										[7,2,5],[7,4,2],
+										[6,5,1],[6,7,5],
+										[0,2,4],[0,4,3],
+										[0,5,2],[0,1,5]	],
+							convexity = 9);
 
 }	// End translate/rotate sight
 
