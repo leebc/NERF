@@ -193,35 +193,43 @@ difference() {
 //subtract the vents
 //diff = 37.28/22.92 == 1.62
 		translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
-	for (z = [0,1,2,3,4,5,6,7,8,9])
-	{
-			translate ([0,0,z * vent_spacing_multiplier * vent_r])	
+			for (z = [0,1,2,3,4,5,6,7,8,9])
 			{
-				rotate([90,0,0])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-				color("red")
-				rotate([90,0,90])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
+				translate ([0,0,z * vent_spacing_multiplier * vent_r])	
+				{
+					rotate([90,0,0])
+						translate([0,0,-40])
+							cylinder(h=80, r=vent_r ,$fn=20);
+					color("red")
+					rotate([90,0,90])
+						translate([0,0,-40])
+							cylinder(h=80, r=vent_r ,$fn=20);
+				}
 			}
-	}
-	translate([0,0,vent_r*1]) //inset_height ]) 
-	for (z = [0,1,2,3,4,5,6,7,8])
-	{
-			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
+		translate([0,0,vent_r*1]) //inset_height ]) 
+			for (z = [0,1,2,3,4,5,6,7,8])
 			{
-				color("purple")
-				rotate([90,0,45])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-				color("blue")
-				rotate([90,0,135])
-					translate([0,0,-40])
-						cylinder(h=80, r=vent_r ,$fn=20);
-			}	// end translate	
-	}	// end for
-}
+				translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
+				{
+					color("purple")
+					rotate([90,0,45])
+						translate([0,0,-40])
+							cylinder(h=80, r=vent_r ,$fn=20);
+					color("blue")
+					rotate([90,0,135])
+						translate([0,0,-40])
+							cylinder(h=80, r=vent_r ,$fn=20);
+				}	// end translate	
+			}	// end for
+
+		// Notch for stock latch
+		translate([-6/2,-ring_outer_r, 9* vent_spacing_multiplier * vent_r + vent_r*1.5])
+		{
+			cube([6,6,6]);
+			translate([-2,-0.3,-2.5])
+				cube([10,1,9]);
+		}
+	}
 
 //  Front Sight
 translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
