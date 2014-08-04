@@ -14,14 +14,14 @@ inset_height=ring_height;  //WAS  40;
 barrel_length=180; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 
-bore_inner_r=35/2-7.7;
+bore_inner_r=barrel_outer_d/2-7.7;
 bore_outer_r=bore_inner_r + 2;
 max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
 
 bore_protrudes=barrel_length-2*ring_height;	// How much protrudes above mounting ring (+35)
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
-bore_bottom_inset=15;	// was 12			// How much of bore may go into rifle
+bore_bottom_inset=16.2;			// How much of bore may go into rifle
 bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
 
 echo("Bore inner R=",bore_inner_r,", Bore inset R=", bore_bottom_inset_outer_r);
@@ -328,8 +328,16 @@ translate([-ring_outer_r+3,0,vent_r-3])
 	}	// end for
 
 
-}	// end uniion
-translate([0,0,330]) cylinder(h=152, r=50);
+}	// end union
+
+//	Printed 0-31
+//	31-90
+//	90-133
+//	133-
+	union(){
+//		translate([0,0,180]) cylinder(h=152, r=50);
+//		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
+	}
 }		// difference out of everything
 
 total_height=167.5;
