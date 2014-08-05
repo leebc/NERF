@@ -58,6 +58,33 @@ module blowback_shield(height, radius) {
 	}
 }
 
+module cooling_fin(fin_length) {
+	fin_flat_h=1.5;
+	fin_flat_w=10;
+	fin_tall_h=fin_flat_w*5/8;
+	fin_tall_w=fin_flat_w*1/3;
+	fin_flat_r=fin_flat_h/2;
+	fin_tall_r=fin_tall_w/2;
+
+	color("dimgray")
+	linear_extrude(height=fin_length)
+	{
+	// Horizontal part (flat)
+		translate([fin_flat_w/2-fin_flat_r,fin_flat_r,0])
+			circle(r=fin_flat_r, center=false, $fn=resolution);
+		translate([fin_flat_w/-2+fin_flat_r,fin_flat_r,0])
+			circle(r=fin_flat_r, center=false, $fn=resolution);
+		translate([fin_flat_w/-2+fin_flat_r,0,0])
+			square([fin_flat_w-2*fin_flat_r,fin_flat_h]);
+
+	//  Vertical part (tall)
+		translate([0,fin_tall_h-fin_tall_r,0])
+			circle(r=fin_tall_r, center=false, $fn=resolution);
+		translate([fin_tall_w/-2,0,0])
+			square([fin_tall_w,fin_tall_h-fin_tall_r]);
+	}
+}
+
 
 
 //  Setup a difference for just printing the muzzle tip
@@ -328,6 +355,14 @@ translate([-ring_outer_r+3,0,vent_r-3])
 	}	// end for
 
 
+//	Cooling fins
+
+	translate([0,ring_outer_r-0.5,0])
+	//	for ( angle = [ 0 ] )
+		cooling_fin(150);
+
+
+
 }	// end uniion
 translate([0,0,330]) cylinder(h=152, r=50);
 }		// difference out of everything
@@ -339,6 +374,8 @@ echo("Total measured length:", total_height);
 //	cylinder(r=5, h=total_height);
 //translate([0,0,total_height])	color("magenta")
 //	cube([15,5,2]);
+
+
 
 
 
