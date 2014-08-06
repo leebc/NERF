@@ -1,8 +1,8 @@
-resolution=60;		// $fn  fo
+resolution=60;		// $fn  for circle resolution
 barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
 
-ring_barrel_diff=1;				// Difference between rind outer and barrel outer
+ring_barrel_diff=1;				// Difference between ring outer and barrel outer
 
 ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
@@ -33,30 +33,30 @@ muzzle_tip_r=22.5/2 * muzzle_multiplier;
 muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r+1.25;	// WAS +0
 
-sight_width=2;
-sight_height=11;
-sight_length=5;
+//sight_width=2;
+//sight_height=11;
+//sight_length=5;
 
-blowback_r=22/2;
-blowback_height=10.5;
+//blowback_r=22/2;
+//blowback_height=10.5;
 
 
-module hexagon(size, height) {
-  boxWidth = size/1.75;
-  for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
-}
+//module hexagon(size, height) {
+//  boxWidth = size/1.75;
+//  for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
+//}
 
-module blowback_shield(height, radius) {
-	intersection(){
-		difference(){
-			cylinder(h=blowback_height, r=blowback_r, $fn=resolution);
-			translate([0,0,-0.5])
-				cylinder(h=blowback_height+1, r=blowback_r-2, $fn=resolution);
-		}
-		rotate([90,0,0])
-			cylinder(h=blowback_height+1, r=blowback_r-0.5, $fn=resolution);
-	}
-}
+//module blowback_shield(height, radius) {
+//	intersection(){
+//		difference(){
+//			cylinder(h=blowback_height, r=blowback_r, $fn=resolution);
+//			translate([0,0,-0.5])
+//				cylinder(h=blowback_height+1, r=blowback_r-2, $fn=resolution);
+//		}
+//		rotate([90,0,0])
+//			cylinder(h=blowback_height+1, r=blowback_r-0.5, $fn=resolution);
+//	}
+//}
 
 
 
@@ -152,11 +152,11 @@ difference(){
 					cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);
 		}
 
-		// Not sure if these should be here...
-		translate([0,muzzle_hex_bolt_offset-0.5,bore_height-1])	color("red")
-			cylinder(h=50, r=1.85, $fn=resolution);
-		translate([0,-muzzle_hex_bolt_offset+0.5,bore_height-1])	color("red")
-			cylinder(h=1.1+7.5+3, r=1.85, $fn=resolution);
+//		// Little holes in tip.  Not sure if these should be here...
+//		translate([0,muzzle_hex_bolt_offset-0.5,bore_height-1])	color("red")
+//			cylinder(h=50, r=1.85, $fn=resolution);
+//		translate([0,-muzzle_hex_bolt_offset+0.5,bore_height-1])	color("red")
+//			cylinder(h=1.1+7.5+3, r=1.85, $fn=resolution);
 	}
 }
 
