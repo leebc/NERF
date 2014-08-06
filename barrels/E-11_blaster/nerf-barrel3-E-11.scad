@@ -319,10 +319,10 @@ translate([-ring_outer_r+3,0,barrel_length-48.5])
 	rotate([80,0,-90])
 		blowback_shield(blowback_height,blowback_r);
 
-//  Rear blowback shield
-translate([-ring_outer_r+3,0,vent_r-3])
-	rotate([90,180,-90])
-		blowback_shield(blowback_height,blowback_r);
+//  NO Rear blowback shield
+//translate([-ring_outer_r+3,0,vent_r-3])
+//	rotate([90,180,-90])
+//		blowback_shield(blowback_height,blowback_r);
 
 
 //  Dangly thing
@@ -356,11 +356,34 @@ translate([-ring_outer_r+3,0,vent_r-3])
 
 
 //	Cooling fins
+	// The 45 degree angle fins
+	for ( fin_angle = [ -45, 45, 135 ] )
+		rotate([0,0,fin_angle])
+			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r *0.2])
+				cooling_fin(8 * vent_spacing_multiplier * vent_r);
 
-	translate([0,ring_outer_r-0.5,0])
-	//	for ( angle = [ 0 ] )
-		cooling_fin(150);
+	// The left, -90 degree fin
+		rotate([0,0,-90])
+			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
+				cooling_fin(9 * vent_spacing_multiplier * vent_r);
 
+	// The right, +90 degree fin
+		rotate([0,0,90])
+			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
+				cooling_fin(8 * vent_spacing_multiplier * vent_r);
+
+	// The top, 0 degree fin
+		rotate([0,0,0])
+			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r + vent_r])
+				cooling_fin(8 * vent_spacing_multiplier * vent_r);
+
+//	Rear top rail stub
+	translate([-vent_r,ring_outer_r-2,vent_r/1])
+		rotate([-10,0,0])
+			cube([vent_r*2,10.5,2]);
+	translate([-vent_r,ring_outer_r+7,0])
+		rotate([0,0,0])
+			cube([vent_r*2,2,5]);
 
 
 }	// end uniion
