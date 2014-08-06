@@ -114,30 +114,30 @@ difference(){
 					cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
 			}
 
-		translate([0,0,bore_height+3])	
-			difference(){										// "Muzzle middle"
-				cylinder(h=7.5, r=muzzle_middle_r,$fn=resolution);
-				translate([0,0,-5])
-					union(){
-						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
-						translate([muzzle_hex_bolt_offset,0,0])
-							cylinder(h=30, r=10/2,$fn=resolution);
-						translate([-muzzle_hex_bolt_offset,0,0])
-							cylinder(h=30, r=10/2,$fn=resolution);
-					}
-				}
+//		translate([0,0,bore_height+3])	
+//			difference(){										// "Muzzle middle"
+//				cylinder(h=7.5, r=muzzle_middle_r,$fn=resolution);
+//				translate([0,0,-5])
+//					union(){
+//						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
+//						translate([muzzle_hex_bolt_offset,0,0])
+//							cylinder(h=30, r=10/2,$fn=resolution);
+//						translate([-muzzle_hex_bolt_offset,0,0])
+//							cylinder(h=30, r=10/2,$fn=resolution);
+//					}
+//				}
 		
-		translate([0,0,bore_height+3+7.5])
+		translate([0,0,bore_height+3])
 			difference(){										// "Muzzle tip"
-				translate([1/4*muzzle_tip_r,-1,0])
+//				translate([1/4*muzzle_tip_r,-1,0])
 					cylinder(h=6, r=muzzle_tip_r+1,$fn=resolution);
 				translate([0,0,-5])
 					union(){
 						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
-						translate([muzzle_hex_bolt_offset,0,0])
-							cylinder(h=30, r=10/2,$fn=resolution);
-						translate([-muzzle_hex_bolt_offset,0,0])
-							cylinder(h=30, r=10/2,$fn=resolution);	
+//						translate([muzzle_hex_bolt_offset,0,0])
+//							cylinder(h=30, r=10/2,$fn=resolution);
+//						translate([-muzzle_hex_bolt_offset,0,0])
+//							cylinder(h=30, r=10/2,$fn=resolution);	
 					}	// end union
 				}
 		}	// end union of barrel bits
@@ -160,16 +160,16 @@ difference(){
 	}
 }
 
-//  The Muzzle Hex Bolts
-for ( x = [ -muzzle_hex_bolt_offset, muzzle_hex_bolt_offset])
-{
-	translate([x,0,bore_height+3])
-		difference(){		//HEX bolts
-			cylinder(h=7, r=9/2);		
-			translate([0,0,8])
-				hexagon(5.5,13);
-		}
-}
+////  The Muzzle Hex Bolts
+//for ( x = [ -muzzle_hex_bolt_offset, muzzle_hex_bolt_offset])
+//{
+//	translate([x,0,bore_height+3])
+//		difference(){		//HEX bolts
+//			cylinder(h=7, r=9/2);		
+//			translate([0,0,8])
+//				hexagon(5.5,13);
+//		}
+//}
 
 //  Longer, wider barrel
 		echo ("inset_height:", inset_height, "  barrel_length", barrel_length, "  barrel_outer_r" , barrel_outer_r);
@@ -222,110 +222,106 @@ difference() {
 				}	// end translate	
 			}	// end for
 
-		// Notch for stock latch
-		translate([-6/2,-ring_outer_r, 9* vent_spacing_multiplier * vent_r + vent_r*1.5])
-		{
-			cube([6,6,6]);
-			translate([-2,-0.3,-2.5])
-				cube([10,1,9]);
-		}
+//		// Notch for stock latch
+//		translate([-6/2,-ring_outer_r, 9* vent_spacing_multiplier * vent_r + vent_r*1.5])
+//		{
+//			cube([6,6,6]);
+//			translate([-2,-0.3,-2.5])
+//				cube([10,1,9]);
+//		}
 	}
 
-//  Front Sight
-translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
-	difference(){				// Sight guard
-		translate([0,29.3/2,0])
-			rotate([90,10,0])
-				linear_extrude(height = 29.3) 
-					import("sight-profile-1.dxf");  // MIGHT be 37
-		union(){
-			translate([-5,0,11.8])  
-				rotate([0,90,0])  
-					color("blue")	cylinder(r=15/2 , h=30, $fn=resolution);
-			translate([-5,-15/2,11.8])	
-				color("purple")		cube([30,15,15]);
-	
-			translate([-5,-29.3/2+1,0])
-				rotate([-6,0,0])		translate([0,-30,0])
-					color("green")	cube([30,30,30]);
-
-			translate([-5,29.3/2-1,0])
-				rotate([6,0,0])
-					color("red") cube([30,30,30]);
-		}	//end union
-	}	  //end difference
-
-	difference()	{				// Sight block
-		translate([5,-15/2,0])
-			color("brown")	cube([6,15,5]);
-
-		translate([5+0.5+5/2,0,3])
-			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
-	}	// end difference 		(sight)
-
-//	translate([5+0.5,-1,2])	// Sight Pin
-	//	color("orange")		cube([5,2,11]);
-	translate([11,1,13.9])	
-		rotate([-90,0,-90])
-			polyhedron(points = [	[0,0,0],
-							[0,sight_height,0],
-							[sight_width,0,0],
-							[0,0,-sight_length],
-							[sight_width,0,-sight_length],
-							[sight_width,sight_height,0],
-							[0,sight_height,-sight_length-1],
-							[sight_width,sight_height,-sight_length-1] ],
-							triangles = [ [0,6,1], [0,3,6],
-										[3,7,6],[3,4,7],
-										[7,2,5],[7,4,2],
-										[6,5,1],[6,7,5],
-										[0,2,4],[0,4,3],
-										[0,5,2],[0,1,5]	],
-							convexity = 9);
-
-}	// End translate/rotate sight
+////  Front Sight
+//translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
+//	difference(){				// Sight guard
+//		translate([0,29.3/2,0])
+//			rotate([90,10,0])
+//				linear_extrude(height = 29.3) 
+//					import("sight-profile-1.dxf");  // MIGHT be 37
+//		union(){
+//			translate([-5,0,11.8])  
+//				rotate([0,90,0])  
+//					color("blue")	cylinder(r=15/2 , h=30, $fn=resolution);
+//			translate([-5,-15/2,11.8])	
+//				color("purple")		cube([30,15,15]);	
+//			translate([-5,-29.3/2+1,0])
+//				rotate([-6,0,0])		translate([0,-30,0])
+//					color("green")	cube([30,30,30]);
+//			translate([-5,29.3/2-1,0])
+//				rotate([6,0,0])
+//					color("red") cube([30,30,30]);
+//		}	//end union
+//	}	  //end difference
+//
+//	difference()	{				// Sight block
+//		translate([5,-15/2,0])
+//			color("brown")	cube([6,15,5]);
+//
+//		translate([5+0.5+5/2,0,3])
+//			color("black")	cylinder(h=4, r=5/2, $fn=resolution);
+//	}	// end difference 		(sight)
+//
+////	translate([5+0.5,-1,2])	// Sight Pin
+//	//	color("orange")		cube([5,2,11]);
+//	translate([11,1,13.9])	
+//		rotate([-90,0,-90])
+//			polyhedron(points = [	[0,0,0],
+//							[0,sight_height,0],
+//							[sight_width,0,0],
+//							[0,0,-sight_length],
+//							[sight_width,0,-sight_length],
+//							[sight_width,sight_height,0],
+//							[0,sight_height,-sight_length-1],
+//							[sight_width,sight_height,-sight_length-1] ],
+//							triangles = [ [0,6,1], [0,3,6],
+//										[3,7,6],[3,4,7],
+//										[7,2,5],[7,4,2],
+//										[6,5,1],[6,7,5],
+//										[0,2,4],[0,4,3],
+//										[0,5,2],[0,1,5]	],
+//							convexity = 9);
+//}	// End translate/rotate sight
 
 
 
-//  Front blowback shield
-translate([-ring_outer_r+3,0,barrel_length-48.5])
-	rotate([80,0,-90])
-		blowback_shield(blowback_height,blowback_r);
+////  Front blowback shield
+//translate([-ring_outer_r+3,0,barrel_length-48.5])
+//	rotate([80,0,-90])
+//		blowback_shield(blowback_height,blowback_r);
 
-//  Rear blowback shield
-translate([-ring_outer_r+3,0,vent_r-3])
-	rotate([90,180,-90])
-		blowback_shield(blowback_height,blowback_r);
+////  Rear blowback shield
+//translate([-ring_outer_r+3,0,vent_r-3])
+//	rotate([90,180,-90])
+//		blowback_shield(blowback_height,blowback_r);
 
-
-//  Dangly thing
-	translate([0,0,vent_r*1]) //inset_height ]) 
-	for (z = [6])
-	{
-			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
-			{
-				color("purple")
-				rotate([90,0,45])
-					translate([0,0,ring_inner_r-1])
-					{
-						cylinder(h=3, r=vent_r ,$fn=resolution);
-						translate([-5/2,-vent_r,2])
-							rotate([-10,0,0])							
-								cube([5,vent_r*2,10]);
-						rotate([85,0,0])		translate([0,12,-5.65])
-						difference()
-						{
-							cylinder(h=10,r=3.5, $fn=resolution);
-							rotate([0,-10,-5])
-								union()
-							{
-								translate([3,2,-1])	cube([3,3,12]);
-								translate([-4,2,-1])  cube([3,3,12]);
-							}
-						}
-					}
-			 }	// end translate	
-	}	// end for
+////  Dangly thing
+//	translate([0,0,vent_r*1]) //inset_height ]) 
+//	for (z = [6])
+//	{
+//			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
+//			{
+//				color("purple")
+//				rotate([90,0,45])
+//					translate([0,0,ring_inner_r-1])
+//					{
+//						cylinder(h=3, r=vent_r ,$fn=resolution);
+//						translate([-5/2,-vent_r,2])
+//							rotate([-10,0,0])							
+//								cube([5,vent_r*2,10]);
+//						rotate([85,0,0])		translate([0,12,-5.65])
+//						difference()
+//						{
+//							cylinder(h=10,r=3.5, $fn=resolution);
+//							rotate([0,-10,-5])
+//								union()
+//							{
+//								translate([3,2,-1])	cube([3,3,12]);
+//								translate([-4,2,-1])  cube([3,3,12]);
+//							}
+//						}
+//					}
+//			 }	// end translate	
+//	}	// end for
 
 
 }	// end union
