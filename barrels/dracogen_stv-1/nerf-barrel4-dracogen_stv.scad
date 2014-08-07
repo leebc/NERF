@@ -50,7 +50,11 @@ module long_rounded_slot(length,width) {
 translate([barrel_outer_r,0,10])	color("purple")
 	rotate([0,-90,0])
 		linear_extrude(height=5)
-			long_rounded_slot(40,10);
+			long_rounded_slot(60,11);
+// Gap ~~ 6  or radius
+// set of 3 in 11
+// set of 2 in 41?
+
 
 //  Screw base dimensions
 //	47.86	straight for 5	jump to
