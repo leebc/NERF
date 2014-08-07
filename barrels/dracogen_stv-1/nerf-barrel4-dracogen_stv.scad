@@ -52,6 +52,31 @@ translate([barrel_outer_r,0,10])	color("purple")
 		linear_extrude(height=5)
 			long_rounded_slot(40,10);
 
+//  Screw base dimensions
+//	47.86	straight for 5	jump to
+//	52.67	angles for 2.7 to
+//	56.37	straight for 1.5		jump to
+//	61.34	angles for 2.5 to
+//	63.09	straight for 5.5 
+//	63.09	angles for  2 to
+//	66.81	straight for 6.5 then 
+//	inset ring for 1.4
+
+// Muzzle tip dimensions
+//	inser ring for 1.3
+//	74.8	straight for 10
+//	74.8	angle for1.8	 to
+//	70.52	straight for 9.9 
+//	70.52	angle for 2	to
+//	64.13	then drop to
+//	48.35	straight for 10.48
+//	48.35	angle for 1.68	to 
+//	43.2	then drop to  
+//	39.18	straight for 1.5
+//	39.18	angle for 3.8 to
+//	33		end
+
+
 
 //  Setup a difference for just printing the muzzle tip
 difference() {
