@@ -38,6 +38,19 @@ muzzle_tip_r=22.5/2 * muzzle_multiplier;
 muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r+1.25;	// WAS +0
 
+module long_rounded_slot(length,width) {
+	lrs_r=width/2;		// radius of the circle
+	hull(){
+		translate([lrs_r,0,0])
+			circle(r=lrs_r, $fn=resolution);
+		translate([length-lrs_r,0,0])
+			circle(r=lrs_r, $fn=resolution);
+	}
+}
+translate([barrel_outer_r,0,10])	color("purple")
+	rotate([0,-90,0])
+		linear_extrude(height=5)
+			long_rounded_slot(40,10);
 
 
 //  Setup a difference for just printing the muzzle tip
