@@ -102,7 +102,7 @@ translate([0,0,ring_height+3])			color("red")
 translate([0,0,barrel_length])			color("red")
 	scale( barrel_outer_r/74.8 )
 		rotate_extrude(convexity=10, $fn=resolution)
-			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[36,42.68],[36,0],[0,0]]);
+			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[60,23.7],[60,20],[48.35,20],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[36,42.68],[36,0],[0,0]]);
 
 
 translate([0,-0.25,ring_height+3])			color("pink")		// BORE RADIUS measury thing
@@ -218,7 +218,7 @@ difference() {
 					}
 
 		// Lower grove
-		translate ([0,0,ring_height+11] ) 
+		translate ([0,0,ring_height+12] ) 
 					difference(){		// upper groove
 						cylinder(h=1, r=barrel_outer_r+1,$fn=resolution);
 						cylinder(h=3, r=barrel_outer_r-1,$fn=resolution);
