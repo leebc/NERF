@@ -47,38 +47,45 @@ module long_rounded_slot(length,width) {
 			circle(r=lrs_r, $fn=resolution);
 	}
 }
-translate([barrel_outer_r,0,10])	color("purple")
-	rotate([0,-90,0])
-		linear_extrude(height=5)
-			long_rounded_slot(60,11);
-// Gap ~~ 6  or radius
-// set of 3 in 11
-// set of 2 in 41?
 
 
-//  Screw base dimensions
-//	47.86	straight for 5	jump to
-//	52.67	angles for 2.7 to
-//	56.37	straight for 1.5		jump to
-//	61.34	angles for 2.5 to
-//	63.09	straight for 5.5 
-//	63.09	angles for  2 to
-//	66.81	straight for 6.5 then 
-//	inset ring for 1.4
+vent_l=60;			// This needs to be rescaled
+vent_w=11;			// This needs to be rescaled
+
+
+
+//  Screw base dimensions						[
+//	47.86	straight for 5	jump to			[	[
+//	52.67	angles for 2.7 to				[
+//	56.37	straight for 1.5		jump to		[
+//	61.34	angles for 2.5 to				[
+//	63.09	straight for 5.5 				[
+//	63.09	angles for  2 to					[
+//	66.81	straight for 6.5 then 			[
+//	inset ring for 1.4						[
+
+//translate([0,0,-70])
+	rotate_extrude(convexity=10)
+		polygon(points=[[0,0],[47.86,0],[47.86,5],[52.67,5],[56.37,7.7],[56.37,9.2],[61.34,9.2],[63.09,11.7],[63.09,17.2],[66.81,19.2],[66.81,25.7],[0,25.7]  ]);
 
 // Muzzle tip dimensions
 //	inser ring for 1.3
-//	74.8	straight for 10
-//	74.8	angle for1.8	 to
-//	70.52	straight for 9.9 
-//	70.52	angle for 2	to
-//	64.13	then drop to
-//	48.35	straight for 10.48
-//	48.35	angle for 1.68	to 
+//	74.8	straight for 10						[
+//	74.8	angle for1.8	 to						[
+//	70.52	straight for 9.9 				[
+//	70.52	angle for 2	to					[
+//	64.13	then drop to						[
+//	48.35	straight for 10.48				[
+//	48.35	angle for 1.68	to 				[
 //	43.2	then drop to  
 //	39.18	straight for 1.5
 //	39.18	angle for 3.8 to
 //	33		end
+
+translate([0,0,150])
+	rotate_extrude(convexity=10)
+		polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[0,42.68]]);
+
 
 
 
@@ -197,36 +204,63 @@ difference() {
 
 
 //subtract the vents
+// lrs 60x11
+// Gap ~~ 6  or radius
+// set of 3 in 11
+// set of 2 in 41?
+	
+		translate([barrel_outer_r,0,11])	color("purple")
+			rotate([0,-90,0])
+				linear_extrude(height=50)
+					long_rounded_slot(60,11);
+
+		translate([barrel_outer_r,0,11+60+6])	color("purple")
+			rotate([0,-90,0])
+				linear_extrude(height=50)
+					long_rounded_slot(60,11);
+
+		translate([0,barrel_outer_r,11])	color("purple")
+			rotate([0,-90,90])
+				linear_extrude(height=50)
+					long_rounded_slot(60,11);
+
+		translate([0,barrel_outer_r,11+60+6])	color("purple")
+			rotate([0,-90,90])
+				linear_extrude(height=50)
+					long_rounded_slot(60,11);
+
+
+
 //diff = 37.28/22.92 == 1.62
-		translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
-			for (z = [0,1,2,3,4,5,6,7,8,9])
-			{
-				translate ([0,0,z * vent_spacing_multiplier * vent_r])	
-				{
-					rotate([90,0,0])
-						translate([0,0,-40])
-							cylinder(h=80, r=vent_r ,$fn=20);
-					color("red")
-					rotate([90,0,90])
-						translate([0,0,-40])
-							cylinder(h=80, r=vent_r ,$fn=20);
-				}
-			}
-		translate([0,0,vent_r*1]) //inset_height ]) 
-			for (z = [0,1,2,3,4,5,6,7,8])
-			{
-				translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
-				{
-					color("purple")
-					rotate([90,0,45])
-						translate([0,0,-40])
-							cylinder(h=80, r=vent_r ,$fn=20);
-					color("blue")
-					rotate([90,0,135])
-						translate([0,0,-40])
-							cylinder(h=80, r=vent_r ,$fn=20);
-				}	// end translate	
-			}	// end for
+//		translate([0,0,vent_r*1]) //inset_height ])  //color ("yellow")
+//			for (z = [0,1,2,3,4,5,6,7,8,9])
+//			{
+//				translate ([0,0,z * vent_spacing_multiplier * vent_r])	
+//				{
+//					rotate([90,0,0])
+//						translate([0,0,-40])
+//							cylinder(h=80, r=vent_r ,$fn=20);
+//					color("red")
+//					rotate([90,0,90])
+//						translate([0,0,-40])
+//							cylinder(h=80, r=vent_r ,$fn=20);
+//				}
+//			}
+//		translate([0,0,vent_r*1]) //inset_height ]) 
+//			for (z = [0,1,2,3,4,5,6,7,8])
+//			{
+//				translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
+//				{
+//					color("purple")
+//					rotate([90,0,45])
+//						translate([0,0,-40])
+//							cylinder(h=80, r=vent_r ,$fn=20);
+//					color("blue")
+//					rotate([90,0,135])
+//						translate([0,0,-40])
+//							cylinder(h=80, r=vent_r ,$fn=20);
+//				}	// end translate	
+//			}	// end for
 	}
 
 
