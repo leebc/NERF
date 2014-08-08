@@ -17,7 +17,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=152; //53;
+barrel_length=185;								// WAS 152; 
 barrel_outer_r=ring_outer_r;   //+2;
 
 bore_inner_r=barrel_outer_d/2-7.7;
@@ -25,7 +25,7 @@ bore_outer_r=bore_inner_r + 2;
 max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
 
-bore_protrudes=barrel_length-ring_height;	// How much protrudes above mounting ring
+bore_protrudes=barrel_length-inset_height;	// How much protrudes above mounting ring
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=16.2;			// How much of bore may go into rifle
 bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
@@ -48,6 +48,12 @@ module long_rounded_slot(length,width) {
 			circle(r=lrs_r, $fn=resolution);
 	}
 }
+
+//  measured length = 285 overall
+//  measured width = 60.7
+//  scale factor = 35/60.7 = 0.57
+//  rescaled length = 285 * 0.57 = 164
+
 
 //	Vent dimensions
 // lrs 60x11
@@ -91,14 +97,14 @@ translate([0,0,ring_height+3])			color("red")
 //	33		end								[
 
 // Muzzle tip
-translate([0,0,151])			color("red")
+translate([0,0,barrel_length])			color("red")
 	scale( barrel_outer_r/74.8 )
 		rotate_extrude(convexity=10, $fn=resolution)
-			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[32,42.68],[32,0],[0,0]]);
+			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[36,42.68],[36,0],[0,0]]);
 
 
-translate([0,-0.25,-35])			color("pink")		// BORE RADIUS measury thing
-	cube([bore_inner_r,0.5,200]);
+translate([0,-0.25,ring_height+3])			color("pink")		// BORE RADIUS measury thing
+;//	cube([bore_inner_r,0.5,164]);
 
 
 //  Setup a difference for just printing the muzzle tip
