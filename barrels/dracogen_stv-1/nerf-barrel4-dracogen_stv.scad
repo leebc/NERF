@@ -70,6 +70,7 @@ vent_3_inset=2*vent_w;
 //	66.81	straight for 6.5 then 			[
 //	inset ring for 1.4						[
 
+// Base
 translate([0,0,2])			color("red")
 	scale( barrel_outer_r/66.81 )
 		rotate_extrude(convexity=10)
@@ -89,10 +90,11 @@ translate([0,0,2])			color("red")
 //	39.18	angle for 3.8 to				[
 //	33		end								[
 
+// Muzzle tip
 translate([0,0,151])			color("red")
 	scale( barrel_outer_r/74.8 )
 		rotate_extrude(convexity=10)
-			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[23,42.68],[23,0],[0,0]]);
+			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[32,42.68],[32,0],[0,0]]);
 
 
 translate([0,-0.25,-35])			color("pink")		// BORE RADIUS measury thing
