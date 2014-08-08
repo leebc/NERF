@@ -1,6 +1,7 @@
 /*
+ *
  *  NERF barrel #4 -- Based on Volpin Props' Dracogen STV barrel extension
- *  lalalal
+ *  
 */
 
 resolution=60;		// $fn  for circle resolution
@@ -48,14 +49,19 @@ module long_rounded_slot(length,width) {
 	}
 }
 
+//	Vent dimensions
+// lrs 60x11
+// Gap ~~ 6  or radius
+// set of 3 in 11
+// set of 2 in 41?
+vent_l=40;				// scaled?
+vent_w=8;				// scaled?
+vent_3_inset=2*vent_w;	
 
-vent_l=60;			// This needs to be rescaled
-vent_w=11;			// This needs to be rescaled
 
 
-
-//  Screw base dimensions						[
-//	47.86	straight for 5	jump to			[	[
+//  Screw base dimensions						
+//	47.86	straight for 5	jump to			[
 //	52.67	angles for 2.7 to				[
 //	56.37	straight for 1.5		jump to		[
 //	61.34	angles for 2.5 to				[
@@ -64,29 +70,33 @@ vent_w=11;			// This needs to be rescaled
 //	66.81	straight for 6.5 then 			[
 //	inset ring for 1.4						[
 
-//translate([0,0,-70])
-	rotate_extrude(convexity=10)
-		polygon(points=[[0,0],[47.86,0],[47.86,5],[52.67,5],[56.37,7.7],[56.37,9.2],[61.34,9.2],[63.09,11.7],[63.09,17.2],[66.81,19.2],[66.81,25.7],[0,25.7]  ]);
+translate([0,0,2])			color("red")
+	scale( barrel_outer_r/66.81 )
+		rotate_extrude(convexity=10)
+			polygon(points=[[32,0],[47.86,0],[47.86,5],[52.67,5],[56.37,7.7],[56.37,9.2],[61.34,9.2],[63.09,11.7],[63.09,17.2],[66.81,19.2],[66.81,25.7],[32,25.7]  ]);
 
 // Muzzle tip dimensions
-//	inser ring for 1.3
-//	74.8	straight for 10						[
-//	74.8	angle for1.8	 to						[
+//	inser ring for 1.3						[
+//	74.8	straight for 10					[
+//	74.8	angle for1.8	 to				[
 //	70.52	straight for 9.9 				[
 //	70.52	angle for 2	to					[
-//	64.13	then drop to						[
+//	64.13	then drop to					[
 //	48.35	straight for 10.48				[
 //	48.35	angle for 1.68	to 				[
-//	43.2	then drop to  
-//	39.18	straight for 1.5
-//	39.18	angle for 3.8 to
-//	33		end
+//	43.2	then drop to  					[
+//	39.18	straight for 1.5					[
+//	39.18	angle for 3.8 to				[
+//	33		end								[
 
-translate([0,0,150])
-	rotate_extrude(convexity=10)
-		polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[0,42.68]]);
+translate([0,0,151])			color("red")
+	scale( barrel_outer_r/74.8 )
+		rotate_extrude(convexity=10)
+			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[23,42.68],[23,0],[0,0]]);
 
 
+translate([0,-0.25,-35])			color("pink")		// BORE RADIUS measury thing
+	cube([bore_inner_r,0.5,200]);
 
 
 //  Setup a difference for just printing the muzzle tip
@@ -118,57 +128,15 @@ difference(){
 		echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
 difference(){
 	union(){		// Main barrel/bore
+		color("black")
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
 
 		translate([0,0,ring_height])								// Lower bridge
 			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
-		translate([0,0,bore_height])
-			difference(){										// "Muzzle base"
-//				cylinder(h=3, r=muzzle_base_r,$fn=resolution); 
-				rotate_extrude()
-					rotate([0,180,-90])
-						hull()
-						{
-						square ([3,muzzle_base_r-1.5]);	// WAS (38.1-3)/2]);
-						translate([0,muzzle_base_r-3])		// WAS (38.1-3)/2,0])
-							difference()
-							{
-								circle(r=3, center=false,$fn=resolution);
-								translate([-3,-3])		
-									square([3,6]);
-							}
-						}
-				translate([0,0,-5])	//		CORE IT!
-					cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
-			}
-
-//		translate([0,0,bore_height+3])	
-//			difference(){										// "Muzzle middle"
-//				cylinder(h=7.5, r=muzzle_middle_r,$fn=resolution);
-//				translate([0,0,-5])
-//					union(){
-//						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
-//						translate([muzzle_hex_bolt_offset,0,0])
-//							cylinder(h=30, r=10/2,$fn=resolution);
-//						translate([-muzzle_hex_bolt_offset,0,0])
-//							cylinder(h=30, r=10/2,$fn=resolution);
-//					}
-//				}
+// PROBABLY NEED another UPPER or MIDDLE BRIDGE
 		
-		translate([0,0,bore_height+3])
-			difference(){										// "Muzzle tip"
-//				translate([1/4*muzzle_tip_r,-1,0])
-					cylinder(h=6, r=muzzle_tip_r+1,$fn=resolution);
-				translate([0,0,-5])
-					union(){
-						cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
-//						translate([muzzle_hex_bolt_offset,0,0])
-//							cylinder(h=30, r=10/2,$fn=resolution);
-//						translate([-muzzle_hex_bolt_offset,0,0])
-//							cylinder(h=30, r=10/2,$fn=resolution);	
-					}	// end union
-				}
+
 		}	// end union of barrel bits
 
 	union(){		// Core it
@@ -204,30 +172,34 @@ difference() {
 
 
 //subtract the vents
-// lrs 60x11
-// Gap ~~ 6  or radius
-// set of 3 in 11
-// set of 2 in 41?
-	
-		translate([barrel_outer_r,0,11])	color("purple")
-			rotate([0,-90,0])
-				linear_extrude(height=50)
-					long_rounded_slot(60,11);
+// vent_l	// vent width
+// vent_w	// vent width
+// vent_3_inset		// How much the lowest of 3 vents is offset from the base
 
-		translate([barrel_outer_r,0,11+60+6])	color("purple")
-			rotate([0,-90,0])
-				linear_extrude(height=50)
-					long_rounded_slot(60,11);
-
-		translate([0,barrel_outer_r,11])	color("purple")
-			rotate([0,-90,90])
-				linear_extrude(height=50)
-					long_rounded_slot(60,11);
-
-		translate([0,barrel_outer_r,11+60+6])	color("purple")
-			rotate([0,-90,90])
-				linear_extrude(height=50)
-					long_rounded_slot(60,11);
+		for ( slot = [0,1,2]) {
+			translate([0, 0, vent_3_inset + slot*vent_l + slot*vent_w/2 ])	color("purple") {
+				rotate([0,-90,0])
+					translate([0,0,-barrel_outer_r-5])
+						linear_extrude(height=50)
+							long_rounded_slot(vent_l,vent_w);
+				rotate([0,-90,90])
+					translate([0,0,-barrel_outer_r-5])
+						linear_extrude(height=50)
+							long_rounded_slot(vent_l,vent_w);
+			}
+		}
+		for ( slot = [0,1]) {
+			translate([0,0, vent_3_inset + vent_l/2 + slot*vent_l + slot*vent_w/2 ])	color("purple") {
+				rotate([0,-90,45])
+					translate([0,0,-barrel_outer_r-5])
+						linear_extrude(height=50)
+							long_rounded_slot(vent_l,vent_w);
+				rotate([0,-90,-45])
+					translate([0,0,-barrel_outer_r-5])
+						linear_extrude(height=50)
+							long_rounded_slot(vent_l,vent_w);
+			}
+		}
 
 
 
