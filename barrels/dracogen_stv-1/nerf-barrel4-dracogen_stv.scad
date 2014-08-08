@@ -30,7 +30,7 @@ bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=16.2;			// How much of bore may go into rifle
 bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
 
-echo("Bore inner R=",bore_inner_r,", Bore inset R=", bore_bottom_inset_outer_r);
+echo( str("Bore inner R=",bore_inner_r,"; Bore inset R=", bore_bottom_inset_outer_r));
 
 muzzle_base_true_r=38.1/2;
 muzzle_multiplier=ring_outer_r / muzzle_base_true_r;
@@ -60,10 +60,12 @@ module long_rounded_slot(length,width) {
 // Gap ~~ 6  or radius
 // set of 3 in 11
 // set of 2 in 41?
-vent_w=8;				// scaled?
+vent_w=PI*barrel_outer_r/8;		//8;				// scaled?
 vent_l=(barrel_length-8*vent_w)/3;		// WAS 40;				// scaled?
 vent_3_inset=ring_height+2.5*vent_w;	
 
+echo( str("barrel_outer_r => ",barrel_outer_r,";  barrel_length => ",barrel_length));
+echo( str("vent_w=PI*barrel_outer_r/8 => ", vent_w,";  ventl=(barrel_length-8*vent_w)/3 => ",vent_l) ) ;
 
 
 //  Screw base dimensions						
@@ -133,7 +135,7 @@ difference(){
 }
 
 //  Barrel extension  "bore"
-		echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
+		echo( str("Max sd3 height:",max_sd3_print_height,";  max_protrudes",max_protrudes,";  bore_protrudes",bore_protrudes) );
 difference(){
 	union(){		// Main barrel/bore
 		color("black")
@@ -159,7 +161,7 @@ difference(){
 
 
 //  Longer, wider barrel
-		echo ("inset_height:", inset_height, "  barrel_length", barrel_length, "  barrel_outer_r" , barrel_outer_r);
+		echo ( str("inset_height:", inset_height, ";  barrel_length", barrel_length, ";  barrel_outer_r" , barrel_outer_r) );
 
 difference() {
 		translate([0, 0, ring_height+10.5])
@@ -266,7 +268,7 @@ difference() {
 }		// difference out of everything
 
 total_height=167.5;
-echo("Total measured length:", total_height);
+echo( str("Total measured length:", total_height) );
 //	Measure the height
 //translate([0,0,0])		color("magenta")
 //	cylinder(r=5, h=total_height);
