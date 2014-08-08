@@ -8,7 +8,7 @@ resolution=60;		// $fn  for circle resolution
 
 barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
-ring_barrel_diff=1;				// Difference between ring outer and barrel outer
+ring_barrel_diff=0;				// Difference between ring outer and barrel outer
 
 ring_inner_r=(barrel_outer_d+2)/2;
 ring_outer_r=ring_inner_r+2;
@@ -17,7 +17,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=180; //53;
+barrel_length=152; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 
 bore_inner_r=barrel_outer_d/2-7.7;
@@ -25,7 +25,7 @@ bore_outer_r=bore_inner_r + 2;
 max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
 
-bore_protrudes=barrel_length-2*ring_height;	// How much protrudes above mounting ring (+35)
+bore_protrudes=barrel_length-ring_height;	// How much protrudes above mounting ring
 bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=16.2;			// How much of bore may go into rifle
 bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
@@ -54,9 +54,9 @@ module long_rounded_slot(length,width) {
 // Gap ~~ 6  or radius
 // set of 3 in 11
 // set of 2 in 41?
-vent_l=40;				// scaled?
 vent_w=8;				// scaled?
-vent_3_inset=2*vent_w;	
+vent_l=(barrel_length-7*vent_w)/3;		// WAS 40;				// scaled?
+vent_3_inset=ring_height+2*vent_w;	
 
 
 
@@ -71,9 +71,9 @@ vent_3_inset=2*vent_w;
 //	inset ring for 1.4						[
 
 // Base
-translate([0,0,2])			color("red")
+translate([0,0,ring_height+3])			color("red")
 	scale( barrel_outer_r/66.81 )
-		rotate_extrude(convexity=10)
+		rotate_extrude(convexity=10, $fn=resolution)
 			polygon(points=[[32,0],[47.86,0],[47.86,5],[52.67,5],[56.37,7.7],[56.37,9.2],[61.34,9.2],[63.09,11.7],[63.09,17.2],[66.81,19.2],[66.81,25.7],[32,25.7]  ]);
 
 // Muzzle tip dimensions
@@ -93,7 +93,7 @@ translate([0,0,2])			color("red")
 // Muzzle tip
 translate([0,0,151])			color("red")
 	scale( barrel_outer_r/74.8 )
-		rotate_extrude(convexity=10)
+		rotate_extrude(convexity=10, $fn=resolution)
 			polygon(points=[  [0,0],[74.8,0],[74.8,10],[70.52,11.8],[70.52,21.7],[64.13,23.7],[48.35,23.7],[48.35,33.7],[43.2,35.38],[43.2,37.38],[39.18,38.88],[33,42.68],[32,42.68],[32,0],[0,0]]);
 
 
@@ -134,7 +134,7 @@ difference(){
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
 
 		translate([0,0,ring_height])								// Lower bridge
-			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
+			cylinder(h=3, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
 // PROBABLY NEED another UPPER or MIDDLE BRIDGE
 		
@@ -158,11 +158,11 @@ difference(){
 		echo ("inset_height:", inset_height, "  barrel_length", barrel_length, "  barrel_outer_r" , barrel_outer_r);
 
 difference() {
-		translate([0, 0, 0])//inset_height-5])
+		translate([0, 0, ring_height+10.5])
 		difference(){
 			union(){		// outer barrel
 				color ("green")										//outer barrel 
-					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
+					cylinder(h = barrel_length-ring_height-10.5, r=barrel_outer_r, $fn=resolution);
 				
 				}
 			union(){		// things that are subtracted form the barrel
