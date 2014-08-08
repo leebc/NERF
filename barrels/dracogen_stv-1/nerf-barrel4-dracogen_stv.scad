@@ -55,8 +55,8 @@ module long_rounded_slot(length,width) {
 // set of 3 in 11
 // set of 2 in 41?
 vent_w=8;				// scaled?
-vent_l=(barrel_length-7*vent_w)/3;		// WAS 40;				// scaled?
-vent_3_inset=ring_height+2*vent_w;	
+vent_l=(barrel_length-8*vent_w)/3;		// WAS 40;				// scaled?
+vent_3_inset=ring_height+2.5*vent_w;	
 
 
 
@@ -136,8 +136,6 @@ difference(){
 		translate([0,0,ring_height])								// Lower bridge
 			cylinder(h=3, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
-// PROBABLY NEED another UPPER or MIDDLE BRIDGE
-		
 
 		}	// end union of barrel bits
 
@@ -191,7 +189,8 @@ difference() {
 			}
 		}
 		for ( slot = [0,1]) {
-			translate([0,0, vent_3_inset + vent_l/2 + slot*vent_l + slot*vent_w/2 ])	color("purple") {
+			translate([0,0, vent_3_inset + vent_l/2 + slot*vent_l + slot*vent_w/2 ])	color("purple")
+			{
 				rotate([0,-90,45])
 					translate([0,0,-barrel_outer_r-5])
 						linear_extrude(height=50)
@@ -203,6 +202,19 @@ difference() {
 			}
 		}
 
+		// Upper grove
+		translate ([0,0,barrel_length-2] ) 
+					difference(){		// upper groove
+						cylinder(h=1, r=barrel_outer_r+1,$fn=resolution);
+						cylinder(h=3, r=barrel_outer_r-1,$fn=resolution);
+					}
+
+		// Lower grove
+		translate ([0,0,ring_height+11] ) 
+					difference(){		// upper groove
+						cylinder(h=1, r=barrel_outer_r+1,$fn=resolution);
+						cylinder(h=3, r=barrel_outer_r-1,$fn=resolution);
+					}
 
 
 //diff = 37.28/22.92 == 1.62
