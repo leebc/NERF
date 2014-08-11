@@ -262,7 +262,7 @@ difference() {
 translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
 	difference(){				// Sight guard
 		translate([0,29.3/2,0])
-			rotate([90,10,0])
+			rotate([90,0,0])		// !!! Change Y rotation to 10 for angled sight
 				linear_extrude(height = 29.3) 
 					import("sight-profile-1.dxf");  // MIGHT be 37
 		union(){
@@ -316,7 +316,7 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 
 //  Front blowback shield
 translate([-ring_outer_r+3,0,barrel_length-48.5])
-	rotate([80,0,-90])
+	rotate([90,0,-90])			// !!! change X rotation to 80 for angled shield
 		blowback_shield(blowback_height,blowback_r);
 
 //  NO Rear blowback shield
