@@ -83,8 +83,45 @@ module cooling_fin(fin_length) {
 		translate([fin_tall_w/-2,0,0])
 			square([fin_tall_w,fin_tall_h-fin_tall_r]);
 	}
+	
 }
 
+
+module cooling_fin_rounded() {
+	fin_flat_h=1.5;
+	fin_flat_w=10;
+	fin_tall_h=fin_flat_w*5/8;
+	fin_tall_w=fin_flat_w*1/3;
+	fin_flat_r=fin_flat_h/2;
+	fin_tall_r=fin_tall_w/2;
+
+	color("dimgray")
+
+rotate([90,-0,0])
+	intersection(){
+		rotate_extrude(convexity=10, $fn=resolution)
+			rotate([0,0,-90])
+				translate([0*fin_flat_w/2,0,0])
+					{
+				// Horizontal part (flat)
+					translate([fin_flat_w/2-fin_flat_r,fin_flat_r,0])
+						circle(r=fin_flat_r, center=false, $fn=resolution);
+					translate([fin_flat_w/-2+fin_flat_r,fin_flat_r,0])
+						circle(r=fin_flat_r, center=false, $fn=resolution);
+					translate([fin_flat_w/-2+fin_flat_r,0,0])
+						square([fin_flat_w-2*fin_flat_r,fin_flat_h]);
+
+				//  Vertical part (tall)
+					translate([0,fin_tall_h-fin_tall_r,0])
+						circle(r=fin_tall_r, center=false, $fn=resolution);
+					translate([fin_tall_w/-2,0,0])
+						square([fin_tall_w,fin_tall_h-fin_tall_r]);
+					}
+
+		translate([0,0,-fin_flat_w/2])
+			cube([fin_tall_h,fin_tall_h,fin_flat_w,]);
+	}		//end intersection	
+}
 
 
 //  Setup a difference for just printing the muzzle tip
@@ -376,6 +413,12 @@ translate([-ring_outer_r+3,0,barrel_length-48.5])
 		rotate([0,0,0])
 			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r + vent_r])
 				cooling_fin(8 * vent_spacing_multiplier * vent_r);
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r + vent_r+8 * vent_spacing_multiplier * vent_r])
+			rotate([0,0,90])
+				cooling_fin_rounded();
+
+
 
 //	Rear top rail stub
 	translate([-vent_r,ring_outer_r-2,vent_r/1])
