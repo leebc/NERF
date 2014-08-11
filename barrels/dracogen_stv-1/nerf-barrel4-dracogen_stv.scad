@@ -91,6 +91,7 @@ translate([0,0,ring_height+3])			color("red")
 //	70.52	straight for 9.9 				[
 //	70.52	angle for 2	to					[
 //	64.13	then drop to					[
+//     Added recess here
 //	48.35	straight for 10.48				[
 //	48.35	angle for 1.68	to 				[
 //	43.2	then drop to  					[
