@@ -10,7 +10,7 @@ barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
 ring_barrel_diff=0;				// Difference between ring outer and barrel outer
 
-ring_inner_r=(barrel_outer_d+2)/2;
+ring_inner_r=(barrel_outer_d+1)/2;
 ring_outer_r=ring_inner_r+2;
 ring_height=29;		//WAS 35
 mount_inner_r=32/2;
