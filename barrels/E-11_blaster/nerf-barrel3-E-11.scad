@@ -97,30 +97,30 @@ module cooling_fin_rounded() {
 
 	color("dimgray")
 
-rotate([90,-0,0])
-	intersection(){
-		rotate_extrude(convexity=10, $fn=resolution)
-			rotate([0,0,-90])
-				translate([0*fin_flat_w/2,0,0])
-					{
-				// Horizontal part (flat)
-					translate([fin_flat_w/2-fin_flat_r,fin_flat_r,0])
-						circle(r=fin_flat_r, center=false, $fn=resolution);
-					translate([fin_flat_w/-2+fin_flat_r,fin_flat_r,0])
-						circle(r=fin_flat_r, center=false, $fn=resolution);
-					translate([fin_flat_w/-2+fin_flat_r,0,0])
-						square([fin_flat_w-2*fin_flat_r,fin_flat_h]);
-
-				//  Vertical part (tall)
-					translate([0,fin_tall_h-fin_tall_r,0])
-						circle(r=fin_tall_r, center=false, $fn=resolution);
-					translate([fin_tall_w/-2,0,0])
-						square([fin_tall_w,fin_tall_h-fin_tall_r]);
-					}
-
-		translate([0,0,-fin_flat_w/2])
-			cube([fin_tall_h,fin_tall_h,fin_flat_w,]);
-	}		//end intersection	
+	rotate([90,-0,0])
+		intersection(){
+			rotate_extrude(convexity=10, $fn=resolution)
+				rotate([0,0,-90])
+					translate([0*fin_flat_w/2,0,0])
+						{
+					// Horizontal part (flat)
+						translate([fin_flat_w/2-fin_flat_r,fin_flat_r,0])
+							circle(r=fin_flat_r, center=false, $fn=resolution);
+						translate([fin_flat_w/-2+fin_flat_r,fin_flat_r,0])
+							circle(r=fin_flat_r, center=false, $fn=resolution);
+						translate([fin_flat_w/-2+fin_flat_r,0,0])
+							square([fin_flat_w-2*fin_flat_r,fin_flat_h]);
+	
+					//  Vertical part (tall)
+						translate([0,fin_tall_h-fin_tall_r,0])
+							circle(r=fin_tall_r, center=false, $fn=resolution);
+						translate([fin_tall_w/-2,0,0])
+							square([fin_tall_w,fin_tall_h-fin_tall_r]);
+						}
+	
+			translate([0,0,-fin_flat_w/2])
+				cube([fin_tall_h,fin_tall_h,fin_flat_w,]);
+		}		//end intersection	
 }
 
 
@@ -150,7 +150,7 @@ difference(){
 }
 
 //  Barrel extension  "bore"
-		echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
+		echo( str( "Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes) );
 difference(){
 	union(){		// Main barrel/bore
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
@@ -396,26 +396,72 @@ translate([-ring_outer_r+3,0,barrel_length-48.5])
 	// The 45 degree angle fins
 	for ( fin_angle = [ -45, 45, 135 ] )
 		rotate([0,0,fin_angle])
+		{
 			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r *0.2])
 				cooling_fin(8 * vent_spacing_multiplier * vent_r);
 
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r *0.2 + 
+				8 * vent_spacing_multiplier * vent_r])
+			rotate([0,0,90])
+				cooling_fin_rounded();
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r *0.2])
+			rotate([180,0,90])
+				cooling_fin_rounded();
+		}
+
+
+
 	// The left, -90 degree fin
 		rotate([0,0,-90])
+		{
 			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
 				cooling_fin(9 * vent_spacing_multiplier * vent_r);
 
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r*1.75 +
+				9 * vent_spacing_multiplier * vent_r])
+			rotate([0,0,90])
+				cooling_fin_rounded();
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
+			rotate([180,0,90])
+				cooling_fin_rounded();
+		}
+
+
 	// The right, +90 degree fin
 		rotate([0,0,90])
+		{
 			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
 				cooling_fin(8 * vent_spacing_multiplier * vent_r);
+
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r*1.75 +
+				8 * vent_spacing_multiplier * vent_r ])
+			rotate([0,0,90])
+				cooling_fin_rounded();
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r - vent_r*1.75])
+			rotate([180,0,90])
+				cooling_fin_rounded();
+		}
+
 
 	// The top, 0 degree fin
 		rotate([0,0,0])
 			translate([0,ring_outer_r-0.5,1 * vent_spacing_multiplier * vent_r + vent_r])
 				cooling_fin(8 * vent_spacing_multiplier * vent_r);
+
 		translate([0,ring_outer_r-0.5,
-				1 * vent_spacing_multiplier * vent_r + vent_r+8 * vent_spacing_multiplier * vent_r])
+				1 * vent_spacing_multiplier * vent_r + vent_r +
+				8 * vent_spacing_multiplier * vent_r])
 			rotate([0,0,90])
+				cooling_fin_rounded();
+		translate([0,ring_outer_r-0.5,
+				1 * vent_spacing_multiplier * vent_r + vent_r])
+			rotate([180,0,90])
 				cooling_fin_rounded();
 
 
