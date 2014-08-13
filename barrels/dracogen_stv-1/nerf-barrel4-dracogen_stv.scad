@@ -68,6 +68,12 @@ echo( str("barrel_outer_r => ",barrel_outer_r,";  barrel_length => ",barrel_leng
 echo( str("vent_w=PI*barrel_outer_r/8 => ", vent_w,";  ventl=(barrel_length-8*vent_w)/3 => ",vent_l) ) ;
 
 
+
+//  Setup a difference for just printing the muzzle tip
+difference() {
+union(){
+
+
 //  Screw base dimensions						
 //	47.86	straight for 5	jump to			[
 //	52.67	angles for 2.7 to				[
@@ -110,9 +116,6 @@ translate([0,-0.25,ring_height+3])			color("pink")		// BORE RADIUS measury thing
 ;//	cube([bore_inner_r,0.5,164]);
 
 
-//  Setup a difference for just printing the muzzle tip
-difference() {
-union(){
 
 //  Basic mounting ring
 color("blue")
@@ -134,6 +137,10 @@ difference(){
 	translate([0,0,-1])		
 		cylinder(h=25,r=mount_inner_r,$fn=resolution);	// innerbarrel curve
 }
+
+// membrane that supports innset
+translate([0,0,bore_bottom_inset-0.3])	color("purple")
+	cylinder(h = 0.3, r=ring_outer_r, $fn=resolution); 
 
 //  Barrel extension  "bore"
 		echo( str("Max sd3 height:",max_sd3_print_height,";  max_protrudes",max_protrudes,";  bore_protrudes",bore_protrudes) );
@@ -263,8 +270,8 @@ difference() {
 }	// end union
 
 	union(){
-//		translate([0,0,180]) cylinder(h=152, r=50);
-//		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
+		translate([0,0,8]) cylinder(h=192, r=50);
+	//	translate([0,0,-0.01]) cylinder(h=133.01, r=50);
 	}
 }		// difference out of everything
 
