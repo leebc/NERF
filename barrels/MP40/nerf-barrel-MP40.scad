@@ -11,7 +11,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=180; //53;
+barrel_length=130; //53;
 barrel_outer_r=ring_outer_r;   //+2;
 
 bore_inner_r=barrel_outer_d/2-7.7;
@@ -153,9 +153,9 @@ difference(){
 		}
 
 		// Not sure if these should be here...
-		translate([0,muzzle_hex_bolt_offset-0.5,bore_height-1])	color("red")
+*		translate([0,muzzle_hex_bolt_offset-0.5,bore_height-1])	color("red")
 			cylinder(h=50, r=1.85, $fn=resolution);
-		translate([0,-muzzle_hex_bolt_offset+0.5,bore_height-1])	color("red")
+*		translate([0,-muzzle_hex_bolt_offset+0.5,bore_height-1])	color("red")
 			cylinder(h=1.1+7.5+3, r=1.85, $fn=resolution);
 	}
 }
@@ -194,7 +194,7 @@ difference() {
 	}
 
 //  Front Sight
-translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
+*translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([180,-90,90]){
 	difference(){				// Sight guard
 		translate([0,29.3/2,0])
 			rotate([90,10,0])
@@ -217,7 +217,7 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 		}	//end union
 	}	  //end difference
 
-	difference()	{				// Sight block
+*	difference()	{				// Sight block
 		translate([5,-15/2,0])
 			color("brown")	cube([6,15,5]);
 
@@ -239,7 +239,7 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 							[sight_width,sight_height,-sight_length-1] ],
 							triangles = [ [0,6,1], [0,3,6],
 										[3,7,6],[3,4,7],
-										[7,2,5],[7,4,2],
+											[7,2,5],[7,4,2],
 										[6,5,1],[6,7,5],
 										[0,2,4],[0,4,3],
 										[0,5,2],[0,1,5]	],
@@ -250,18 +250,18 @@ translate([0,barrel_outer_r - 2.5 ,barrel_length - ring_height - 18])		rotate([1
 
 
 //  Front blowback shield
-translate([-ring_outer_r+3,0,barrel_length-48.5])
+*translate([-ring_outer_r+3,0,barrel_length-48.5])
 	rotate([80,0,-90])
 		blowback_shield(blowback_height,blowback_r);
 
 //  Rear blowback shield
-translate([-ring_outer_r+3,0,vent_r-3])
+*translate([-ring_outer_r+3,0,vent_r-3])
 	rotate([90,180,-90])
 		blowback_shield(blowback_height,blowback_r);
 
 
 //  Dangly thing
-	translate([0,0,vent_r*1]) //inset_height ]) 
+*	translate([0,0,vent_r*1]) //inset_height ]) 
 	for (z = [6])
 	{
 			translate ([0,0,z * vent_spacing_multiplier * vent_r + vent_r*1.5])
@@ -289,13 +289,14 @@ translate([-ring_outer_r+3,0,vent_r-3])
 			 }	// end translate	
 	}	// end for
 
+	// membrane that supports inset
+*	translate([0,0,bore_bottom_inset-0.3])  color("purple")
+	        cylinder(h = 0.3, r=ring_outer_r, $fn=resolution); 
 
 }	// end union
 
-//	Printed 0-31
-//	31-90
-//	90-133
-//	133-
+
+
 	union(){
 //		translate([0,0,180]) cylinder(h=152, r=50);
 //		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
