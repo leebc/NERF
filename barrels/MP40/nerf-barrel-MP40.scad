@@ -1,4 +1,4 @@
-resolution=60;		// $fn  fo
+resolution=60;		// $fn  
 barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
 
@@ -11,7 +11,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=130; //53;
+barrel_length=149;
 barrel_outer_r=ring_outer_r;   //+2;
 
 bore_inner_r=barrel_outer_d/2-7.7;
@@ -46,44 +46,76 @@ module hexagon(size, height) {
   for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
 }
 
-module blowback_shield(height, radius) {
-	intersection(){
-		difference(){
-			cylinder(h=blowback_height, r=blowback_r, $fn=resolution);
-			translate([0,0,-0.5])
-				cylinder(h=blowback_height+1, r=blowback_r-2, $fn=resolution);
-		}
-		rotate([90,0,0])
-			cylinder(h=blowback_height+1, r=blowback_r-0.5, $fn=resolution);
-	}
-}
-
 
 
 //  Setup a difference for just printing the muzzle tip
 difference() {
-union(){
-
-//  Basic mounting ring
-color("blue")
-	difference(){
-		cylinder(h = ring_height, r=ring_outer_r - ring_barrel_diff, $fn=resolution);	// outer ring
-		translate([0,0,-1])
-			cylinder(h = ring_height*2, r=ring_inner_r, $fn=resolution);	// minus inner
-	}
-
-// Mounting "pins"
-color ("")
-difference(){
 	union(){
-		translate ([-7.5/2,-19,0])
-			cube ( [7,11,7]);					// small wedge, lower
-		translate ([-5,8,0])
-			cube ( [10,11,7]);					// large wedge, upper
-	}
-	translate([0,0,-1])		
-		cylinder(h=25,r=mount_inner_r,$fn=resolution);	// innerbarrel curve
-}
+
+	//  Basic mounting ring
+	color("blue")
+		difference(){
+			union(){			
+				cylinder(h = ring_height, r=ring_outer_r - ring_barrel_diff, 
+					$fn=resolution);	// outer ring
+			
+			//Mounting Additions
+				union(){	
+						// Lower round part 
+						cylinder(h = ring_height/4, r=ring_outer_r+1.75, 
+							$fn=resolution);
+
+						// Shoulders at bottom of heagonal part
+						translate([0,0,ring_height/4]) color("red")
+							cylinder(h = ring_height/8, 
+								r1=ring_outer_r+1.75, r2=ring_outer_r,
+							$fn=resolution);
+
+						//Hexagonal part and top cone
+						intersection(){
+							union(){
+								// Middle cylinder
+								cylinder(h = 7/8*ring_height, r=ring_outer_r+1.75, 
+									$fn=resolution);
+								// Top cone		
+								// This slope should be ~30 degrees, math?
+								translate([0,0,7/8*ring_height]) color("red")
+									cylinder(h = ring_height/1.4, 
+										r1=ring_outer_r+1.75, r2=bore_outer_r+0.5,
+									$fn=resolution);
+							}
+						// intersects with
+						color("green")
+							translate([0,0,0.5*ring_height])
+								hexagon(2*ring_outer_r*31/32, 1.5*ring_height+0.01);
+						}	// End intersection
+		
+					} // End Mounting additions union
+					
+			} // End "blue" union
+
+			translate([0,0,-1])
+				cylinder(h = ring_height+1, r=ring_inner_r, 
+							$fn=resolution);	// minus inner
+		} // End "blue" difference
+
+	// Mounting "pins"
+	color ("")
+		difference(){
+			union(){
+				translate ([-7.5/2,-19,0])
+					cube ( [7,11,7]);					// small wedge, lower
+				translate ([-5,8,0])
+					cube ( [10,11,7]);					// large wedge, upper
+			}
+			translate([0,0,-1])		
+				cylinder(h=25,r=mount_inner_r,$fn=resolution);	// innerbarrel curve
+		}
+
+
+
+
+
 
 //  Barrel extension  "bore"
 		echo("Max sd3 height:",max_sd3_print_height,"  max_protrudes",max_protrudes,"  bore_protrudes",bore_protrudes);
@@ -91,10 +123,10 @@ difference(){
 	union(){		// Main barrel/bore
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
 
-		translate([0,0,ring_height])								// Lower bridge
+#		translate([0,0,ring_height])								// Lower bridge
 			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
-		translate([0,0,bore_height])
+*		translate([0,0,bore_height])
 			difference(){										// "Muzzle base"
 //				cylinder(h=3, r=muzzle_base_r,$fn=resolution); 
 				rotate_extrude()
@@ -114,7 +146,7 @@ difference(){
 					cylinder(h=30, r=bore_inner_r,$fn=resolution); //real_d 8.5
 			}
 
-		translate([0,0,bore_height+3])	
+	*	translate([0,0,bore_height+3])	
 			difference(){										// "Muzzle middle"
 				cylinder(h=7.5, r=muzzle_middle_r,$fn=resolution);
 				translate([0,0,-5])
@@ -127,7 +159,7 @@ difference(){
 					}
 				}
 		
-		translate([0,0,bore_height+3+7.5])
+	*	translate([0,0,bore_height+3+7.5])
 			difference(){										// "Muzzle tip"
 				translate([1/4*muzzle_tip_r,-1,0])
 					cylinder(h=6, r=muzzle_tip_r+1,$fn=resolution);
@@ -298,18 +330,19 @@ difference() {
 
 
 	union(){
+		cube([90,90,90]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
 //		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
 	}
 }		// difference out of everything
 
-total_height=167.5;
+total_height=149;
 echo("Total measured length:", total_height);
 //	Measure the height
-//translate([0,0,0])		color("magenta")
-//	cylinder(r=5, h=total_height);
-//translate([0,0,total_height])	color("magenta")
-//	cube([15,5,2]);
+translate([0,0,0])		color("magenta")
+	cylinder(r=5, h=total_height);
+*translate([0,0,total_height])	color("magenta")
+	cube([15,5,2]);
 
 
 
