@@ -149,29 +149,31 @@ difference(){
 		// Bottom of sight
 		color("green")
 		translate([0,0,barrel_length-12-15-35]) color("grey")
-			cylinder(h = 35, r=bore_outer_r+2, $fn=resolution);
+			cylinder(h = 35, r=bore_outer_r+1, $fn=resolution);
 
 
 		// Sight
-		translate([0,0,barrel_length-12-15]) color("grey") {
+!		translate([0,0,barrel_length-12-15])	{
 			difference(){
-				union(){
+				union() {
 					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
 					translate([-bore_outer_r,0,0])
 						cube([2*bore_outer_r,2*bore_outer_r,15]);
 					translate([0,2*bore_outer_r,0])
 						cylinder(h = 15, r=bore_outer_r+2, $fn=resolution);
-
-
-
 				} //End sight union
 
 				//Remove from the sight
-				translate([0,2*bore_outer_r,-1])
+				union(){
+					translate([0,2*bore_outer_r,-1])
 						cylinder(h = 15+2, r=bore_outer_r, $fn=resolution);
+					
+					
+				}  // End sight difference union
 			}	// end Sight difference
+
 				// Sight Pin
-#				color("red")
+				color("red")
 					translate([sight_width/2,1.75*bore_outer_r,sight_height])  rotate([0,0,180])
 						polyhedron(points = [   [0,0,0],
 										[0,sight_height,0],
@@ -188,8 +190,11 @@ difference(){
 													[0,2,4],[0,4,3],
 													[0,5,2],[0,1,5] ],
 									convexity = 9);
+//				color("black")
+//					translate([0,2*bore_outer_r,-1]);
 
-//}       // End translate/rotate sight
+
+
 		}	// End sight translate
 
 
