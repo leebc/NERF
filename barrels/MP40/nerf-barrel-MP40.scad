@@ -194,8 +194,10 @@ difference(){
 													[0,2,4],[0,4,3],
 													[0,5,2],[0,1,5] ],
 									convexity = 9);
-//				color("black")
-//					translate([0,2*bore_outer_r,-1]);
+
+				color("black")
+					translate([-1/2*bore_outer_r,0,-35])
+						cube([bore_outer_r,bore_outer_r+1,35]);
 
 
 
