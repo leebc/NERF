@@ -20,7 +20,8 @@ max_sd3_print_height=8*2.5*10;
 max_protrudes=max_sd3_print_height-ring_height;
 
 bore_protrudes=barrel_length-2*ring_height;	// How much protrudes above mounting ring (+35)
-bore_height=ring_height + bore_protrudes;		// Total bore-barrel height
+bore_height=barrel_length;
+		// WAS ring_height + bore_protrudes;		// Total bore-barrel height
 bore_bottom_inset=16.2;			// How much of bore may go into rifle
 bore_bottom_inset_outer_r= 35/2-7.75;   //bore_inner_r + 1.0;	// What fits into rifle
 
@@ -105,12 +106,12 @@ difference() {
 				translate([0,0,-1])
 					cylinder(h = ring_height+1, r=ring_inner_r, 
 								$fn=resolution);	// minus inner
-#				cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
+				cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
 			}
 		} // End "blue" difference
 
 	// Mounting "pins"
-	color ("")
+	color ("orange")
 		difference(){
 			union(){
 				translate ([-7.5/2,-19,0])
@@ -146,19 +147,60 @@ difference(){
 
 
 		// Bottom of sight
-		translate([0,0,barrel_length*3/4]) color("grey")
-			cylinder(h = barrel_length/12, r=bore_outer_r+2, $fn=resolution);
+		color("green")
+		translate([0,0,barrel_length-12-15-35]) color("grey")
+			cylinder(h = 35, r=bore_outer_r+2, $fn=resolution);
 
 
 		// Sight
-*		translate([0,0,barrel_length*3/4]) color("grey")
-			cylinder(h = barrel_length/4, r1=bore_outer_r+2, r2=bore_outer_r, $fn=resolution);
+		translate([0,0,barrel_length-12-15]) color("grey") {
+			difference(){
+				union(){
+					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
+					translate([-bore_outer_r,0,0])
+						cube([2*bore_outer_r,2*bore_outer_r,15]);
+					translate([0,2*bore_outer_r,0])
+						cylinder(h = 15, r=bore_outer_r+2, $fn=resolution);
+
+
+
+				} //End sight union
+
+				//Remove from the sight
+				translate([0,2*bore_outer_r,-1])
+						cylinder(h = 15+2, r=bore_outer_r, $fn=resolution);
+			}	// end Sight difference
+				// Sight Pin
+#				color("red")
+					translate([sight_width/2,1.75*bore_outer_r,sight_height])  rotate([0,0,180])
+						polyhedron(points = [   [0,0,0],
+										[0,sight_height,0],
+										[sight_width,0,0],
+										[0,0,-sight_length],
+										[sight_width,0,-sight_length],
+										[sight_width,sight_height,0],
+										[0,sight_height,-sight_length-1],
+										[sight_width,sight_height,-sight_length-1] ],
+									triangles = [ [0,6,1], [0,3,6],
+													[3,7,6],[3,4,7],
+													[7,2,5],[7,4,2],
+													[6,5,1],[6,7,5],
+													[0,2,4],[0,4,3],
+													[0,5,2],[0,1,5] ],
+									convexity = 9);
+
+//}       // End translate/rotate sight
+		}	// End sight translate
 
 
 		// Barrel tip
-		translate([0,0,barrel_length-9]) color("black")
-			cylinder(h = 9, r=bore_outer_r+2, $fn=10 ); //resolution);
-
+		translate([0,0,barrel_length-11]) color("black"){
+			cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
+			translate([0,0,4])
+				cylinder(h = 3, r=bore_outer_r+1, $fn=10 ); //resolution);
+			translate([0,0,4+3])
+				cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
+		}	// End Barrel tip translate
 
 
 
@@ -192,7 +234,7 @@ difference() {
 					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
 				
 				}
-			union(){		// things that are subtracted form the barrel
+			union(){		// things that are subtracted from the barrel
 				translate([0,0,-21])
 					cylinder(h = barrel_length*2, r=ring_outer_r-2, $fn=resolution);	// minus inner barrel
 			}
@@ -211,7 +253,7 @@ difference() {
 
 
 	union(){
-		cube([90,90,200]);
+		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
 //		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
 	}
