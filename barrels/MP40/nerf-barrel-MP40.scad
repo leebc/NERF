@@ -195,9 +195,9 @@ difference(){
 													[0,5,2],[0,1,5] ],
 									convexity = 9);
 
-				color("black")
+				color("grey")
 					translate([-1/2*bore_outer_r,0,-35])
-						cube([bore_outer_r,bore_outer_r+1,35]);
+						cube([bore_outer_r,bore_outer_r+1.5,35]);
 
 
 
@@ -260,20 +260,20 @@ difference() {
 	        cylinder(h = 0.3, r=ring_outer_r-2.1, $fn=resolution); 
 
 }	// end union
-
+t rin
 
 
 	union(){
-		cube([90,90,1150]);
+*		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
-//		translate([0,0,-0.01]) cylinder(h=133.01, r=50);
+		translate([0,0,-0.02]) cylinder(h=80, r=50);
 	}
 }		// difference out of everything
 
 total_height=149;
 echo("Total measured length:", total_height);
 //	Measure the height
-translate([0,0,0])		color("magenta")
+*translate([0,0,0])		color("magenta")
 	cylinder(r=5, h=total_height);
 *translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
