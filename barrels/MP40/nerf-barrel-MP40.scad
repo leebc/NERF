@@ -153,7 +153,7 @@ difference(){
 
 
 		// Sight
-!		translate([0,0,barrel_length-12-15])	{
+		translate([0,0,barrel_length-12-15])	{
 			difference(){
 				union() {
 					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
@@ -163,12 +163,16 @@ difference(){
 						cylinder(h = 15, r=bore_outer_r+2, $fn=resolution);
 				} //End sight union
 
-				//Remove from the sight
+				//Remove from the sight: hoollow middle, 2 cubes to trim at angle
 				union(){
 					translate([0,2*bore_outer_r,-1])
 						cylinder(h = 15+2, r=bore_outer_r, $fn=resolution);
-					
-					
+					translate([-1.5*bore_outer_r,bore_outer_r,15])
+						rotate([-3,0,0])
+							cube(3*bore_outer_r);				
+					translate([-1.5*bore_outer_r,bore_outer_r,-1.5*bore_outer_r-18])
+						rotate([5,0,0])
+							cube(3*bore_outer_r);
 				}  // End sight difference union
 			}	// end Sight difference
 
