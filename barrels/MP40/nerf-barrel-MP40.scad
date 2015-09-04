@@ -53,7 +53,7 @@ difference() {
 	union(){
 
 	//  Basic mounting ring
-	color("blue")
+	//color("blue")
 		difference(){
 			union(){			
 				cylinder(h = ring_height, r=ring_outer_r - ring_barrel_diff, 
@@ -89,14 +89,24 @@ difference() {
 							translate([0,0,0.5*ring_height])
 								hexagon(2*ring_outer_r*31/32, 1.5*ring_height+0.01);
 						}	// End intersection
+
+						// Slope above
+						translate([0,0,1.25*ring_height]) color("red")
+							cylinder(h = 5, 
+									r1=bore_outer_r+4, r2=bore_outer_r+2,
+//									r1=ring_outer_r*2/3, r2=bore_outer_r,
+									$fn=resolution);
 		
 					} // End Mounting additions union
 					
 			} // End "blue" union
 
-			translate([0,0,-1])
-				cylinder(h = ring_height+1, r=ring_inner_r, 
-							$fn=resolution);	// minus inner
+			union(){		// Hollow the mount ring, then core the bore
+				translate([0,0,-1])
+					cylinder(h = ring_height+1, r=ring_inner_r, 
+								$fn=resolution);	// minus inner
+#				cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
+			}
 		} // End "blue" difference
 
 	// Mounting "pins"
@@ -123,8 +133,16 @@ difference(){
 	union(){		// Main barrel/bore
 		cylinder(h=bore_height, r=bore_outer_r,$fn=resolution);
 
-#		translate([0,0,ring_height])								// Lower bridge
+		translate([0,0,ring_height])								// Lower bridge
 			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
+
+
+		// Barrel slopes
+		translate([0,0,1.25*ring_height+5]) color("yellow")
+			cylinder(h = barrel_length/2,
+				r1=bore_outer_r+2, r2=bore_outer_r,
+//									r1=ring_outer_r*2/3, r2=bore_outer_r,
+						$fn=resolution);
 
 *		translate([0,0,bore_height])
 			difference(){										// "Muzzle base"
@@ -322,8 +340,8 @@ difference() {
 	}	// end for
 
 	// membrane that supports inset
-*	translate([0,0,bore_bottom_inset-0.3])  color("purple")
-	        cylinder(h = 0.3, r=ring_outer_r, $fn=resolution); 
+	translate([0,0,bore_bottom_inset-0.1])  color("purple")
+	        cylinder(h = 0.3, r=ring_outer_r-2.1, $fn=resolution); 
 
 }	// end union
 
@@ -339,7 +357,7 @@ difference() {
 total_height=149;
 echo("Total measured length:", total_height);
 //	Measure the height
-translate([0,0,0])		color("magenta")
+*translate([0,0,0])		color("magenta")
 	cylinder(r=5, h=total_height);
 *translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
