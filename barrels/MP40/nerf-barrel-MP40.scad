@@ -302,7 +302,7 @@ difference() {
 	union(){
 *		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
-		translate([0,0,-0.02]) cylinder(h=80, r=50);
+		translate([0,0,-0.02]) cylinder(h=120, r=50);
 	}
 }		// difference out of everything
 
