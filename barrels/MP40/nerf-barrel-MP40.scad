@@ -1,3 +1,6 @@
+include </home/leebc/.local/share/OpenSCAD/libraries/gears.scad>;
+
+
 resolution=60;		// $fn  
 barrel_outer_d=35;
 //	barrel_outer=bore_inner_d + 4;  //What IS this for???
@@ -35,8 +38,9 @@ muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r+1.25;	// WAS +0
 
 sight_width=2;
-sight_height=11;
+sight_height=15;
 sight_length=5;
+sight_inner_r=bore_inner_r;
 
 blowback_r=22/2;
 blowback_height=10.5;
@@ -144,11 +148,11 @@ difference(){
 
 		// Hook
 
-
+  ///        / / / / / / /   sight_inner_r
 
 		// Bottom of sight
 		color("green")
-		translate([0,0,barrel_length-12-15-35]) color("grey")
+		translate([0,0,barrel_length-12-15-35-1]) color("grey")
 			cylinder(h = 35, r=bore_outer_r+1, $fn=resolution);
 
 
@@ -157,36 +161,37 @@ difference(){
 			difference(){
 				union() {
 					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
-					translate([-bore_outer_r,0,0])
-						cube([2*bore_outer_r,2*bore_outer_r,15]);
+					translate([-sight_inner_r,0,0])     color("red")
+						cube([2*sight_inner_r,2*sight_inner_r,15]);
 					translate([0,2*bore_outer_r,0])
-						cylinder(h = 15, r=bore_outer_r+2, $fn=resolution);
+						cylinder(h = 15, r=sight_inner_r+2, $fn=resolution);
 				} //End sight union
 
-				//Remove from the sight: hoollow middle, 2 cubes to trim at angle
+				//Remove from the sight: hollow middle, 2 cubes to trim at angle
 				union(){
 					translate([0,2*bore_outer_r,-1])
-						cylinder(h = 15+2, r=bore_outer_r, $fn=resolution);
+						cylinder(h = 15+2, r=sight_inner_r, $fn=resolution);
 					translate([-1.5*bore_outer_r,bore_outer_r,15])
 						rotate([-3,0,0])
 							cube(3*bore_outer_r);				
 					translate([-1.5*bore_outer_r,bore_outer_r,-1.5*bore_outer_r-18])
-						rotate([5,0,0])
+						rotate([7,0,0])
 							cube(3*bore_outer_r);
 				}  // End sight difference union
 			}	// end Sight difference
 
 				// Sight Pin
-				color("red")
-					translate([sight_width/2,1.75*bore_outer_r,sight_height])  rotate([0,0,180])
-						polyhedron(points = [   [0,0,0],
+		#		color("red")
+					rotate([0,0,180])
+						translate([-sight_width/2,-2*bore_outer_r,sight_height/2])  
+							polyhedron(points = [   [0,0,0],
 										[0,sight_height,0],
 										[sight_width,0,0],
 										[0,0,-sight_length],
 										[sight_width,0,-sight_length],
 										[sight_width,sight_height,0],
-										[0,sight_height,-sight_length-1],
-										[sight_width,sight_height,-sight_length-1] ],
+										[0,sight_height,-sight_length-2],
+										[sight_width,sight_height,-sight_length-2] ],
 									triangles = [ [0,6,1], [0,3,6],
 													[3,7,6],[3,4,7],
 													[7,2,5],[7,4,2],
@@ -206,31 +211,63 @@ difference(){
 
 		// Barrel tip
 		translate([0,0,barrel_length-11]) color("black"){
-			cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
+
+*				 gear(number_of_teeth,
+					circular_pitch=false, diametral_pitch=false,
+					pressure_angle=20, clearance = 0)		;
+
+* involute_gear_tooth(
+					pitch_radius,
+					root_radius,
+					base_radius,
+					outer_radius,
+					half_thick_angle
+					);
+* test_gears();
+* demo_3d_gears();
+* test_involute_curve();
+
+*			gear(number_of_teeth=23,circular_pitch=200);
+*			translate([0, 35])gear(number_of_teeth=17,circular_pitch=200);
+*			translate([-35,0]) gear(number_of_teeth=17,diametral_pitch=1);
+
+
+			translate([0, 0, 4+3]) 
+			//	difference(){
+					linear_extrude(height = 4, center = false, convexity=10, twist = 0)
+						gear(number_of_teeth=50,circular_pitch=95);
+		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
+		//		}
 			translate([0,0,4])
-				cylinder(h = 3, r=bore_outer_r+1, $fn=10 ); //resolution);
-			translate([0,0,4+3])
-				cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
-		}	// End Barrel tip translate
+				cylinder(h = 3, r=bore_outer_r+1, $fn=resolution);
+			translate([0, 0, 0]) 
+				linear_extrude(height = 4, center = false, convexity = 10, twist = 0)
+					gear(number_of_teeth=50,circular_pitch=95);
 
 
 
-
-		
+*			cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
+*			translate([0,0,4])  cylinder(h = 3, r=bore_outer_r+1, $fn=resolution);
+*			translate([0,0,4+3]) cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
+		}	// End Barrel tip translate		
 	
 		}	// end union of barrel bits
 
 	union(){		// Core it
 		translate([0,0,-5])
 			cylinder(h=bore_height+10, r=bore_inner_r,$fn=resolution);
-			color("red")  
-			translate([0,0,-5])
-				difference(){			// Shave a bit so it fits in the rifle
-					cylinder(h=bore_bottom_inset+5, r=bore_outer_r+1,$fn=resolution);
-					cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);
-		}
+		color("red")  
+		translate([0,0,-5])
+			difference(){			// Shave a bit so it fits in the rifle
+				cylinder(h=bore_bottom_inset+5, r=bore_outer_r+1,$fn=resolution);
+				cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);	
+			}	// End "difference shave a bit"
 
-	}
+			// Bore out a little bit more at the end of the bore
+		translate([0,0,barrel_length-3]) color("yellow")
+			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
+
+	}	// End "Core it"
 }
 
 
@@ -260,7 +297,6 @@ difference() {
 	        cylinder(h = 0.3, r=ring_outer_r-2.1, $fn=resolution); 
 
 }	// end union
-t rin
 
 
 	union(){
