@@ -176,7 +176,7 @@ difference(){
 					cube([bore_outer_r-2,7,50]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
 					cube([bore_outer_r-2,bore_outer_r*2,5]);
-#				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
+				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
 					rotate([-10,0,0])
 						cube([bore_outer_r-2,bore_outer_r*2,5]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
@@ -205,19 +205,6 @@ difference(){
 		} // End Bottom hook "LightGrey" difference
 
 
-		//	difference(){
-//					translate([0,-3*bore_outer_r,5])
-
-//				union(){
-//					translate([-15,-bore_outer_r,39])	rotate([0,90,0])
-//#						cylinder(h = 30, r = 10, $fn=resolution);
-//				}
-//			}
-//		}
-  ///        / / / / / / /   sight_inner_r
-
-
-
 		// Sight
 		translate([0,0,barrel_length-12-15])	{
 			difference(){
@@ -227,6 +214,17 @@ difference(){
 						cube([2*sight_inner_r,2*sight_inner_r,15]);
 					translate([0,2*bore_outer_r,0])
 						cylinder(h = 15, r=sight_inner_r+2, $fn=resolution);
+
+					// Pins in sight sides
+					translate([-10.25,bore_outer_r-1,5])		color("black")
+						rotate([0,90,0]){
+							cylinder(h = 1, r=0.5, $fn=resolution);
+						}
+					translate([9.25,bore_outer_r-1,5])		color("black")
+						rotate([0,90,0]){
+							cylinder(h = 1, r=0.5, $fn=resolution);
+						}
+
 				} //End sight union
 
 				//Remove from the sight: hollow middle, 2 cubes to trim at angle
@@ -234,13 +232,37 @@ difference(){
 					translate([0,2*bore_outer_r,-1])
 						cylinder(h = 15+2, r=sight_inner_r, $fn=resolution);
 					translate([-1.5*bore_outer_r,bore_outer_r,15])
-						rotate([-3,0,0])
+						rotate([-6,0,0])
 							cube(3*bore_outer_r);				
 					translate([-1.5*bore_outer_r,bore_outer_r,-1.5*bore_outer_r-18])
-						rotate([7,0,0])
+						rotate([8,0,0])
 							cube(3*bore_outer_r);
+					translate([0,bore_outer_r+0.5,10])
+						cylinder(h = 5, r=1, $fn=resolution);
+
+				// Sight adjustment screws
+					translate([-10,bore_outer_r+2.5,7.5])		//color("black")
+						rotate([0,90,0]){
+							cylinder(h = 1, r=3, $fn=resolution);
+							translate([0,0,1])rotate([0,0,50])
+								cube([6,1,2],center=true);
+						}
+					translate([9.5,bore_outer_r+2.5,7.5])		//color("black")
+						rotate([0,90,0]){
+							cylinder(h = 1, r=3, $fn=resolution);
+							translate([0,0,0])rotate([0,0,20])
+								cube([6,1,2],center=true);
+						}
+
+
+
 				}  // End sight difference union
 			}	// end Sight difference
+
+			// Wedge ramp leading up to the sight
+			translate([-sight_inner_r,bore_outer_r-3,-7])     color("red")
+				rotate([45,0,0])
+						cube([2*sight_inner_r,11,9]);
 
 				// Sight Pin
 				color("red")
@@ -264,7 +286,8 @@ difference(){
 
 				color("grey")
 					translate([-1/2*bore_outer_r,0,-35])
-						cube([bore_outer_r,bore_outer_r+1.5,35]);
+						rotate([-1,0,0])
+							cube([bore_outer_r,bore_outer_r+1.5,35]);
 
 
 
@@ -364,8 +387,8 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-		translate([0,0,100]) cylinder(h=152, r=50);
-		translate([0,0,-0.02]) cylinder(h=74, r=50);
+//		translate([0,0,138]) cylinder(h=152, r=50);
+//		translate([0,0,-0.02]) cylinder(h=110, r=50);
 	}
 }		// difference out of everything
 
