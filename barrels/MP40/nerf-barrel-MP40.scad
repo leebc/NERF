@@ -167,6 +167,50 @@ difference(){
 				}
 			}
 		}
+
+		// Bottom hook
+		color("LightGrey")
+		difference(){  
+			union(){
+				translate([-bore_outer_r/2+1,-bore_outer_r-6,1.25*ring_height])
+					cube([bore_outer_r-2,7,50]);
+				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
+					cube([bore_outer_r-2,bore_outer_r*2,5]);
+				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
+					intersection(){
+						cube([bore_outer_r-2,bore_outer_r*2,10]);
+							translate([0,5,5])
+								rotate([0,90,0])
+									cylinder(h = 30, r = 5, $fn=resolution);
+					}
+				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
+					difference(){
+						cube([bore_outer_r-2,10,10]);
+						rotate([0,90,0]) translate([0,0,-1])
+							cylinder(h = 12, r = 5, $fn=resolution);
+					}
+			}	// End union
+			union(){
+				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
+				{
+					translate([-4,2,2])
+						sphere(r=5.5, $fn=resolution);
+					translate([4+10,2,2])
+						sphere(r=5.5, $fn=resolution);
+				}
+			}
+		} // End Bottom hook "LightGrey" difference
+
+
+		//	difference(){
+//					translate([0,-3*bore_outer_r,5])
+
+//				union(){
+//					translate([-15,-bore_outer_r,39])	rotate([0,90,0])
+//#						cylinder(h = 30, r = 10, $fn=resolution);
+//				}
+//			}
+//		}
   ///        / / / / / / /   sight_inner_r
 
 
@@ -318,7 +362,7 @@ difference() {
 	union(){
 *		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
-		translate([0,0,-0.02]) cylinder(h=135, r=50);
+//		translate([0,0,-0.02]) cylinder(h=135, r=50);
 	}
 }		// difference out of everything
 
