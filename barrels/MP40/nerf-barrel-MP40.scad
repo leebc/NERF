@@ -176,6 +176,9 @@ difference(){
 					cube([bore_outer_r-2,7,50]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
 					cube([bore_outer_r-2,bore_outer_r*2,5]);
+#				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
+					rotate([-10,0,0])
+						cube([bore_outer_r-2,bore_outer_r*2,5]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
 					intersection(){
 						cube([bore_outer_r-2,bore_outer_r*2,10]);
@@ -193,9 +196,9 @@ difference(){
 			union(){
 				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
 				{
-					translate([-4,2,2])
+					translate([-4,2,1])
 						sphere(r=5.5, $fn=resolution);
-					translate([4+10,2,2])
+					translate([4+10,2,1])
 						sphere(r=5.5, $fn=resolution);
 				}
 			}
@@ -362,7 +365,7 @@ difference() {
 	union(){
 *		cube([90,90,1150]);
 		translate([0,0,100]) cylinder(h=152, r=50);
-		translate([0,0,-0.02]) cylinder(h=70, r=50);
+		translate([0,0,-0.02]) cylinder(h=74, r=50);
 	}
 }		// difference out of everything
 
