@@ -280,7 +280,8 @@ difference(){
 
 			// Bore out a little bit more at the end of the bore
 		translate([0,0,barrel_length-3]) color("yellow")
-			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
+			cylinder(h = 4, r=bore_inner_r+1, $fn=resolution );
+//			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
 
 	}	// End "Core it"
 }
