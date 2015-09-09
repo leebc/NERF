@@ -146,14 +146,29 @@ difference(){
 		translate([0,0,1.25*ring_height+5]) color("yellow")
 			cylinder(h = barrel_length/2, r1=bore_outer_r+2, r2=bore_outer_r, $fn=resolution);
 
-		// Hook
-
-  ///        / / / / / / /   sight_inner_r
-
 		// Bottom of sight
 		color("green")
 		translate([0,0,barrel_length-12-15-35-1]) color("grey")
 			cylinder(h = 35, r=bore_outer_r+1, $fn=resolution);
+
+		// Hook
+		color("grey")
+		translate([-bore_outer_r/2,-3*bore_outer_r,barrel_length-12-15-35-1]){ 
+			difference(){
+				cube([bore_outer_r,bore_outer_r*2,35]);
+				union(){
+					translate([-15,-bore_outer_r,39])	rotate([0,90,0])
+						cylinder(h = 30, r = 35, $fn=resolution);
+//			cube([bore_outer_r+10,bore_outer_r,30]);
+					translate([bore_outer_r,10,3])
+						sphere(r=2, $fn=resolution);
+					translate([-0*bore_outer_r,10,3])
+						sphere(r=2, $fn=resolution);
+				}
+			}
+		}
+  ///        / / / / / / /   sight_inner_r
+
 
 
 		// Sight
@@ -235,14 +250,14 @@ difference(){
 			translate([0, 0, 4+3]) 
 			//	difference(){
 					linear_extrude(height = 4, center = false, convexity=10, twist = 0)
-						gear(number_of_teeth=50,circular_pitch=95);
+						gear(number_of_teeth=50,circular_pitch=90);
 		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
 		//		}
 			translate([0,0,4])
 				cylinder(h = 3, r=bore_outer_r+1, $fn=resolution);
 			translate([0, 0, 0]) 
 				linear_extrude(height = 4, center = false, convexity = 10, twist = 0)
-					gear(number_of_teeth=50,circular_pitch=95);
+					gear(number_of_teeth=50,circular_pitch=90);
 
 
 
@@ -302,7 +317,7 @@ difference() {
 	union(){
 *		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
-		translate([0,0,-0.02]) cylinder(h=120, r=50);
+//		translate([0,0,-0.02]) cylinder(h=120, r=50);
 	}
 }		// difference out of everything
 
