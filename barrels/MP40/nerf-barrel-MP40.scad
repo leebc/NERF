@@ -240,7 +240,7 @@ difference(){
 			}	// end Sight difference
 
 				// Sight Pin
-		#		color("red")
+				color("red")
 					rotate([0,0,180])
 						translate([-sight_width/2,-2*bore_outer_r,sight_height/2])  
 							polyhedron(points = [   [0,0,0],
@@ -361,8 +361,8 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-//		translate([0,0,180]) cylinder(h=152, r=50);
-//		translate([0,0,-0.02]) cylinder(h=135, r=50);
+		translate([0,0,100]) cylinder(h=152, r=50);
+		translate([0,0,-0.02]) cylinder(h=70, r=50);
 	}
 }		// difference out of everything
 
