@@ -254,7 +254,7 @@ difference(){
 		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
 		//		}
 			translate([0,0,4])
-				cylinder(h = 3, r=bore_outer_r+1, $fn=resolution);
+				cylinder(h = 3, r=bore_outer_r, $fn=resolution);
 			translate([0, 0, 0]) 
 				linear_extrude(height = 4, center = false, convexity = 10, twist = 0)
 					gear(number_of_teeth=50,circular_pitch=90);
@@ -317,7 +317,7 @@ difference() {
 	union(){
 *		cube([90,90,1150]);
 //		translate([0,0,180]) cylinder(h=152, r=50);
-//		translate([0,0,-0.02]) cylinder(h=120, r=50);
+		translate([0,0,-0.02]) cylinder(h=135, r=50);
 	}
 }		// difference out of everything
 
