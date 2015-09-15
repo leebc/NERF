@@ -1,4 +1,4 @@
-include </home/leebc/.local/share/OpenSCAD/libraries/gears.scad>;
+  include </home/leebc/.local/share/OpenSCAD/libraries/gears.scad>;
 
 
 resolution=60;		// $fn  
@@ -216,13 +216,13 @@ difference(){
 						cylinder(h = 15, r=sight_inner_r+2, $fn=resolution);
 
 					// Pins in sight sides
-					translate([-10.25,bore_outer_r-1,5])		color("black")
+					translate([-10.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
-							cylinder(h = 1, r=0.5, $fn=resolution);
+							cylinder(h = 1, r=1, $fn=resolution);
 						}
-					translate([9.25,bore_outer_r-1,5])		color("black")
+					translate([9.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
-							cylinder(h = 1, r=0.5, $fn=resolution);
+							cylinder(h = 1, r=1, $fn=resolution);
 						}
 
 				} //End sight union
