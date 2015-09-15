@@ -319,7 +319,7 @@ difference(){
 
 			translate([0, 0, 4+3]) 
 			//	difference(){
-					linear_extrude(height = 4, center = false, convexity=10, twist = 0)
+					linear_extrude(height = 5, center = false, convexity=10, twist = 0)
 						gear(number_of_teeth=50,circular_pitch=90);
 		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
 		//		}
@@ -350,7 +350,7 @@ difference(){
 
 			// Bore out a little bit more at the end of the bore
 		translate([0,0,barrel_length-3]) color("yellow")
-			cylinder(h = 4, r=bore_inner_r+1, $fn=resolution );
+			cylinder(h = 5, r=bore_inner_r+1, $fn=resolution );
 //			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
 
 	}	// End "Core it"
