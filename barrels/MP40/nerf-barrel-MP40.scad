@@ -1,4 +1,4 @@
-include </home/leebc/.local/share/OpenSCAD/libraries/gears.scad>;
+  include </home/leebc/.local/share/OpenSCAD/libraries/gears.scad>;
 
 
 resolution=60;		// $fn  
@@ -160,10 +160,12 @@ difference(){
 					translate([-15,-bore_outer_r,39])	rotate([0,90,0])
 						cylinder(h = 30, r = 35, $fn=resolution);
 //			cube([bore_outer_r+10,bore_outer_r,30]);
-					translate([bore_outer_r,10,3])
+					translate([bore_outer_r+1,10,3])
 						sphere(r=2, $fn=resolution);
-					translate([-0*bore_outer_r,10,3])
+					translate([-0*bore_outer_r-1,10,3])
 						sphere(r=2, $fn=resolution);
+					translate([6,1,2.5])
+						cube([bore_outer_r-1,3,6], center=true);
 				}
 			}
 		}
@@ -177,7 +179,7 @@ difference(){
 				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
 					cube([bore_outer_r-2,bore_outer_r*2,5]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
-					rotate([-10,0,0])
+					rotate([-15,0,0])
 						cube([bore_outer_r-2,bore_outer_r*2,5]);
 				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
 					intersection(){
@@ -196,9 +198,9 @@ difference(){
 			union(){
 				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
 				{
-					translate([-4,2,1])
+					translate([-4,2,0])
 						sphere(r=5.5, $fn=resolution);
-					translate([4+10,2,1])
+					translate([4+10,2,0])
 						sphere(r=5.5, $fn=resolution);
 				}
 			}
@@ -216,13 +218,13 @@ difference(){
 						cylinder(h = 15, r=sight_inner_r+2, $fn=resolution);
 
 					// Pins in sight sides
-					translate([-10.25,bore_outer_r-1,5])		color("black")
+					translate([-10.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
-							cylinder(h = 1, r=0.5, $fn=resolution);
+							cylinder(h = 1, r=1, $fn=resolution);
 						}
-					translate([9.25,bore_outer_r-1,5])		color("black")
+					translate([9.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
-							cylinder(h = 1, r=0.5, $fn=resolution);
+							cylinder(h = 1, r=1, $fn=resolution);
 						}
 
 				} //End sight union
@@ -260,9 +262,9 @@ difference(){
 			}	// end Sight difference
 
 			// Wedge ramp leading up to the sight
-			translate([-sight_inner_r,bore_outer_r-3,-7])     color("red")
+			translate([-sight_inner_r+0.5,bore_outer_r-3,-7])     color("red")
 				rotate([45,0,0])
-						cube([2*sight_inner_r,11,9]);
+						cube([2*sight_inner_r-1,11,9]);
 
 				// Sight Pin
 				color("red")
@@ -319,7 +321,7 @@ difference(){
 
 			translate([0, 0, 4+3]) 
 			//	difference(){
-					linear_extrude(height = 4, center = false, convexity=10, twist = 0)
+					linear_extrude(height = 5, center = false, convexity=10, twist = 0)
 						gear(number_of_teeth=50,circular_pitch=90);
 		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
 		//		}
@@ -350,7 +352,7 @@ difference(){
 
 			// Bore out a little bit more at the end of the bore
 		translate([0,0,barrel_length-3]) color("yellow")
-			cylinder(h = 4, r=bore_inner_r+1, $fn=resolution );
+			cylinder(h = 5, r=bore_inner_r+1, $fn=resolution );
 //			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
 
 	}	// End "Core it"
