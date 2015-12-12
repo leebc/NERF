@@ -270,7 +270,7 @@ difference() {
 }	// end union
 
 	union(){
-		translate([0,0,8]) cylinder(h=192, r=50);
+	//	translate([0,0,8]) cylinder(h=192, r=50);
 	//	translate([0,0,-0.01]) cylinder(h=133.01, r=50);
 	}
 }		// difference out of everything
