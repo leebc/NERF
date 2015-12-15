@@ -389,11 +389,11 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-*		translate([0,0,137.0]) cylinder(h=152, r=50);
-*		translate([0,0,-0.02]) cylinder(h=120, r=50);
-*		translate([0,-3,120]) cube([50,25,50], center=true);
+		translate([0,0,137.0]) cylinder(h=152, r=50);
+		translate([0,0,-0.02]) cylinder(h=120, r=50);
+#		translate([0,-3,120]) cube([50,25,50], center=true);
 
-*		translate([0,0,barrel_length-12-17.5])  translate([0,2*bore_outer_r,-1])
+#		translate([0,0,barrel_length-12-17.5])  translate([0,2*bore_outer_r,-1])
 			difference() {
 						cylinder(h = 15+5, r=sight_inner_r+20, $fn=resolution);
 						cylinder(h = 15+5, r=sight_inner_r, $fn=resolution);
