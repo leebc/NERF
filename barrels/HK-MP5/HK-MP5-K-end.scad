@@ -37,6 +37,20 @@ muzzle_tip_r=22.5/2 * muzzle_multiplier;
 muzzle_middle_r=31/2 * muzzle_multiplier;
 muzzle_hex_bolt_offset=2/3*muzzle_base_r+1.25;	// WAS +0
 
+dart_r=12.15/2;
+dart_l=73;
+
+handle_offset_top=44;
+handle_r=28/2;
+handle_length=85;
+handle_ridge_h=10;
+handle_ridge_w=5;
+handle_ridge_d=2.25;
+handle_hollow_r=dart_r-1;
+handle_hollow_l=dart_l-15;
+
+
+
 sight_width=2;
 sight_height=15;
 sight_length=5;
@@ -66,42 +80,7 @@ difference() {
 			
 			//Mounting Additions
 				union(){	
-						// Lower round part 
-						cylinder(h = ring_height/4, r=ring_outer_r+1.75, 
-							$fn=resolution);
 
-						// Shoulders at bottom of heagonal part
-						translate([0,0,ring_height/4]) color("red")
-							cylinder(h = ring_height/8, 
-								r1=ring_outer_r+1.75, r2=ring_outer_r,
-							$fn=resolution);
-
-						//Hexagonal part and top cone
-						intersection(){
-							union(){
-								// Middle cylinder
-								cylinder(h = 7/8*ring_height, r=ring_outer_r+1.75, 
-									$fn=resolution);
-								// Top cone		
-								// This slope should be ~30 degrees, math?
-								translate([0,0,7/8*ring_height]) color("red")
-									cylinder(h = ring_height/1.4, 
-										r1=ring_outer_r+1.75, r2=bore_outer_r+0.5,
-									$fn=resolution);
-							}
-						// intersects with
-						color("green")
-							translate([0,0,0.5*ring_height])
-								hexagon(2*ring_outer_r*31/32, 1.5*ring_height+0.01);
-						}	// End intersection
-
-						// Slope above
-						translate([0,0,1.25*ring_height]) color("red")
-							cylinder(h = 5, 
-									r1=bore_outer_r+4, r2=bore_outer_r+2,
-//									r1=ring_outer_r*2/3, r2=bore_outer_r,
-									$fn=resolution);
-		
 					} // End Mounting additions union
 					
 			} // End "blue" union
@@ -142,33 +121,67 @@ difference(){
 			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
 
-		// Barrel slopes
-		translate([0,0,1.25*ring_height+5]) color("yellow")
-			cylinder(h = barrel_length/2, r1=bore_outer_r+2, r2=bore_outer_r, $fn=resolution);
+		// Handle
+		color("Purple")
+		difference(){  
+			union(){
+				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,0.005])
+					cube([2*handle_r+handle_ridge_d,handle_offset_top,2*handle_r+handle_ridge_d]);
+				translate([0*handle_r,-handle_offset_top,handle_r + handle_ridge_d/2]){
+					rotate([90,0,0])
+						cylinder(r=handle_r, h=handle_length,$fn=16);
 
-		// Bottom of sight
-		color("green")
-		translate([0,0,barrel_length-12-15-35-1]) color("grey")
-			cylinder(h = 35, r=bore_outer_r+1, $fn=resolution);
-
-		// Hook
-		color("grey")
-		translate([-bore_outer_r/2,-3*bore_outer_r,barrel_length-12-15-35-1]){ 
-			difference(){
-				cube([bore_outer_r,bore_outer_r*2,35]);
-				union(){
-					translate([-15,-bore_outer_r,39])	rotate([0,90,0])
-						cylinder(h = 30, r = 35, $fn=resolution);
-//			cube([bore_outer_r+10,bore_outer_r,30]);
-					translate([bore_outer_r+1,10,3])
-						sphere(r=2, $fn=resolution);
-					translate([-0*bore_outer_r-1,10,3])
-						sphere(r=2, $fn=resolution);
-					translate([6,1,2.5])
-						cube([bore_outer_r-1,3,6], center=true);
+					for (handle_ridge_row =[2,3,4,5,6,6.35])
+						for (a_angle =[0,45,90,135,180,225,270,315])
+							rotate([0,a_angle,0])
+								translate([  -handle_ridge_w/2,
+												(-handle_ridge_h-4)*handle_ridge_row + 4,
+												handle_r-handle_ridge_d/2])
+									cube([handle_ridge_w,handle_ridge_h,handle_ridge_d]);
 				}
+						
+//handle_offset_top
+//handle_r=28;
+//handle_length
+//handle_ridge_h=10;
+//handle_ridge_w=5;
+///handle_ridge_d=2.25;
+//handle_hollow_r=dart_r-1;
+//handle_hollow_l=dart_-15;
+						
+			}	// End main union
+
+			// Difference that with:
+			union(){
+				translate([0,
+							-handle_offset_top-(handle_length-handle_hollow_l+0.011),
+							handle_r+handle_ridge_d/2])
+					rotate([90,0,0])
+						cylinder(r=handle_hollow_r, h=handle_hollow_l,$fn=16);
+
+				translate([0,
+						-handle_offset_top-handle_length+10,
+						handle_r+handle_ridge_d/2])
+					difference(){
+						translate([-handle_r-handle_ridge_d,
+									-handle_r-+handle_ridge_d,
+									-handle_r-handle_ridge_d])
+							cube([(handle_r+handle_ridge_d)*2,
+									handle_r+handle_ridge_d,
+									(handle_r+handle_ridge_d)*2]);
+						sphere(r=handle_r+handle_ridge_d,$fn=resolution);
+
+					}
+
+				// This is standard coreing for the mounting ring
+				translate([0,0,-1])
+					cylinder(h = ring_height+1, r=ring_inner_r, 
+								$fn=resolution);	// minus inner
 			}
-		}
+
+		}	// End handle difference
+
+
 
 		// Bottom hook
 		color("LightGrey")
@@ -184,7 +197,7 @@ difference(){
 				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
 					intersection(){
 						cube([bore_outer_r-2,bore_outer_r*2,10]);
-							translate([0,5,5])
+							*translate([0,5,5])
 								rotate([0,90,0])
 									cylinder(h = 30, r = 5, $fn=resolution);
 					}
@@ -196,13 +209,7 @@ difference(){
 					}
 			}	// End union
 			union(){
-				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
-				{
-					translate([-4,2,0])
-						sphere(r=5.5, $fn=resolution);
-					translate([4+10,2,0])
-						sphere(r=5.5, $fn=resolution);
-				}
+//  Difference from bottom hook
 			}
 		} // End Bottom hook "LightGrey" difference
 
@@ -262,7 +269,7 @@ difference(){
 			}	// end Sight difference
 
 			// Wedge ramp leading up to the sight
-			translate([-sight_inner_r+0.5,bore_outer_r-3,-7])     color("red")
+	*		translate([-sight_inner_r+0.5,bore_outer_r-3,-7])     color("red")
 				rotate([45,0,0])
 						cube([2*sight_inner_r-1,11,9]);
 
@@ -286,7 +293,7 @@ difference(){
 													[0,5,2],[0,1,5] ],
 									convexity = 9);
 
-				color("grey")
+*				color("grey")
 					translate([-1/2*bore_outer_r,0,-35])
 						rotate([-1,0,0])
 							cube([bore_outer_r,bore_outer_r+1.5,35]);
@@ -389,7 +396,7 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-*		translate([0,0,137.0]) cylinder(h=152, r=50);
+		translate([0,0,40]) cylinder(h=152, r=50);
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
 *		translate([0,-3,120]) cube([50,25,50], center=true);
 
