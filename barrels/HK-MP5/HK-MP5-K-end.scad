@@ -67,7 +67,7 @@ module hexagon(size, height) {
 
 
 
-//  Setup a difference for just printing the muzzle tip
+//  Setup a difference for printing only a portion
 difference() {
 	union(){
 
@@ -127,18 +127,7 @@ difference(){
 			union(){
 				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,0.005])
 					cube([2*handle_r+handle_ridge_d,handle_offset_top,2*handle_r+handle_ridge_d]);
-				translate([0*handle_r,-handle_offset_top,handle_r + handle_ridge_d/2]){
-					rotate([90,0,0])
-						cylinder(r=handle_r, h=handle_length,$fn=16);
-
-					for (handle_ridge_row =[2,3,4,5,6,6.35])
-						for (a_angle =[0,45,90,135,180,225,270,315])
-							rotate([0,a_angle,0])
-								translate([  -handle_ridge_w/2,
-												(-handle_ridge_h-4)*handle_ridge_row + 4,
-												handle_r-handle_ridge_d/2])
-									cube([handle_ridge_w,handle_ridge_h,handle_ridge_d]);
-				}
+			
 						
 //handle_offset_top
 //handle_r=28;
@@ -153,25 +142,9 @@ difference(){
 
 			// Difference that with:
 			union(){
-				translate([0,
-							-handle_offset_top-(handle_length-handle_hollow_l+0.011),
-							handle_r+handle_ridge_d/2])
-					rotate([90,0,0])
-						cylinder(r=handle_hollow_r, h=handle_hollow_l,$fn=16);
+				
 
-				translate([0,
-						-handle_offset_top-handle_length+10,
-						handle_r+handle_ridge_d/2])
-					difference(){
-						translate([-handle_r-handle_ridge_d,
-									-handle_r-+handle_ridge_d,
-									-handle_r-handle_ridge_d])
-							cube([(handle_r+handle_ridge_d)*2,
-									handle_r+handle_ridge_d,
-									(handle_r+handle_ridge_d)*2]);
-						sphere(r=handle_r+handle_ridge_d,$fn=resolution);
-
-					}
+				
 
 				// This is standard coreing for the mounting ring
 				translate([0,0,-1])
