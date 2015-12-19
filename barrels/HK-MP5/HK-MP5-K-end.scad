@@ -195,7 +195,7 @@ difference(){
 				
 				// Angled piece of hook
 				translate([-hook_width/2,
-							-handle_offset_top-hook_length+hook_thickness,
+							-handle_offset_top-hook_length+hook_thickness-2.5,
 							handle_flush_end-hook_thickness])
 					rotate([-15,0,0])
 						cube([hook_width,bore_outer_r*2,5]);
@@ -206,18 +206,27 @@ difference(){
 							handle_flush_end-hook_thickness])
 					intersection(){	
 						cube([hook_width,hook_thickness,hook_thickness]);
-							translate([0,hook_thickness,hook_thickness/2])
-								rotate([0,90,0])
-									cylinder(h = 30, r = hook_thickness, $fn=resolution);
+						translate([0,hook_thickness,hook_thickness/2])
+							rotate([0,90,0])
+								cylinder(h = 30, r = hook_thickness, $fn=resolution);
 					}
+
+				// bottom curve block
 #				translate([-hook_width/2,
 							-handle_offset_top-10-1.5,
-							handle_flush_end-hook_thickness-10])
+							handle_flush_end-hook_thickness-9.9])
 					difference(){
 						cube([hook_width,10,10]);
 						rotate([0,90,0]) translate([0,0,-1])
 							cylinder(h = hook_width+2, r = 5, $fn=resolution);
 					}
+
+				// Stop block for rail
+				translate([-hook_width/2,
+							-handle_offset_top-5,
+							handle_flush_end-hook_thickness-10])
+					cube([hook_width,5,10]);
+
 			}	// End union
 			union(){
 //  Difference from bottom hook
