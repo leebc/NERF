@@ -7,7 +7,7 @@ barrel_outer_d=35;
 
 ring_barrel_diff=1;				// Difference between ring outer and barrel outer
 
-ring_inner_r=(barrel_outer_d+2)/2;
+ring_inner_r=(barrel_outer_d+1)/2;		//WAS +2
 ring_outer_r=ring_inner_r+2;
 ring_height=29;		//WAS 35
 mount_inner_r=32/2;
@@ -49,7 +49,10 @@ handle_ridge_d=2.25;
 handle_hollow_r=dart_r-1;
 handle_hollow_l=dart_l-15;
 
-
+rail_grove_width=12.44;
+rail_grove_height=3.4;
+rail_strip_width=18;
+rail_strip_height=3.05;
 
 sight_width=2;
 sight_height=15;
@@ -80,6 +83,7 @@ difference() {
 			
 			//Mounting Additions
 				union(){	
+
 
 					} // End Mounting additions union
 					
@@ -121,14 +125,31 @@ difference(){
 			cylinder(h=2, r=ring_outer_r-ring_barrel_diff,$fn=resolution); 
 
 
+
+
 		// Handle
 		color("Purple")
 		difference(){  
 			union(){
+				// Main gap block
 				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,0.005])
 					cube([2*handle_r+handle_ridge_d,handle_offset_top,2*handle_r+handle_ridge_d]);
-			
-						
+				// Rail grove
+				translate([-rail_grove_width/2,
+							-handle_offset_top-rail_grove_height,
+							0.005])
+					cube([rail_grove_width,rail_grove_height,2*handle_r+handle_ridge_d]);
+
+				translate([-rail_strip_width/2,
+							-handle_offset_top-rail_grove_height-rail_strip_height,
+							0.005])
+					cube([rail_strip_width,rail_strip_height,2*handle_r+handle_ridge_d]);
+
+//rail_grove_width=12.44;
+//rail_grove_height=3.4;
+//rail_strip_width=18;
+//rail_strip_height=3.05;
+
 //handle_offset_top
 //handle_r=28;
 //handle_length
@@ -344,11 +365,15 @@ difference(){
 
 difference() {
 		translate([0, 0, 0])//inset_height-5])
-		*difference(){
+		difference(){
 			union(){		// outer barrel
 				color ("green")										//outer barrel 
 					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
 				
+					// Cylindrical outer wrap of MP5K
+					cylinder(h = ring_height, r=ring_outer_r - ring_barrel_diff +2, 
+								$fn=resolution);	// outer ring
+
 				}
 			union(){		// things that are subtracted from the barrel
 				translate([0,0,-21])
@@ -369,7 +394,7 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-		translate([0,0,40]) cylinder(h=152, r=50);
+		translate([0,0,10]) cylinder(h=152, r=80);   
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
 *		translate([0,-3,120]) cube([50,25,50], center=true);
 
