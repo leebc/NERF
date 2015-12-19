@@ -7,7 +7,7 @@ barrel_outer_d=35;
 
 ring_barrel_diff=1;				// Difference between ring outer and barrel outer
 
-ring_inner_r=(barrel_outer_d+1)/2;		//WAS +2
+ring_inner_r=(barrel_outer_d+2)/2;		
 ring_outer_r=ring_inner_r+2;
 ring_height=29;		//WAS 35
 mount_inner_r=32/2;
@@ -50,9 +50,14 @@ handle_hollow_r=dart_r-1;
 handle_hollow_l=dart_l-15;
 
 rail_grove_width=12.44;
-rail_grove_height=3.4;
+rail_grove_height=4;
 rail_strip_width=18;
-rail_strip_height=3.05;
+rail_strip_height=2.55;
+
+handle_flush_end=ring_height+handle_ridge_d;
+hook_length=35;									// length of hook from bottom of rail
+hook_width=rail_strip_width;
+hook_thickness=8;
 
 sight_width=2;
 sight_height=15;
@@ -133,22 +138,18 @@ difference(){
 			union(){
 				// Main gap block
 				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,0.005])
-					cube([2*handle_r+handle_ridge_d,handle_offset_top,2*handle_r+handle_ridge_d]);
+					cube([2*handle_r+handle_ridge_d,handle_offset_top,handle_flush_end]);
 				// Rail grove
 				translate([-rail_grove_width/2,
 							-handle_offset_top-rail_grove_height,
 							0.005])
-					cube([rail_grove_width,rail_grove_height,2*handle_r+handle_ridge_d]);
+					cube([rail_grove_width,rail_grove_height,handle_flush_end]);
 
 				translate([-rail_strip_width/2,
 							-handle_offset_top-rail_grove_height-rail_strip_height,
 							0.005])
-					cube([rail_strip_width,rail_strip_height,2*handle_r+handle_ridge_d]);
+					cube([rail_strip_width,rail_strip_height,handle_flush_end]);
 
-//rail_grove_width=12.44;
-//rail_grove_height=3.4;
-//rail_strip_width=18;
-//rail_strip_height=3.05;
 
 //handle_offset_top
 //handle_r=28;
@@ -162,10 +163,7 @@ difference(){
 			}	// End main union
 
 			// Difference that with:
-			union(){
-				
-
-				
+			union(){				
 
 				// This is standard coreing for the mounting ring
 				translate([0,0,-1])
@@ -179,27 +177,46 @@ difference(){
 
 		// Bottom hook
 		color("LightGrey")
+
+// hook_length=35;									// length of hook from bottom of rail
+// hook_width
+// hook_thickness
+
 		difference(){  
 			union(){
-				translate([-bore_outer_r/2+1,-bore_outer_r-6,1.25*ring_height])
-					cube([bore_outer_r-2,7,50]);
-				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
-					cube([bore_outer_r-2,bore_outer_r*2,5]);
-				translate([-bore_outer_r/2+1,-bore_outer_r-20,barrel_length-12-15-35-1-5])
+//				translate([-bore_outer_r/2+1,-bore_outer_r-6,handle_flush_end])
+//					cube([bore_outer_r-2,7,50]);
+
+				// main long part
+				translate([-hook_width/2,
+							-handle_offset_top-hook_length+hook_thickness,
+							handle_flush_end-hook_thickness])
+					cube([hook_width,hook_length-hook_thickness,hook_thickness]);
+				
+				// Angled piece of hook
+				translate([-hook_width/2,
+							-handle_offset_top-hook_length+hook_thickness,
+							handle_flush_end-hook_thickness])
 					rotate([-15,0,0])
-						cube([bore_outer_r-2,bore_outer_r*2,5]);
-				translate([-bore_outer_r/2+1,-bore_outer_r-25,barrel_length-12-15-35-1-5])
-					intersection(){
-						cube([bore_outer_r-2,bore_outer_r*2,10]);
-							*translate([0,5,5])
+						cube([hook_width,bore_outer_r*2,5]);
+
+				// rounded end on the long part
+				translate([-hook_width/2,
+							-handle_offset_top-hook_length,
+							handle_flush_end-hook_thickness])
+					intersection(){	
+						cube([hook_width,hook_thickness,hook_thickness]);
+							translate([0,hook_thickness,hook_thickness/2])
 								rotate([0,90,0])
-									cylinder(h = 30, r = 5, $fn=resolution);
+									cylinder(h = 30, r = hook_thickness, $fn=resolution);
 					}
-				translate([-bore_outer_r/2+1,-bore_outer_r-10,barrel_length-12-15-35-1-10])
+#				translate([-hook_width/2,
+							-handle_offset_top-10-1.5,
+							handle_flush_end-hook_thickness-10])
 					difference(){
-						cube([bore_outer_r-2,10,10]);
+						cube([hook_width,10,10]);
 						rotate([0,90,0]) translate([0,0,-1])
-							cylinder(h = 12, r = 5, $fn=resolution);
+							cylinder(h = hook_width+2, r = 5, $fn=resolution);
 					}
 			}	// End union
 			union(){
@@ -367,11 +384,11 @@ difference() {
 		translate([0, 0, 0])//inset_height-5])
 		difference(){
 			union(){		// outer barrel
-				color ("green")										//outer barrel 
+*				color ("green")										//outer barrel 
 					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
 				
 					// Cylindrical outer wrap of MP5K
-					cylinder(h = ring_height, r=ring_outer_r - ring_barrel_diff +2, 
+					cylinder(h = handle_flush_end, r=ring_outer_r - ring_barrel_diff +2, 
 								$fn=resolution);	// outer ring
 
 				}
@@ -394,7 +411,7 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-		translate([0,0,10]) cylinder(h=152, r=80);   
+*		translate([0,0,10]) cylinder(h=152, r=80);   
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
 *		translate([0,-3,120]) cube([50,25,50], center=true);
 
