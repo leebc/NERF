@@ -14,8 +14,9 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=55;
+barrel_length=37+ring_height;
 barrel_outer_r=ring_outer_r;   //+2;
+barrel_tip_length=(barrel_length-ring_height)/2;			// The very tip of the barrel, may be ridged
 
 bore_inner_r=barrel_outer_d/2-7.7;
 bore_outer_r=bore_inner_r + 2;
@@ -239,7 +240,7 @@ difference(){
 		translate([0,ring_outer_r,ring_height-12])	{
 			difference(){
 				union() {
-					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
+#					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
 					translate([-sight_inner_r,0,0])     color("red")
 						cube([2*sight_inner_r,2*sight_inner_r,15]);
 					translate([0,2*bore_outer_r,0])
@@ -323,7 +324,7 @@ difference(){
 
 
 		// Barrel tip
-		translate([0,0,barrel_length-11]) color("black"){
+		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 
 *				 gear(number_of_teeth,
 					circular_pitch=false, diametral_pitch=false,
@@ -336,32 +337,15 @@ difference(){
 					outer_radius,
 					half_thick_angle
 					);
-* test_gears();
-* demo_3d_gears();
-* test_involute_curve();
 
-*			gear(number_of_teeth=23,circular_pitch=200);
-*			translate([0, 35])gear(number_of_teeth=17,circular_pitch=200);
-*			translate([-35,0]) gear(number_of_teeth=17,diametral_pitch=1);
-
-
-			translate([0, 0, 4+3]) 
-			//	difference(){
-					linear_extrude(height = 5, center = false, convexity=10, twist = 0)
-						gear(number_of_teeth=50,circular_pitch=90);
-		//			color("yellow")	cylinder(h = 4, r=bore_outer_r+1, $fn=resolution );
-		//		}
-			translate([0,0,4])
-				cylinder(h = 3, r=bore_outer_r, $fn=resolution);
 			translate([0, 0, 0]) 
-				linear_extrude(height = 4, center = false, convexity = 10, twist = 0)
-					gear(number_of_teeth=50,circular_pitch=90);
+				linear_extrude(height = barrel_tip_length, center = false, convexity = 10, twist = 0)
+					gear(number_of_teeth=70,circular_pitch=60);
 
+*			for(i = [0 : 1 : barrel_tip_length])	//  0 to btl, increment 1
+				translate([0, 0, i]) 
+					gear(number_of_teeth=70,circular_pitch=60);
 
-
-*			cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
-*			translate([0,0,4])  cylinder(h = 3, r=bore_outer_r+1, $fn=resolution);
-*			translate([0,0,4+3]) cylinder(h = 4, r=bore_outer_r+2, $fn=10 ); //resolution);
 		}	// End Barrel tip translate		
 	
 		}	// end union of barrel bits
@@ -431,7 +415,7 @@ difference() {
 	}
 }		// difference out of everything
 
-total_height=55+ring_height;
+total_height=37+ring_height;
 echo("Total measured length:", total_height);
 //	Measure the height
 translate([0,0,0])		color("magenta")
