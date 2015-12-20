@@ -14,7 +14,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=149;
+barrel_length=55;
 barrel_outer_r=ring_outer_r;   //+2;
 
 bore_inner_r=barrel_outer_d/2-7.7;
@@ -132,7 +132,7 @@ difference(){
 
 
 
-		// Handle
+		// Fore-End
 		color("Purple")
 		difference(){  
 			union(){
@@ -229,13 +229,14 @@ difference(){
 
 			}	// End union
 			union(){
-//  Difference from bottom hook
+//  Difference out of bottom hook
 			}
 		} // End Bottom hook "LightGrey" difference
 
 
+
 		// Sight
-		translate([0,0,barrel_length-12-15])	{
+		translate([0,ring_outer_r,ring_height-12])	{
 			difference(){
 				union() {
 					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
@@ -245,11 +246,11 @@ difference(){
 						cylinder(h = 15, r=sight_inner_r+2, $fn=resolution);
 
 					// Pins in sight sides
-					translate([-10.25,bore_outer_r-1,4])		color("black")
+*					translate([-10.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
 							cylinder(h = 1, r=1, $fn=resolution);
 						}
-					translate([9.25,bore_outer_r-1,4])		color("black")
+*					translate([9.25,bore_outer_r-1,4])		color("black")
 						rotate([0,90,0]){
 							cylinder(h = 1, r=1, $fn=resolution);
 						}
@@ -270,13 +271,13 @@ difference(){
 						cylinder(h = 5, r=1, $fn=resolution);
 
 				// Sight adjustment screws
-					translate([-10,bore_outer_r+2.5,7.5])		//color("black")
+*					translate([-10,bore_outer_r+2.5,7.5])		//color("black")
 						rotate([0,90,0]){
 							cylinder(h = 1, r=3, $fn=resolution);
 							translate([0,0,1])rotate([0,0,50])
 								cube([6,1,2],center=true);
 						}
-					translate([9.5,bore_outer_r+2.5,7.5])		//color("black")
+*					translate([9.5,bore_outer_r+2.5,7.5])		//color("black")
 						rotate([0,90,0]){
 							cylinder(h = 1, r=3, $fn=resolution);
 							translate([0,0,0])rotate([0,0,20])
@@ -317,8 +318,6 @@ difference(){
 					translate([-1/2*bore_outer_r,0,-35])
 						rotate([-1,0,0])
 							cube([bore_outer_r,bore_outer_r+1.5,35]);
-
-
 
 		}	// End sight translate
 
@@ -432,13 +431,16 @@ difference() {
 	}
 }		// difference out of everything
 
-total_height=149;
+total_height=55+ring_height;
 echo("Total measured length:", total_height);
 //	Measure the height
-*translate([0,0,0])		color("magenta")
+translate([0,0,0])		color("magenta")
 	cylinder(r=5, h=total_height);
-*translate([0,0,total_height])	color("magenta")
+translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
 
-
-
+// Attempting to determine how long the barrel should be.
+translate([0,0,ring_height])	color("magenta")
+	cube([35,5,2]);
+translate([0,0,55])	color("magenta")
+	cube([35,5,2]);
