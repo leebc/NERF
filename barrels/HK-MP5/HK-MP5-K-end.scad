@@ -360,10 +360,6 @@ difference(){
 				cylinder(h=bore_bottom_inset+5, r=bore_bottom_inset_outer_r,$fn=resolution);	
 			}	// End "difference shave a bit"
 
-			// Bore out a little bit more at the end of the bore
-		translate([0,0,barrel_length-3]) color("yellow")
-			cylinder(h = 5, r=bore_inner_r+1, $fn=resolution );
-//			cylinder(h = 4, r=bore_outer_r-0.5, $fn=resolution );
 
 	}	// End "Core it"
 }
@@ -418,13 +414,13 @@ difference() {
 total_height=37+ring_height;
 echo("Total measured length:", total_height);
 //	Measure the height
-translate([0,0,0])		color("magenta")
+% translate([0,0,0])		color("magenta")
 	cylinder(r=5, h=total_height);
-translate([0,0,total_height])	color("magenta")
+%translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
 
 // Attempting to determine how long the barrel should be.
-translate([0,0,ring_height])	color("magenta")
+*translate([0,0,ring_height])	color("magenta")
 	cube([35,5,2]);
-translate([0,0,55])	color("magenta")
+*translate([0,0,55])	color("magenta")
 	cube([35,5,2]);
