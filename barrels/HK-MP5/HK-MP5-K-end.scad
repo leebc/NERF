@@ -428,16 +428,24 @@ difference() {
 
 				//Attachment pin (at the tower)
 				color("lightgrey")
-				translate([-bore_outer_r-3,barrel_outer_r-4,handle_flush_end*3/4])
+				translate([-bore_outer_r-2,barrel_outer_r-2.5,handle_flush_end*3/4])
 					rotate([0,90,0])
-						cylinder(h = (bore_outer_r*2)+6 , r=2, $fn=resolution);	
+						cylinder(h = (bore_outer_r*2)+4 , r=2, $fn=resolution);	
 
 				//Attachment screws/bolts
 				color("lightgrey")
 				translate([-bore_outer_r-4,barrel_outer_r-4,handle_flush_end*1/4+1])
 					rotate([0,90,0])
-						cylinder(h = (bore_outer_r*2)+8 , r=3, $fn=resolution);	
-
+						difference(){	
+							cylinder(h = (bore_outer_r*2)+8 , r=3, $fn=resolution);	
+						union(){	
+							translate([0,0,-0.01])
+								cylinder(h = 2 , r=2, $fn=6);	
+							translate([0,0,bore_outer_r*2+6.01])
+								cylinder(h = 2 , r=2, $fn=6);	
+						}	// End union 
+					}	// End difference
+			
 
 				// Cocking tube
 				translate([0,ring_outer_r,0])	
@@ -467,14 +475,16 @@ difference() {
 								translate([0,bore_outer_r+2.5,handle_flush_end*1/4+1])
 									rotate([90,0,0])
 										cylinder(h = 3, r=2, $fn=resolution);
+*							translate([0,0,-1])
+#								cylinder(r=5, h=ring_height-5, $fn=6);
 						}
 					}	//  End difference spring tube
 
 				//	Cocking tube cap
 				color("lightgrey")
-				translate([0,ring_outer_r,handle_flush_end])
+				translate([0,ring_outer_r,handle_flush_end-1])
 					difference(){
-						linear_extrude(height=1, center=false, convexity=10, twist=0)				
+						linear_extrude(height=2, center=false, convexity=10, twist=0)				
 							gear(number_of_teeth=60,circular_pitch=50);
 						translate([0,0,0.5])
 							difference(){
@@ -505,27 +515,24 @@ difference() {
 				}  // End darkgrey cocking handle translate
 
 
-
-
 				// Sling attachment ring	
-
-
+				color("grey")
+				translate([barrel_outer_r,bore_outer_r-2, handle_flush_end*3/4])
+					rotate([90,0,0]){
+						rotate_extrude(convexity = 10, $fn=resolution)
+							translate([6, 0, 0])
+								circle(r = 2.5, $fn=resolution); 
+//%					cylinder(r=3, h=20);
+					}
 				}
 			union(){		// things that are subtracted from the barrel
 				// Core out for gun mounting
 				translate([0,0,-21])
 					cylinder(h =ring_height, r=ring_outer_r-2, $fn=resolution);	// minus inner barrel
-
-
-
-
 			
 			}
 		}
 	}
-
-
-
 
 	// membrane that supports inset
 	translate([0,0,bore_bottom_inset-0.1])  color("purple")
