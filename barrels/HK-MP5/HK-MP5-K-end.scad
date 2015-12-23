@@ -373,11 +373,14 @@ difference(){
 						difference(){
 							cube([5,3,barrel_tip_length/2]);
 							union(){
-								translate([-2,3,-3])
-									rotate([0,90,0])
-										cylinder(r=4, h=10, $fn=resolution);
+//*								translate([-2,3,-3])
+	//								rotate([0,90,0])
+//										cylinder(r=4, h=10, $fn=resolution);
 								translate([-2.5,3.2,5.65])
 									rotate([40,0,0])
+										cube([10,10,10]);
+								translate([-2.5,1,-10.25])
+									rotate([20,0,0])
 										cube([10,10,10]);
 							}
 						}	// End difference
@@ -428,6 +431,17 @@ difference() {
 				translate([-barrel_outer_r*1.25,bore_inner_r/2,5])
 					cube([barrel_outer_r*2.5, barrel_outer_r*2, handle_flush_end]);
 
+
+				//Attachment screw or bolt or pin
+
+				// Cocking handle
+
+				// Cocking tube
+					// multiple diameters
+
+				//	Cocking tube cap
+
+				// Sling attachment ring	
 			}
 		}
 	}
