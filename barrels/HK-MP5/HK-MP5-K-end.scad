@@ -183,7 +183,7 @@ difference(){
 // hook_width
 // hook_thickness
 
-		difference(){  
+%		difference(){  
 			union(){
 //				translate([-bore_outer_r/2+1,-bore_outer_r-6,handle_flush_end])
 //					cube([bore_outer_r-2,7,50]);
@@ -213,7 +213,7 @@ difference(){
 					}
 
 				// bottom curve block
-#				translate([-hook_width/2,
+				translate([-hook_width/2,
 							-handle_offset_top-10-1.5,
 							handle_flush_end-hook_thickness-9.9])
 					difference(){
@@ -240,7 +240,7 @@ difference(){
 		translate([0,ring_outer_r,ring_height-12])	{
 			difference(){
 				union() {
-#					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
+*					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution); // moved to spring tube
 					translate([-sight_inner_r,0,0])     color("red")
 						cube([2*sight_inner_r,2*sight_inner_r,15]);
 					translate([0,2*bore_outer_r,0])
@@ -323,6 +323,22 @@ difference(){
 		}	// End sight translate
 
 
+		// Spring tube and reated
+		translate([0,ring_outer_r,ring_height-12])	{
+			difference(){
+				union(){
+#					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution);
+
+
+					}	// End union, positives spring tube
+	
+				union(){		// What gets differenced from the spring tube
+
+					}
+			}	//  End difference spring tube
+		} //  End transate
+
+
 		// Barrel tip
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 
@@ -338,8 +354,8 @@ difference(){
 					half_thick_angle
 					);
 
-			translate([0, 0, 0]) 
-				linear_extrude(height = barrel_tip_length, center = false, convexity = 10, twist = 0)
+#			translate([0, 0, 0]) 
+				linear_extrude(height=barrel_tip_length, center=false, convexity=10, twist=0)
 					gear(number_of_teeth=70,circular_pitch=60);
 
 *			for(i = [0 : 1 : barrel_tip_length])	//  0 to btl, increment 1
@@ -348,6 +364,27 @@ difference(){
 
 		}	// End Barrel tip translate		
 	
+
+		// Barrel triple lug
+		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
+			for(i = [0,120,240])
+				rotate([0,0,i])
+				translate([-5/2,bore_outer_r-0.001,-barrel_tip_length*4/6])
+					difference(){
+						cube([5,3,barrel_tip_length/2]);
+						union(){
+							translate([-2,3,-3])
+								rotate([0,90,0])
+									cylinder(r=4, h=10, $fn=resolution);
+							translate([-2.5,3.2,5.65])
+								rotate([40,0,0])
+									cube([10,10,10]);
+						}
+					}	// End difference
+
+		}
+	
+
 		}	// end union of barrel bits
 
 	union(){		// Core it
@@ -399,7 +436,7 @@ difference() {
 
 	union(){
 *		cube([90,90,1150]);
-*		translate([0,0,10]) cylinder(h=152, r=80);   
+*		translate([0,0,0]) cylinder(h=33+ring_height, r=80);    // h was 152
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
 *		translate([0,-3,120]) cube([50,25,50], center=true);
 
@@ -416,7 +453,7 @@ echo("Total measured length:", total_height);
 //	Measure the height
 % translate([0,0,0])		color("magenta")
 	cylinder(r=5, h=total_height);
-%translate([0,0,total_height])	color("magenta")
+*%translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
 
 // Attempting to determine how long the barrel should be.
