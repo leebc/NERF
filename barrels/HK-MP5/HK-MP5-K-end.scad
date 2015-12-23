@@ -323,7 +323,7 @@ difference(){
 		}	// End sight translate
 
 
-		// Spring tube and reated
+		// Spring/cocking tube and reated
 		translate([0,ring_outer_r,ring_height-12])	{
 			difference(){
 				union(){
@@ -369,19 +369,18 @@ difference(){
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 			for(i = [0,120,240])
 				rotate([0,0,i])
-				translate([-5/2,bore_outer_r-0.001,-barrel_tip_length*4/6])
-					difference(){
-						cube([5,3,barrel_tip_length/2]);
-						union(){
-							translate([-2,3,-3])
-								rotate([0,90,0])
-									cylinder(r=4, h=10, $fn=resolution);
-							translate([-2.5,3.2,5.65])
-								rotate([40,0,0])
-									cube([10,10,10]);
-						}
-					}	// End difference
-
+					translate([-5/2,bore_outer_r-0.001,-barrel_tip_length*4/6])
+						difference(){
+							cube([5,3,barrel_tip_length/2]);
+							union(){
+								translate([-2,3,-3])
+									rotate([0,90,0])
+										cylinder(r=4, h=10, $fn=resolution);
+								translate([-2.5,3.2,5.65])
+									rotate([40,0,0])
+										cube([10,10,10]);
+							}
+						}	// End difference
 		}
 	
 
@@ -409,17 +408,26 @@ difference() {
 		translate([0, 0, 0])//inset_height-5])
 		difference(){
 			union(){		// outer barrel
-*				color ("green")										//outer barrel 
-					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
+				color ("green")										//outer barrel 
+//					cylinder(h = barrel_length-inset_height, r=barrel_outer_r, $fn=resolution);
 				
 					// Cylindrical outer wrap of MP5K
-					cylinder(h = handle_flush_end, r=ring_outer_r - ring_barrel_diff +2, 
-								$fn=resolution);	// outer ring
+					cylinder(h = handle_flush_end, r=barrel_outer_r+2, 
+								$fn=resolution);	
 
 				}
 			union(){		// things that are subtracted from the barrel
+				// Core out for gun mounting
 				translate([0,0,-21])
 					cylinder(h = barrel_length*2, r=ring_outer_r-2, $fn=resolution);	// minus inner barrel
+
+				// steps forward then rear
+				translate([-barrel_outer_r*1.25,-bore_inner_r/2,handle_flush_end*2/5])
+					cube([barrel_outer_r*2.5, barrel_outer_r*2, handle_flush_end]);
+
+				translate([-barrel_outer_r*1.25,bore_inner_r/2,5])
+					cube([barrel_outer_r*2.5, barrel_outer_r*2, handle_flush_end]);
+
 			}
 		}
 	}
