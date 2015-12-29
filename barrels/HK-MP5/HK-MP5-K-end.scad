@@ -536,6 +536,8 @@ difference() {
 				// Core out for gun mounting
 				translate([0,0,-0.1])
 					cylinder(h =ring_height, r=ring_outer_r-2, $fn=resolution);	// minus inner barrel
+				// The bore again
+				cylinder(h =total_height, r=bore_inner_r,$fn=resolution);
 			
 
 *			cylinder(h = ring_height+1, r=ring_inner_r, $fn=resolution);	// minus inner
@@ -554,7 +556,7 @@ difference() {
 *		cube([90,90,1150]);
 //		translate([0,0,0]) cylinder(h=3.01+ring_height, r=80);    // h was 152
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
-		translate([25,-25,40]) cube([50,50,80], center=true);
+*		translate([25,-25,40]) cube([50,50,80], center=true);
 
 *		translate([0,0,barrel_length-12-17.5])  translate([0,2*bore_outer_r,-1])
 			difference() {
