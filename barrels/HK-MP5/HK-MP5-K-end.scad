@@ -470,11 +470,11 @@ difference() {
 	
 						union(){		// What gets differenced from the spring tube
 						// Stamped dimples
-							rotate([0,0,50])				//	Cocking tube cap
+							rotate([0,0,45])				//	Cocking tube cap
 								translate([0,bore_outer_r+2.5,handle_flush_end*1/4+1])
 									rotate([90,0,0])
 										cylinder(h = 3, r=2, $fn=resolution);
-							rotate([0,0,-50])
+							rotate([0,0,-45])
 								translate([0,bore_outer_r+2.5,handle_flush_end*1/4+1])
 									rotate([90,0,0])
 										cylinder(h = 3, r=2, $fn=resolution);
