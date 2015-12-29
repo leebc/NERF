@@ -65,6 +65,8 @@ sight_height=15;
 sight_length=5;
 sight_inner_r=bore_inner_r;
 
+spring_tube_inner_r=bore_outer_r-3;
+
 blowback_r=22/2;
 blowback_height=10.5;
 
@@ -285,7 +287,8 @@ difference(){
 								cube([6,1,2],center=true);
 						}
 
-
+					translate([0,0*ring_outer_r,-5.1])
+						cylinder(h = ring_height, r=spring_tube_inner_r,  $fn=resolution);
 
 				}  // End sight difference union
 			}	// end Sight difference
@@ -430,7 +433,7 @@ difference() {
 				color("lightgrey")
 				translate([-bore_outer_r-2,barrel_outer_r-2.5,handle_flush_end*3/4])
 					rotate([0,90,0])
-						cylinder(h = (bore_outer_r*2)+4 , r=2, $fn=resolution);	
+						cylinder(h = (bore_outer_r*2)+4-1 , r=2, $fn=resolution);	
 
 				//Attachment screws/bolts
 				color("lightgrey")
@@ -475,8 +478,10 @@ difference() {
 								translate([0,bore_outer_r+2.5,handle_flush_end*1/4+1])
 									rotate([90,0,0])
 										cylinder(h = 3, r=2, $fn=resolution);
-*							translate([0,0,-1])
-#								cylinder(r=5, h=ring_height-5, $fn=6);
+							translate([0,0,-0.1])
+								cylinder(h = ring_height, r=spring_tube_inner_r,  $fn=resolution);
+//#								cylinder(r=5, h=ring_height-5, $fn=6);
+
 						}
 					}	//  End difference spring tube
 
@@ -486,9 +491,9 @@ difference() {
 					difference(){
 						linear_extrude(height=2, center=false, convexity=10, twist=0)				
 							gear(number_of_teeth=60,circular_pitch=50);
-						translate([0,0,0.5])
+						translate([0,0,1.1])
 							difference(){
-								cylinder(r=6.5, h=2, $fn=resolution);
+								cylinder(r=6.5, h=1, $fn=resolution);
 								cylinder(r=5.5, h=2, $fn=resolution);
 						}	// End mini difference
 					}	// End tube cap difference
@@ -496,12 +501,13 @@ difference() {
 
 				// Cocking handle
 				color("darkgrey")
-				translate([bore_outer_r+3,barrel_outer_r+bore_outer_r*3/4,1])
+				translate([bore_outer_r+5,barrel_outer_r+bore_outer_r*3/4,1])
 					difference(){
 						union(){
-							sphere(r=5);
+//							translate([0,0,1])
+								sphere(r=6);
 							rotate([0,90,30])
-								translate([0,0,-5])
+								translate([0,0,-8])
 								cylinder(r=3.25, h=5, $fn=resolution);
 						}
 						union(){
@@ -509,7 +515,7 @@ difference() {
 								cube([15,15,10]);	
 							translate([0,0,18])
 								rotate([90,0,30])
-									translate([0,0,-10])
+									translate([0,1,-10])
 									cylinder(r=15, h=15, $fn=resolution);
 						}			
 				}  // End darkgrey cocking handle translate
@@ -517,7 +523,8 @@ difference() {
 
 				// Sling attachment ring	
 				color("grey")
-				translate([barrel_outer_r,bore_outer_r-2, handle_flush_end*3/4])
+//				translate([barrel_outer_r,bore_outer_r-2, handle_flush_end*3/4])
+				translate([bore_outer_r+5,barrel_outer_r-2.5,handle_flush_end*3/4])
 					rotate([90,0,0]){
 						rotate_extrude(convexity = 10, $fn=resolution)
 							translate([6, 0, 0])
@@ -527,9 +534,11 @@ difference() {
 				}
 			union(){		// things that are subtracted from the barrel
 				// Core out for gun mounting
-				translate([0,0,-21])
+				translate([0,0,-0.1])
 					cylinder(h =ring_height, r=ring_outer_r-2, $fn=resolution);	// minus inner barrel
 			
+
+*			cylinder(h = ring_height+1, r=ring_inner_r, $fn=resolution);	// minus inner
 			}
 		}
 	}
@@ -545,7 +554,7 @@ difference() {
 *		cube([90,90,1150]);
 //		translate([0,0,0]) cylinder(h=3.01+ring_height, r=80);    // h was 152
 *		translate([0,0,-0.02]) cylinder(h=120, r=50);
-*		translate([0,-3,120]) cube([50,25,50], center=true);
+		translate([25,-25,40]) cube([50,50,80], center=true);
 
 *		translate([0,0,barrel_length-12-17.5])  translate([0,2*bore_outer_r,-1])
 			difference() {
