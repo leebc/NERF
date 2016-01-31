@@ -319,19 +319,6 @@ difference(){
 
 		// Barrel tip
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
-
-*				 gear(number_of_teeth,
-					circular_pitch=false, diametral_pitch=false,
-					pressure_angle=20, clearance = 0)		;
-
-* involute_gear_tooth(
-					pitch_radius,
-					root_radius,
-					base_radius,
-					outer_radius,
-					half_thick_angle
-					);
-
 			translate([0, 0, 0]) 
 				linear_extrude(height=barrel_tip_length, center=false, convexity=10, twist=0)
 					gear(number_of_teeth=70,circular_pitch=60);
