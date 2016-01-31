@@ -230,7 +230,7 @@ difference(){
 
 
 		// Sight
-		translate([0,ring_outer_r,ring_height-12])	{
+		translate([0,ring_outer_r,ring_height-11])	{
 			difference(){
 				union() {
 *					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution); // moved to spring tube
@@ -321,7 +321,7 @@ difference(){
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 			translate([0, 0, 0]) 
 				linear_extrude(height=barrel_tip_length, center=false, convexity=10, twist=0)
-					gear(number_of_teeth=70,circular_pitch=60);
+					gear(number_of_teeth=70,circular_pitch=65);
 
 *			for(i = [0 : 1 : barrel_tip_length])	//  0 to btl, increment 1
 				translate([0, 0, i]) 
@@ -433,7 +433,7 @@ difference() {
 					difference(){
 						union(){
 							translate([0,0,ring_height-10])
-								cylinder(h = 12, r=bore_outer_r+1, $fn=resolution);
+								cylinder(h = 14, r=bore_outer_r+1, $fn=resolution);
 							translate([0,0,ring_height-13])
 								color("blue")
 									cylinder(h = 3, r1=bore_outer_r, r2=bore_outer_r+1, $fn=resolution);
