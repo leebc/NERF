@@ -397,7 +397,7 @@ difference() {
 				// This is the little piece of square plastic under the bolt
 				color ("green"){
 					translate([-bore_outer_r-1.5,1,0])
-						cube([(bore_outer_r*2)+3, ring_outer_r, handle_flush_end*2/5]);
+						cube([(bore_outer_r*2)+3, ring_outer_r+1, handle_flush_end*2/5]);
 					cylinder(h = handle_flush_end*2/5, r=barrel_outer_r, $fn=resolution);	
 
 				}  // End green
@@ -415,7 +415,7 @@ difference() {
 
 				//Attachment screws/bolts
 				color("lightgrey")
-				translate([-bore_outer_r-4,barrel_outer_r-4,handle_flush_end*1/4+1])
+				translate([-bore_outer_r-4,barrel_outer_r-2,handle_flush_end*1/4+1])
 					rotate([0,90,0])
 						difference(){	
 							cylinder(h = (bore_outer_r*2)+8 , r=3, $fn=resolution);	
