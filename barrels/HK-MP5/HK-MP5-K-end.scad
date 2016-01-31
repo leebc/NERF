@@ -14,7 +14,7 @@ mount_inner_r=32/2;
 vent_r=10/2;		// WAS 11.11/2;
 vent_spacing_multiplier=2.75;
 inset_height=ring_height;  //WAS  40;
-barrel_length=37+ring_height;
+barrel_length=45+ring_height;				// 2016-01-31 WAS 37 set to 40? 45?
 barrel_outer_r=ring_outer_r;   //+2;
 barrel_tip_length=(barrel_length-ring_height)/2;			// The very tip of the barrel, may be ridged
 
@@ -46,7 +46,7 @@ handle_r=28/2;
 handle_length=85;
 handle_ridge_h=10;
 handle_ridge_w=5;
-handle_ridge_d=2.25;
+handle_ridge_d=4 ; 	//  WAS but needed thicker  2.25;
 handle_hollow_r=dart_r-1;
 handle_hollow_l=dart_l-15;
 
@@ -107,6 +107,7 @@ difference() {
 
 	// Mounting "pins"
 	color ("orange")
+		rotate([0,0,-1])				// Additional slight rotation of pins
 		difference(){
 			union(){
 				translate ([-7.5/2,-19,0])
@@ -152,16 +153,6 @@ difference(){
 							-handle_offset_top-rail_grove_height-rail_strip_height,
 							0.005])
 					cube([rail_strip_width,rail_strip_height,handle_flush_end]);
-
-
-//handle_offset_top
-//handle_r=28;
-//handle_length
-//handle_ridge_h=10;
-//handle_ridge_w=5;
-///handle_ridge_d=2.25;
-//handle_hollow_r=dart_r-1;
-//handle_hollow_l=dart_-15;
 						
 			}	// End main union
 
@@ -239,7 +230,7 @@ difference(){
 
 
 		// Sight
-		translate([0,ring_outer_r,ring_height-13])	{
+		translate([0,ring_outer_r,ring_height-12])	{
 			difference(){
 				union() {
 *					cylinder(h = 15, r=bore_outer_r+1, $fn=resolution); // moved to spring tube
@@ -356,7 +347,7 @@ difference(){
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 			for(i = [0,120,240])
 				rotate([0,0,i])
-					translate([-5/2,bore_outer_r-0.001,-barrel_tip_length*4/6])
+					translate([-5/2,bore_outer_r-0.001,-barrel_tip_length*7/12])
 						difference(){
 							cube([5,3,barrel_tip_length/2]);
 							union(){
