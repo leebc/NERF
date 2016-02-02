@@ -489,7 +489,7 @@ difference() {
 								cylinder(r=3.25, h=5, $fn=resolution);
 						}
 						union(){
-							translate([-7,-7,-11])
+							translate([-8.5,-7,-11])
 								cube([15,15,10]);	
 							translate([0,0,18])
 								rotate([90,0,30])
