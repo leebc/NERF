@@ -321,11 +321,11 @@ difference(){
 		translate([0,0,barrel_length-barrel_tip_length]) color("black"){
 			translate([0, 0, 0]) 
 				linear_extrude(height=barrel_tip_length, center=false, convexity=10, twist=0)
-					gear(number_of_teeth=70,circular_pitch=65);
+					gear(number_of_teeth=70,circular_pitch=61);
 
 *			for(i = [0 : 1 : barrel_tip_length])	//  0 to btl, increment 1
 				translate([0, 0, i]) 
-					gear(number_of_teeth=70,circular_pitch=60);
+					gear(number_of_teeth=60,circular_pitch=60);
 
 		}	// End Barrel tip translate		
 	
@@ -338,7 +338,7 @@ difference(){
 						difference(){
 							cube([5,3,barrel_tip_length/2]);
 							union(){
-//*								translate([-2,3,-3])om
+//*								translate([-2,3,-3])
 	//								rotate([0,90,0])
 //										cylinder(r=4, h=10, $fn=resolution);
 								translate([-2.5,3.2,5.65])
