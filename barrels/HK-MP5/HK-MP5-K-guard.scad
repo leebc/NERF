@@ -148,12 +148,16 @@ difference(){
 							hook_rail_cover_total_length]);
 
 				// Rail cover curved corners
-#				translate([-hook_width/2+hook_rail_cover_thickness/2,
-							-handle_offset_top - hook_rail_cover_thickness/2 +3,
+				translate([-hook_width/2+hook_rail_cover_thickness/2 +1.5,
+							-handle_offset_top ,
 							handle_flush_end-hook_rail_cover_total_length])
 					rotate([0,0,0])
-						cylinder(h = hook_rail_cover_total_length, r = hook_rail_cover_thickness, $fn=resolution);
-
+						cylinder(h = hook_rail_cover_total_length+2, r = hook_rail_cover_thickness, $fn=resolution);
+				translate([hook_width/2 -hook_rail_cover_thickness/2 -1.5,
+							-handle_offset_top ,
+							handle_flush_end-hook_rail_cover_total_length])
+					rotate([0,0,0])
+						cylinder(h = hook_rail_cover_total_length+2, r = hook_rail_cover_thickness, $fn=resolution);
 
 
 				// End cover cover
@@ -223,12 +227,13 @@ difference() {
 
 
 	// Fore-End
-%		color("Purple")
+		color("Purple")
 		difference(){  
 			union(){
 				// Main gap block
-				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,0.005])
-					cube([2*handle_r+handle_ridge_d,handle_offset_top,handle_flush_end]);
+5				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,
+									handle_flush_end-hook_rail_cover_total_length-0.005])
+					cube([2*handle_r+handle_ridge_d,handle_offset_top,hook_rail_cover_total_length]);
 				// Rail grove
 				translate([-rail_grove_width/2,
 							-handle_offset_top-rail_grove_height - 0.01,
