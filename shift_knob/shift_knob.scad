@@ -16,11 +16,11 @@ tube_slot_height=17.24 - tube_slot_width/2;
 tube_length=rod_throw_distance+20;
 tube_thickness=tube_outer_r-rod_outer_r;
 
-handle_shaft_outer_r=tube_outer_r+5;
+handle_shaft_outer_r=tube_outer_r+2;
 handle_shaft_length=tube_length+20;
 
 handle_knob_outer_r1=handle_shaft_outer_r;
-handle_knob_outer_r2=handle_shaft_outer_r*2;
+handle_knob_outer_r2=handle_shaft_outer_r*1.5-1;
 handle_knob_height=15;
 
 screw_r=(2.5-0.5)/2;
@@ -47,9 +47,10 @@ difference()  {
 		translate([0,0,0.001])
 			cylinder(r=handle_shaft_outer_r,h=handle_shaft_length,$fn=resolution);
 
-		translate([0,0,screw_z_height+screw_head_r+2])
+		translate([0,0,screw_z_height+screw_head_r+7])
 			  // WAS:  handle_shaft_length-handle_knob_height+5])
-			cylinder(r1=handle_knob_outer_r1,r2=handle_knob_outer_r2, h=handle_knob_height,$fn=resolution);
+//			cylinder(r1=handle_knob_outer_r1,r2=handle_knob_outer_r2, h=handle_knob_height,$fn=resolution);
+			sphere(r=handle_knob_outer_r2, $fn=resolution);
 	}
 
 	union()	{	// !!!  Prefix this line with a ! to just render the shaft !!!
@@ -81,14 +82,14 @@ difference()  {
 					cylinder(r=screw_r, h=screw_length,$fn=resolution);
 
 		rotate([0,0,45])
-			translate([rod_outer_r-rod_grove_depth+hex_nut_thickness/2,0,tube_length+rod_grove_height-2*screw_r])
+			translate([rod_outer_r-rod_grove_depth+hex_nut_thickness/2-0.5,0,tube_length+rod_grove_height-2*screw_r])
 				color("blue")
 					rotate([0,90,0])
 						hexagon(hex_nut_cross,hex_nut_thickness);
 
 //		translate([-50,-50,0])	cube([50,50,50]);  // Cut out the diagonal
-		translate([-25,-25,-25])	cube([50,50,50]);
-		translate([-25,-25,35])	cube([50,50,50]);
+		translate([-25,-25,-37])	cube([50,50,50]);
+		translate([-25,-25,44+7.5])	cube([50,50,50]);
 
 	}  // end union
 
