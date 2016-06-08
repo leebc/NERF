@@ -1,6 +1,8 @@
 
 resolution=60;
-rod_outer_r=(6.4+.3)/2;
+inside_d_correction=1;
+
+rod_outer_r=(6.4+.3+inside_d_correction)/2;
 rod_height=14.35;
 rod_max_length=24.12;
 rod_throw_distance=rod_max_length-rod_height;
@@ -8,8 +10,8 @@ rod_grove_height=5.44;
 rod_grove_width=2.4;
 rod_grove_depth=0.5;
 
-tube_outer_r=(12.13+.3)/2;
-tube_slot_width=4.39;
+tube_outer_r=(12.13+.3+inside_d_correction)/2;
+tube_slot_width=4.39-0.4;
 tube_slot_height=17.24 - tube_slot_width/2;
 tube_length=rod_throw_distance+20;
 tube_thickness=tube_outer_r-rod_outer_r;
@@ -84,7 +86,9 @@ difference()  {
 					rotate([0,90,0])
 						hexagon(hex_nut_cross,hex_nut_thickness);
 
-//		translate([-50,-50,0])	cube([50,50,50]);
+//		translate([-50,-50,0])	cube([50,50,50]);  // Cut out the diagonal
+		translate([-25,-25,-25])	cube([50,50,50]);
+		translate([-25,-25,35])	cube([50,50,50]);
 
 	}  // end union
 
