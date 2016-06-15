@@ -1,7 +1,7 @@
 //# Tangent bladed fan for Grammies sewing machine motor
 
-resolution=60;
-inside_r_correction=0.8;
+resolution=90;
+inside_r_correction=0.6;
 
 rotor_r=42.97/2;
 rotor_h=1.6;
@@ -36,6 +36,6 @@ for ( blade_num = [0,1,2,3,4,5,6,7,8,9,10,11]) {
 #			cube([blade_l, blade_t, blade_h]);
 
 			rotate([90,0,0]) translate([blade_l-3,-blade_h-4,-3])
-				cylinder(r=blade_l, h=5, $fn=resolution);
+#				cylinder(r=blade_l, h=5, $fn=resolution*5);
 		}
 	}
