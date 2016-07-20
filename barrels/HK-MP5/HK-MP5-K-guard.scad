@@ -231,7 +231,7 @@ difference() {
 		difference(){  
 			union(){
 				// Main gap block
-5				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,
+				translate([-handle_r-+handle_ridge_d/2,-handle_offset_top,
 									handle_flush_end-hook_rail_cover_total_length-0.005])
 					cube([2*handle_r+handle_ridge_d,handle_offset_top,hook_rail_cover_total_length]);
 				// Rail grove
