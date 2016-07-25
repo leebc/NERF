@@ -3,6 +3,7 @@ $fn=90;
 
 PVC_d=42.22;
 PVC_circumference=PVC_d*PI;
+PVC_r=PVC_d/2;
 echo ("PVC_circumference=",PVC_circumference);
 
 half_l=236.25;
@@ -40,28 +41,78 @@ module flat_barrel() {
 }
 
 
-module tube(outer_d, inner_d, length) {
+module tube(outer_r, inner_r, length) {
 	difference(){
-		cylinder(r=outer_d,h=length);
+		cylinder(r=outer_r,h=length);
 		translate([0,0,-0.1])
-			cylinder(r=inner_d,h=length+0.2);
+			cylinder(r=inner_r,h=length+0.2);
 	}
 }
 
-module o_ring(outer_d, inner_d) {
-		
+
+module flat_cap(outer_r, inner_r, length) {
+	wall_thickness=outer_r - inner_r;
+	difference(){
+		cylinder(r=outer_r,h=length);
+		translate([0,0,-wall_thickness])
+			cylinder(r=inner_r,h=length+0.2);
+	}
 }
 
+module reducer(outer_r, inner_r, reduced_r,length,end_wall) {
+	wall_thickness=outer_r - inner_r;
+	difference(){
+		cylinder(r=outer_r,h=length+end_wall);
+		union(){
+			translate([0,0,-wall_thickness])
+				cylinder(r=inner_r,h=length);
+			cylinder(r=reduced_r,h=length+end_wall+0.2);
+		}
+	}
+}
+
+
+module o_ring(outer_r, inner_r) {
+	ring_r=(outer_r - inner_r)/2;
+	color("black")
+		rotate_extrude(convexity = 10)
+			translate([inner_r+ring_r, 0, 0])
+				circle(r = ring_r);		
+}
+
+
+//Begin Main
+
+translate([0,29-2,0])
+	rotate([90,0,0])
+			o_ring(outer_r=6, inner_r=2);
 
 difference(){
 	union(){
-		rotate([-90,0,0])
-			tube(outer_d=10, inner_d=9, length=500);
+		rotate([-90,0,0]){
+			translate([0,-3,-dart_l-5]) {
+				tube(outer_r=PVC_r, inner_r=PVC_r-1, length=dart_l+5+90);
+				tube(outer_r=dart_r+1, inner_r=dart_r, length=dart_l);
+
+			translate([0,0,dart_l-5])
+				reducer(outer_r=PVC_r, inner_r=dart_r, reduced_r=dart_r-1,length=3,end_wall=1);
+			}
+
 			
+			translate([0,-3,90-10])
+				flat_cap(outer_r=PVC_r+2, inner_r=PVC_r, length=10);
+
+			tube(outer_r=10, inner_r=9, length=29);
+			translate([0,0,20])
+				reducer(outer_r=11, inner_r=10, reduced_r=5,length=10,end_wall=2);
+		}
+		translate([0,10,0])
+			rotate([90,0,0])
+				flat_cap(outer_r=11, inner_r=10, length=10);
 	}
 
 	union(){
-	translate([0,0,-50])
-		cube([100,100,100]);
+	translate([0,-20,-50])
+		cube([100,150,100]);
 	}	
 }	// End Difference
