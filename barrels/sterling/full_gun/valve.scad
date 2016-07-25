@@ -146,6 +146,9 @@ difference(){
 		translate([0,10,0])
 			rotate([90,0,0])
 				flat_cap(outer_r=11, inner_r=10, length=10);
+
+		translate([0,15,-23]) color ("blue")
+			tube(outer_r=4, inner_r=3, length=15);
 	}
 
 	union(){
