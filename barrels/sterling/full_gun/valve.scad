@@ -64,8 +64,8 @@ module reducer(outer_r, inner_r, reduced_r,length,end_wall) {
 	difference(){
 		cylinder(r=outer_r,h=length+end_wall);
 		union(){
-			translate([0,0,-wall_thickness])
-				cylinder(r=inner_r,h=length);
+			translate([0,0,-end_wall])
+				cylinder(r=inner_r,h=length+0.2);
 			cylinder(r=reduced_r,h=length+end_wall+0.2);
 		}
 	}
@@ -81,18 +81,55 @@ module o_ring(outer_r, inner_r) {
 }
 
 
+module piston_bolt(shaft_r, head_r, head_thickness,length) {
+	cylinder(r=shaft_r,h=length);
+	translate([0,0,length-head_thickness])
+		cylinder(r=head_r,h=head_thickness);
+}
+
+
+module spring(inner_r, length, rotations, wire_r){
+	linear_extrude(height = length, center = true, convexity = 10, twist = rotations)
+		translate([inner_r, 0, 0])
+			circle(r = wire_r);
+}
+
+
 //Begin Main
+
+color("gold")
+translate([0,53,0])		// The valve piston
+	rotate([90,0,0])
+		piston_bolt(shaft_r=2, head_r=6, head_thickness=3,length=31);
+
+translate([0,52,0])		// The valve retaining nut and washer
+	rotate([90,0,0]) {
+		translate([0,0,1.5])
+			color("silver")
+				cylinder(r=8, h=0.5); 
+		color("red")
+			cylinder(r=5, h=3, $fn=6);
+	}
+
+translate([0,41,0])		// The valve spring
+	rotate([90,0,0])  color("orange")
+		spring(inner_r=6, length=17, rotations=5000, wire_r=1);
 
 translate([0,29-2,0])
 	rotate([90,0,0])
 			o_ring(outer_r=6, inner_r=2);
+
+
+
+
 
 difference(){
 	union(){
 		rotate([-90,0,0]){
 			translate([0,-3,-dart_l-5]) {
 				tube(outer_r=PVC_r, inner_r=PVC_r-1, length=dart_l+5+90);
-				tube(outer_r=dart_r+1, inner_r=dart_r, length=dart_l);
+				color("orange")
+					tube(outer_r=dart_r+1, inner_r=dart_r, length=dart_l);
 
 			translate([0,0,dart_l-5])
 				reducer(outer_r=PVC_r, inner_r=dart_r, reduced_r=dart_r-1,length=3,end_wall=1);
