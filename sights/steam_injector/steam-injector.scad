@@ -163,7 +163,10 @@ difference(){
 //					translate([-vial_r-0.5,-63,4.5])
 //						cube([1,10,2]);
 //			}
-				
+				// Added for printing support
+				translate([0,-75,5])
+						cube([0.2,10,20]);
+						
 	}	// end union of barrel bits
 cube([1,1,1]);
 }
