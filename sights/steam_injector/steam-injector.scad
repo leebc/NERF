@@ -51,9 +51,9 @@ handle_hollow_r=dart_r-1;
 handle_hollow_l=dart_l-15;
 
 rail_grove_width=12.44;
-rail_grove_height=4;
-rail_strip_width=18;
-rail_strip_height=2.55;
+rail_grove_height=4-0.25;
+rail_strip_width=18+0.5;
+rail_strip_height=2.55+0.5;
 
 handle_flush_end=ring_height+handle_ridge_d;
 hook_length=35;									// length of hook from bottom of rail
