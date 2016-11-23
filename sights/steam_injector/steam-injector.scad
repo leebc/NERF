@@ -102,10 +102,14 @@ difference(){
 			union(){
 				// bottom curve block
 				translate([-hook_width/2,
-							-handle_offset_top-10-1.5 - 2.5,
+							-handle_offset_top-10-1.5 - 2.5 ,
 							handle_flush_end-hook_thickness-9.9])
 					difference(){
-						cube([hook_width,10,10]);
+						union(){
+							cube([hook_width,10,10]);
+							translate([0,-7,5])
+								cube([hook_width,10,5]);
+						}
 						rotate([0,90,0]) translate([0,0,-1])
 							cylinder(h = hook_width+2, r = 5, $fn=resolution);
 					}
@@ -124,23 +128,42 @@ difference(){
 			}	// End union
 			union(){
 //  Difference out of bottom hook
-					translate([-20,-60,25])
-						cube([40,20,10]);
+					translate([-20,-70,25])
+						cube([40,30,10]);
 			}
 		} // End Bottom hook "LightGrey" difference
 		
 		//The vial
 		color("green")
 				translate([0,
-							-handle_offset_top - hook_rail_cover_thickness-vial_l+1.5,
-							handle_flush_end-hook_rail_cover_total_length-2])
-					rotate([-35,0,0])
+							-handle_offset_top - hook_rail_cover_thickness-vial_l+7.25,
+							handle_flush_end-hook_rail_cover_total_length-7])
+					rotate([-20,0,0])
 						union(){
 							cylinder(r=vial_r, h=vial_l, $fn=resolution );
 							sphere(r=vial_r, $fn=resolution);
 							translate([0,0,vial_l])
 								cylinder(r1=vial_r,r2=vial_r/2.8 	 ,h=vial_l/2, $fn=resolution);
+							
+							// frame to hold the vial
+							cylinder(r=vial_r+0.5, h=1, $fn=resolution);
+							translate([0,0,vial_l-1])
+								cylinder(r=vial_r+0.5, h=1, $fn=resolution);
+							translate([-vial_r-0.5,0,0])
+								cube([2*vial_r+1,1,vial_l]);
+							translate([0,-vial_r-0.5,0])
+								cube([1,2*vial_r+1,vial_l]);
+							
+							translate([0,-vial_r-0.5,0])
+								cube([1,2*vial_r+1,vial_l]);
 						}
+//			color("red"){
+//					translate([vial_r-0.5,-63,4.5])
+//						cube([1,10,2]);
+//					translate([-vial_r-0.5,-63,4.5])
+//						cube([1,10,2]);
+//			}
+				
 	}	// end union of barrel bits
 cube([1,1,1]);
 }
@@ -226,6 +249,10 @@ echo("Total measured length:", total_height);
 	cylinder(r=5, h=total_height);
 *%translate([0,0,total_height])	color("magenta")
 	cube([15,5,2]);
+%translate([0,-85,0])	color("magenta")
+	rotate([-45,0,0])
+		cube([1,1,70]);
+
 
 // Attempting to determine how long the barrel should be.
 *translate([0,0,ring_height])	color("magenta")
