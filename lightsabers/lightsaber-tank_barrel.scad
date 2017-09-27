@@ -23,20 +23,10 @@ rod_diameter=3.18;
 		lego_bar_6L_w_ring()
 */
 
-
-// Technic Pin on the bottom
-color("green")
-//scale([1,1,0.33])
-translate([0,0,2.5*block_height])
-	rotate([180,0,0])
-		lego_technic_pin_32054();
-		
 // Main barrel
-translate([0,0,2.5*block_height])
+translate([0,0,2*block_height])
 	lego_cylinder1(height=4);
-
-color("red")	
-translate([0,0,6.5*block_height])
+translate([0,0,6*block_height])
 	lego_cone1(height=1);
 
 //barrel- narrow rod
@@ -49,4 +39,8 @@ translate([0,0,11*block_height+4.9])
 		rotate([180,0,0])
 			lego_cone1(height=1);
 
+// Technic Pin on the bottom
+translate([0,0,2*block_height])
+	rotate([180,0,0])
+		lego_technic_pin_32054();
 
